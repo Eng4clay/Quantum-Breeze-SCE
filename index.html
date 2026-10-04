@@ -5,9 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Quantum Breeze — عرض المشروع | الهيئة السعودية للمهندسين</title>
 
-<!-- PptxGenJS for PowerPoint export -->
 <script src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js"></script>
-<!-- Arabic font for canvas rendering -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
@@ -20,6 +18,14 @@
     background:#0a0e1a; color:#e8f4ff;
   }
 
+  /* ================= FIX: missing keyframes ================= */
+  @keyframes slideFadeIn {
+    from { opacity:0; transform:translateY(6px); }
+    to   { opacity:1; transform:translateY(0); }
+  }
+  @keyframes shine { to { background-position: -200% 0; } }
+  @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.35;} }
+
   /* ================= LAYOUT ================= */
   #app { display:flex; flex-direction:column; height:100vh; }
 
@@ -30,9 +36,7 @@
     box-shadow:0 2px 20px rgba(0,100,200,0.15);
     z-index:100; flex-shrink:0;
   }
-  #topbar .brand {
-    display:flex; align-items:center; gap:12px;
-  }
+  #topbar .brand { display:flex; align-items:center; gap:12px; }
   #topbar .brand .logo {
     width:34px; height:34px; border-radius:8px;
     background:linear-gradient(135deg,#5ff2ff,#3aa8ff,#a06bff);
@@ -46,7 +50,6 @@
     -webkit-background-clip:text; background-clip:text; color:transparent;
   }
   #topbar .brand .txt p { font-size:10px; color:#6fa8c8; letter-spacing:.4px; margin-top:1px; }
-
   #topbar .toolbar { display:flex; gap:8px; align-items:center; }
 
   .tb-btn {
@@ -66,20 +69,14 @@
     box-shadow:0 0 18px rgba(80,200,255,0.35);
   }
   .tb-btn.primary:hover { background:linear-gradient(160deg,#2a8fd0,#0f5a94); }
-  .tb-btn.danger {
-    border-color:rgba(255,120,80,0.4); color:#ff9a70;
-  }
+  .tb-btn.danger { border-color:rgba(255,120,80,0.4); color:#ff9a70; }
   .tb-btn.danger:hover { background:linear-gradient(160deg,#8a2a1a,#5a1a10); border-color:#ff7a4c; color:#fff; }
 
-  .status-dot {
-    display:flex; align-items:center; gap:6px; font-size:11px; color:#5cffb0;
-    padding:0 8px;
-  }
+  .status-dot { display:flex; align-items:center; gap:6px; font-size:11px; color:#5cffb0; padding:0 8px; }
   .status-dot .d {
     width:7px; height:7px; border-radius:50%; background:#5cffb0;
     box-shadow:0 0 8px #5cffb0; animation:pulse 1.8s infinite;
   }
-  @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.35;} }
 
   /* ================= SLIDE STAGE ================= */
   #stage {
@@ -111,7 +108,6 @@
     overflow:hidden;
   }
 
-  /* slide content */
   #slideContent {
     position:absolute; inset:0; padding:52px 64px;
     display:flex; flex-direction:column;
@@ -119,8 +115,7 @@
   }
   #slideContent .slide-num-badge {
     position:absolute; bottom:20px; left:32px;
-    font-size:11px; color:#5a86a8; letter-spacing:1.5px;
-    font-weight:700;
+    font-size:11px; color:#5a86a8; letter-spacing:1.5px; font-weight:700;
   }
   #slideContent .slide-brand {
     position:absolute; bottom:20px; right:32px;
@@ -135,32 +130,25 @@
     font-size:36px; font-weight:900; line-height:1.25;
     background:linear-gradient(90deg,#5ff2ff,#3aa8ff,#a06bff);
     -webkit-background-clip:text; background-clip:text; color:transparent;
-    margin-bottom:10px;
-    letter-spacing:-0.3px;
+    margin-bottom:10px; letter-spacing:-0.3px;
   }
   .sl-subtitle {
-    font-size:15px; color:#8ab6d4; line-height:1.6; margin-bottom:22px;
-    font-weight:500;
+    font-size:15px; color:#8ab6d4; line-height:1.6; margin-bottom:22px; font-weight:500;
   }
   .sl-divider {
     width:80px; height:3px; border-radius:2px;
     background:linear-gradient(90deg,#2aa8ff,#a06bff);
     margin-bottom:22px;
   }
-
   .sl-body { flex:1; display:flex; flex-direction:column; gap:14px; }
 
-  /* content styles */
   .card {
     background:linear-gradient(150deg, rgba(14,36,60,0.6), rgba(8,20,38,0.5));
     border:1px solid rgba(80,200,255,0.18);
     border-radius:12px; padding:16px 20px;
     transition:all .25s;
   }
-  .card:hover {
-    border-color:rgba(100,220,255,0.4);
-    box-shadow:0 6px 24px rgba(0,80,160,0.2);
-  }
+  .card:hover { border-color:rgba(100,220,255,0.4); box-shadow:0 6px 24px rgba(0,80,160,0.2); }
   .card h3 {
     font-size:15px; font-weight:800; color:#7fe9ff; margin-bottom:7px;
     display:flex; align-items:center; gap:8px;
@@ -174,19 +162,16 @@
   }
   .card p { font-size:13px; line-height:1.7; color:#b0cbe0; }
 
-  /* grids */
   .grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
   .grid-3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; }
   .grid-4 { display:grid; grid-template-columns:repeat(4,1fr); gap:11px; }
   .grid-5 { display:grid; grid-template-columns:repeat(5,1fr); gap:10px; }
 
-  /* metric cards */
   .metric {
     background:linear-gradient(150deg, rgba(14,36,60,0.7), rgba(8,20,38,0.55));
     border:1px solid rgba(80,200,255,0.22);
     border-radius:11px; padding:14px 12px; text-align:center;
-    position:relative; overflow:hidden;
-    transition:all .25s;
+    position:relative; overflow:hidden; transition:all .25s;
   }
   .metric::after {
     content:''; position:absolute; top:0; right:0; left:0; height:3px;
@@ -206,7 +191,6 @@
   .metric.orange::after { background:linear-gradient(90deg,#ff7a3c,#ffb066); }
   .metric.orange .v { background:linear-gradient(90deg,#ffb066,#ff7a3c); -webkit-background-clip:text; background-clip:text; color:transparent; }
 
-  /* list */
   .sl-list { list-style:none; display:flex; flex-direction:column; gap:9px; }
   .sl-list li {
     display:flex; align-items:flex-start; gap:11px;
@@ -228,12 +212,10 @@
   .sl-list.orange li { border-right-color:#ff8a5c; }
   .sl-list.orange li .ic { background:linear-gradient(135deg,#ff8a5c,#c05a2a); }
 
-  /* table */
   .sl-table { width:100%; border-collapse:separate; border-spacing:0 5px; font-size:12.5px; }
   .sl-table th {
     text-align:right; padding:9px 14px; font-weight:800; color:#7fe9ff;
-    background:rgba(20,60,100,0.4); font-size:12px;
-    letter-spacing:.3px;
+    background:rgba(20,60,100,0.4); font-size:12px; letter-spacing:.3px;
   }
   .sl-table th:first-child { border-radius:0 8px 8px 0; }
   .sl-table th:last-child { border-radius:8px 0 0 8px; }
@@ -246,7 +228,6 @@
   .sl-table .good { color:#5cffb0; font-weight:700; }
   .sl-table .bad { color:#ff8a5c; font-weight:700; }
 
-  /* team cards */
   .team-grid { display:grid; grid-template-columns:1fr 1fr; gap:18px; flex:1; }
   .team-card {
     background:linear-gradient(150deg, rgba(14,36,60,0.7), rgba(8,20,38,0.5));
@@ -288,28 +269,12 @@
     font-size:12px; flex-shrink:0;
   }
 
-  /* big number statement slide */
-  .hero-statement {
-    display:flex; align-items:center; justify-content:center;
-    flex-direction:column; text-align:center; flex:1; gap:14px;
-  }
-  .hero-statement .big {
-    font-size:88px; font-weight:900; line-height:1;
-    background:linear-gradient(90deg,#5ff2ff,#3aa8ff,#a06bff);
-    -webkit-background-clip:text; background-clip:text; color:transparent;
-    text-shadow:0 0 60px rgba(90,200,255,0.35);
-  }
-  .hero-statement .cap { font-size:20px; color:#8ab6d4; font-weight:600; }
-  .hero-statement .sub { font-size:14px; color:#6a9ec0; max-width:700px; line-height:1.7; }
-
-  /* ================= NAV ================= */
   #navbar {
     display:flex; align-items:center; justify-content:center; gap:12px;
     padding:14px; background:linear-gradient(90deg,#050a14,#0a1628,#050a14);
     border-top:1px solid rgba(80,200,255,0.18);
     flex-shrink:0; position:relative;
   }
-
   .nav-btn {
     width:40px; height:40px; border-radius:10px;
     display:flex; align-items:center; justify-content:center;
@@ -327,7 +292,6 @@
   }
   #slideIndicator .cur { color:#7fe9ff; font-weight:800; font-size:14px; }
 
-  /* ================= SIDEBAR (thumbnails) ================= */
   #sidebar {
     position:fixed; top:0; right:0; bottom:0; width:230px;
     background:linear-gradient(180deg,#04080f,#0a1424);
@@ -376,11 +340,7 @@
   .sb-item .t { font-size:11.5px; color:#b0cbe0; font-weight:600; line-height:1.3; }
   .sb-item.active .t { color:#fff; }
 
-  /* ================= EDIT MODE ================= */
-  [contenteditable="true"] {
-    outline:none; border-radius:5px;
-    transition:all .15s;
-  }
+  [contenteditable="true"] { outline:none; border-radius:5px; transition:all .15s; }
   body.editing [contenteditable="true"]:hover {
     background:rgba(80,200,255,0.06);
     box-shadow:inset 0 0 0 1px rgba(80,200,255,0.25);
@@ -406,7 +366,6 @@
   }
   body.editing #editModeBadge { display:flex; }
 
-  /* ================= TOAST ================= */
   #toast {
     position:fixed; bottom:90px; left:50%; transform:translate(-50%,20px);
     padding:12px 26px; font-size:13px; font-weight:600; color:#fff;
@@ -420,10 +379,9 @@
   #toast.success { border-color:rgba(92,255,176,0.6); box-shadow:0 10px 40px rgba(40,200,140,0.35); }
   #toast.error { border-color:rgba(255,120,80,0.6); box-shadow:0 10px 40px rgba(255,80,50,0.35); }
 
-  /* ================= PROGRESS BAR ================= */
   #progressBar {
     position:absolute; top:0; left:0; right:0; height:2px;
-    background:rgba(80,200,255,0.1);
+    background:rgba(80,200,255,0.1); z-index:2;
   }
   #progressBar .fill {
     height:100%; width:0%;
@@ -432,14 +390,12 @@
     box-shadow:0 0 10px rgba(80,200,255,0.6);
   }
 
-  /* ================= FOOTER CONFIDENTIAL ================= */
   .conf {
     position:absolute; top:20px; left:24px;
     font-size:9.5px; color:#3a5a75; letter-spacing:1.5px;
     text-transform:uppercase; font-weight:700;
   }
 
-  /* scrollbar global */
   ::-webkit-scrollbar { width:8px; height:8px; }
   ::-webkit-scrollbar-track { background:rgba(0,0,0,0.2); }
   ::-webkit-scrollbar-thumb { background:rgba(80,200,255,0.25); border-radius:4px; }
@@ -448,7 +404,6 @@
   @media (max-width: 1100px) {
     #slideContent { padding:36px 42px; }
     .sl-title { font-size:28px; }
-    .hero-statement .big { font-size:64px; }
   }
   @media (max-width: 800px) {
     .grid-3, .grid-4, .grid-5 { grid-template-columns:1fr 1fr; }
@@ -462,8 +417,6 @@
 <body>
 
 <div id="app">
-
-  <!-- ============== TOP TOOLBAR ============== -->
   <div id="topbar">
     <div class="brand">
       <div class="logo">Q</div>
@@ -487,15 +440,13 @@
     <input type="file" id="fileInput" accept=".json" style="display:none" />
   </div>
 
-  <!-- ============== SLIDE STAGE ============== -->
   <div id="stage">
     <div id="slideWrap">
       <div id="progressBar"><div class="fill" id="progressFill"></div></div>
-      <div id="slideContent"><!-- rendered by JS --></div>
+      <div id="slideContent"></div>
     </div>
   </div>
 
-  <!-- ============== NAV BAR ============== -->
   <div id="navbar">
     <button class="nav-btn" id="navFirst" title="الأولى">⏮</button>
     <button class="nav-btn" id="navPrev" title="السابقة">◀</button>
@@ -509,7 +460,6 @@
   </div>
 </div>
 
-<!-- ============== SIDEBAR ============== -->
 <div id="sidebar">
   <div class="sb-head">
     <h3>قائمة الشرائح</h3>
@@ -537,9 +487,7 @@ const DEFAULT_DATA = {
   },
 
   slides: [
-    /* ============================================================
-       SLIDE 1 — TITLE
-       ============================================================ */
+    /* ====== SLIDE 1 — TITLE ====== */
     {
       id:'s1', type:'title', title:'الغلاف',
       render: () => `
@@ -583,15 +531,10 @@ const DEFAULT_DATA = {
             </div>
           </div>
         </div>
-        <style>
-          @keyframes shine { to { background-position: -200% 0; } }
-        </style>
       `
     },
 
-    /* ============================================================
-       SLIDE 2 — EXECUTIVE SUMMARY
-       ============================================================ */
+    /* ====== SLIDE 2 — EXECUTIVE SUMMARY ====== */
     {
       id:'s2', type:'standard', title:'الملخص التنفيذي',
       render: () => `
@@ -603,22 +546,10 @@ const DEFAULT_DATA = {
           </p>
 
           <div class="grid-4" style="margin-top:14px;">
-            <div class="metric green">
-              <div class="v">70-80%</div>
-              <div class="l">وفر في الكهرباء</div>
-            </div>
-            <div class="metric">
-              <div class="v">0</div>
-              <div class="l">ضاغط ميكانيكي</div>
-            </div>
-            <div class="metric purple">
-              <div class="v">0 kg</div>
-              <div class="l">غاز تبريد</div>
-            </div>
-            <div class="metric orange">
-              <div class="v">25 سنة</div>
-              <div class="l">العمر التشغيلي</div>
-            </div>
+            <div class="metric green"><div class="v">70-80%</div><div class="l">وفر في الكهرباء</div></div>
+            <div class="metric"><div class="v">0</div><div class="l">ضاغط ميكانيكي</div></div>
+            <div class="metric purple"><div class="v">0 kg</div><div class="l">غاز تبريد</div></div>
+            <div class="metric orange"><div class="v">25 سنة</div><div class="l">العمر التشغيلي</div></div>
           </div>
 
           <div class="grid-3" style="margin-top:8px;">
@@ -639,9 +570,7 @@ const DEFAULT_DATA = {
       `
     },
 
-    /* ============================================================
-       SLIDE 3 — PROBLEM
-       ============================================================ */
+    /* ====== SLIDE 3 — PROBLEM ====== */
     {
       id:'s3', type:'standard', title:'المشكلة',
       render: () => `
@@ -649,18 +578,9 @@ const DEFAULT_DATA = {
         <div class="sl-divider"></div>
         <div class="sl-body">
           <div class="grid-3" style="margin-bottom:8px;">
-            <div class="metric orange">
-              <div class="v">70%</div>
-              <div class="l">من كهرباء المبنى تذهب للتكييف</div>
-            </div>
-            <div class="metric purple">
-              <div class="v">×4000</div>
-              <div class="l">معدل احترار غازات HFCs مقارنة بـ CO₂</div>
-            </div>
-            <div class="metric">
-              <div class="v">395%</div>
-              <div class="l">نمو الطلب العالمي على التكييف بحلول 2050</div>
-            </div>
+            <div class="metric orange"><div class="v">70%</div><div class="l">من كهرباء المبنى تذهب للتكييف</div></div>
+            <div class="metric purple"><div class="v">×4000</div><div class="l">معدل احترار غازات HFCs مقارنة بـ CO₂</div></div>
+            <div class="metric"><div class="v">395%</div><div class="l">نمو الطلب العالمي على التكييف بحلول 2050</div></div>
           </div>
 
           <div class="grid-2">
@@ -690,9 +610,7 @@ const DEFAULT_DATA = {
       `
     },
 
-    /* ============================================================
-       SLIDE 4 — SOLUTION OVERVIEW
-       ============================================================ */
+    /* ====== SLIDE 4 — SOLUTION ====== */
     {
       id:'s4', type:'standard', title:'الحل — خمس تقنيات في نظام واحد',
       render: () => `
@@ -736,9 +654,7 @@ const DEFAULT_DATA = {
       `
     },
 
-    /* ============================================================
-       SLIDE 5 — HOW IT WORKS
-       ============================================================ */
+    /* ====== SLIDE 5 — HOW IT WORKS ====== */
     {
       id:'s5', type:'standard', title:'آلية العمل',
       render: () => `
@@ -772,9 +688,7 @@ const DEFAULT_DATA = {
       `
     },
 
-    /* ============================================================
-       SLIDE 6 — TECHNICAL SPECS
-       ============================================================ */
+    /* ====== SLIDE 6 — TECHNICAL SPECS ====== */
     {
       id:'s6', type:'standard', title:'المواصفات الفنية',
       render: () => `
@@ -809,30 +723,16 @@ const DEFAULT_DATA = {
           </div>
 
           <div class="grid-4" style="margin-top:12px;">
-            <div class="metric">
-              <div class="v">0.8-1.5 T</div>
-              <div class="l">شدة المجال المغناطيسي</div>
-            </div>
-            <div class="metric green">
-              <div class="v">12 °C</div>
-              <div class="l">ΔT دورة مغناطيسية</div>
-            </div>
-            <div class="metric purple">
-              <div class="v">8-13 µm</div>
-              <div class="l">نافذة الإشعاع الفضائي</div>
-            </div>
-            <div class="metric orange">
-              <div class="v">~80 W/m²</div>
-              <div class="l">الطاقة المُشعة</div>
-            </div>
+            <div class="metric"><div class="v">0.8-1.5 T</div><div class="l">شدة المجال المغناطيسي</div></div>
+            <div class="metric green"><div class="v">12 °C</div><div class="l">ΔT دورة مغناطيسية</div></div>
+            <div class="metric purple"><div class="v">8-13 µm</div><div class="l">نافذة الإشعاع الفضائي</div></div>
+            <div class="metric orange"><div class="v">~80 W/m²</div><div class="l">الطاقة المُشعة</div></div>
           </div>
         </div>
       `
     },
 
-    /* ============================================================
-       SLIDE 7 — COMPARISON
-       ============================================================ */
+    /* ====== SLIDE 7 — COMPARISON ====== */
     {
       id:'s7', type:'standard', title:'مقارنة مع الأنظمة التقليدية',
       render: () => `
@@ -849,51 +749,19 @@ const DEFAULT_DATA = {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td contenteditable="true">استهلاك الكهرباء</td>
-                <td class="bad" style="text-align:center;" contenteditable="true">25-40 kWh/يوم</td>
-                <td class="good" style="text-align:center;" contenteditable="true">2-5 kWh/يوم</td>
-                <td class="good" style="text-align:center;" contenteditable="true">−80%</td>
-              </tr>
-              <tr>
-                <td contenteditable="true">غاز التبريد</td>
-                <td class="bad" style="text-align:center;" contenteditable="true">HFCs (GWP 4000)</td>
-                <td class="good" style="text-align:center;" contenteditable="true">لا يوجد</td>
-                <td class="good" style="text-align:center;" contenteditable="true">100%</td>
-              </tr>
-              <tr>
-                <td contenteditable="true">مستوى الصوت</td>
-                <td class="bad" style="text-align:center;" contenteditable="true">60-75 dB</td>
-                <td class="good" style="text-align:center;" contenteditable="true">20-30 dB</td>
-                <td class="good" style="text-align:center;" contenteditable="true">−60%</td>
-              </tr>
-              <tr>
-                <td contenteditable="true">العمر الافتراضي</td>
-                <td class="bad" style="text-align:center;" contenteditable="true">10-15 سنة</td>
-                <td class="good" style="text-align:center;" contenteditable="true">25 سنة</td>
-                <td class="good" style="text-align:center;" contenteditable="true">+80%</td>
-              </tr>
-              <tr>
-                <td contenteditable="true">البصمة الكربونية</td>
-                <td class="bad" style="text-align:center;" contenteditable="true">عالية جداً</td>
-                <td class="good" style="text-align:center;" contenteditable="true">منخفضة</td>
-                <td class="good" style="text-align:center;" contenteditable="true">−80%</td>
-              </tr>
-              <tr>
-                <td contenteditable="true">الصيانة السنوية</td>
-                <td class="bad" style="text-align:center;" contenteditable="true">مرتفعة ومتكررة</td>
-                <td class="good" style="text-align:center;" contenteditable="true">منخفضة</td>
-                <td class="good" style="text-align:center;" contenteditable="true">−70%</td>
-              </tr>
+              <tr><td contenteditable="true">استهلاك الكهرباء</td><td class="bad" style="text-align:center;" contenteditable="true">25-40 kWh/يوم</td><td class="good" style="text-align:center;" contenteditable="true">2-5 kWh/يوم</td><td class="good" style="text-align:center;" contenteditable="true">−80%</td></tr>
+              <tr><td contenteditable="true">غاز التبريد</td><td class="bad" style="text-align:center;" contenteditable="true">HFCs (GWP 4000)</td><td class="good" style="text-align:center;" contenteditable="true">لا يوجد</td><td class="good" style="text-align:center;" contenteditable="true">100%</td></tr>
+              <tr><td contenteditable="true">مستوى الصوت</td><td class="bad" style="text-align:center;" contenteditable="true">60-75 dB</td><td class="good" style="text-align:center;" contenteditable="true">20-30 dB</td><td class="good" style="text-align:center;" contenteditable="true">−60%</td></tr>
+              <tr><td contenteditable="true">العمر الافتراضي</td><td class="bad" style="text-align:center;" contenteditable="true">10-15 سنة</td><td class="good" style="text-align:center;" contenteditable="true">25 سنة</td><td class="good" style="text-align:center;" contenteditable="true">+80%</td></tr>
+              <tr><td contenteditable="true">البصمة الكربونية</td><td class="bad" style="text-align:center;" contenteditable="true">عالية جداً</td><td class="good" style="text-align:center;" contenteditable="true">منخفضة</td><td class="good" style="text-align:center;" contenteditable="true">−80%</td></tr>
+              <tr><td contenteditable="true">الصيانة السنوية</td><td class="bad" style="text-align:center;" contenteditable="true">مرتفعة ومتكررة</td><td class="good" style="text-align:center;" contenteditable="true">منخفضة</td><td class="good" style="text-align:center;" contenteditable="true">−70%</td></tr>
             </tbody>
           </table>
         </div>
       `
     },
 
-    /* ============================================================
-       SLIDE 8 — MARKET
-       ============================================================ */
+    /* ====== SLIDE 8 — MARKET ====== */
     {
       id:'s8', type:'standard', title:'السوق المستهدف',
       render: () => `
@@ -961,9 +829,7 @@ const DEFAULT_DATA = {
       `
     },
 
-    /* ============================================================
-       SLIDE 9 — ECONOMICS
-       ============================================================ */
+    /* ====== SLIDE 9 — ECONOMICS ====== */
     {
       id:'s9', type:'standard', title:'الجدوى الاقتصادية',
       render: () => `
@@ -1008,9 +874,7 @@ const DEFAULT_DATA = {
       `
     },
 
-    /* ============================================================
-       SLIDE 10 — PROTOTYPE PLAN
-       ============================================================ */
+    /* ====== SLIDE 10 — PROTOTYPE ====== */
     {
       id:'s10', type:'standard', title:'خطة النموذج الأولي',
       render: () => `
@@ -1046,9 +910,7 @@ const DEFAULT_DATA = {
       `
     },
 
-    /* ============================================================
-       SLIDE 11 — RISKS & ROADMAP
-       ============================================================ */
+    /* ====== SLIDE 11 — RISKS & ROADMAP ====== */
     {
       id:'s11', type:'standard', title:'المخاطر وخارطة الطريق',
       render: () => `
@@ -1093,9 +955,7 @@ const DEFAULT_DATA = {
       `
     },
 
-    /* ============================================================
-       SLIDE 12 — TEAM & CONTACT
-       ============================================================ */
+    /* ====== SLIDE 12 — TEAM & CONTACT ====== */
     {
       id:'s12', type:'standard', title:'الفريق والتواصل',
       render: () => `
@@ -1163,38 +1023,43 @@ const DEFAULT_DATA = {
 };
 
 /* ================================================================
+   ✅ FIX #1: Deep clone that preserves `render` functions
+   ================================================================ */
+function cloneData() {
+  return {
+    meta: Object.assign({}, DEFAULT_DATA.meta),
+    slides: DEFAULT_DATA.slides.map(s => Object.assign({}, s))
+  };
+}
+
+/* ================================================================
    STATE + PERSISTENCE
    ================================================================ */
 const STORAGE_KEY = 'quantum_breeze_presentation_v2';
-let DATA = JSON.parse(JSON.stringify(DEFAULT_DATA));
+let DATA = cloneData();
 let currentSlide = 0;
 let editing = false;
+let SLIDE_HTML = {};
 
+/* ✅ FIX #2: Restore SLIDE_HTML from localStorage on init */
 function loadFromStorage() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (raw) {
       const parsed = JSON.parse(raw);
-      // Re-render function refs from DEFAULT_DATA, override editable HTML
-      if (parsed.edits) {
-        DATA.edits = parsed.edits;
+      if (parsed && parsed.edits && typeof parsed.edits === 'object') {
+        SLIDE_HTML = parsed.edits;
+      }
+      if (typeof parsed.currentSlide === 'number') {
+        currentSlide = Math.max(0, Math.min(DATA.slides.length - 1, parsed.currentSlide));
       }
     }
   } catch(e) { console.warn('load failed', e); }
 }
 
-/* Because render() returns HTML, we store *edits* separately: 
-   key = "slideId:pathIndex", value = innerHTML of element.
-   Simpler approach: store the full rendered HTML of each slide after edits. */
-let SLIDE_HTML = {};
-
 function saveToStorage() {
   try {
-    const payload = {
-      edits: SLIDE_HTML,
-      currentSlide,
-      savedAt: Date.now()
-    };
+    const payload = { edits: SLIDE_HTML, currentSlide, savedAt: Date.now() };
     localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
     flashSaved();
   } catch(e) { console.warn('save failed', e); }
@@ -1203,12 +1068,11 @@ function saveToStorage() {
 function flashSaved() {
   const el = document.getElementById('saveStatusText');
   const wrap = document.getElementById('saveStatus');
+  if (!el) return;
   el.textContent = 'تم الحفظ';
   wrap.style.color = '#5cffb0';
   clearTimeout(flashSaved._h);
-  flashSaved._h = setTimeout(() => {
-    el.textContent = 'تم الحفظ';
-  }, 800);
+  flashSaved._h = setTimeout(() => { el.textContent = 'تم الحفظ'; }, 800);
 }
 
 /* ================================================================
@@ -1217,35 +1081,45 @@ function flashSaved() {
 function renderSlide() {
   const slide = DATA.slides[currentSlide];
   const el = document.getElementById('slideContent');
+  if (!slide || !el) return;
 
-  // capture saved HTML if exists, else render fresh
-  if (SLIDE_HTML[slide.id]) {
-    el.innerHTML = SLIDE_HTML[slide.id];
-  } else {
-    el.innerHTML = slide.render();
+  /* ✅ FIX #3: Safe rendering with try/catch fallback */
+  try {
+    if (SLIDE_HTML[slide.id]) {
+      el.innerHTML = SLIDE_HTML[slide.id];
+    } else {
+      el.innerHTML = typeof slide.render === 'function'
+        ? slide.render()
+        : `<h2 class="sl-title">${slide.title || ''}</h2>`;
+    }
+  } catch(err) {
+    console.error('Slide render error:', err);
+    el.innerHTML = `<h2 class="sl-title">${slide.title || 'شريحة'}</h2>
+      <p style="color:#ff8a5c; margin-top:20px;">خطأ في عرض هذه الشريحة: ${err.message}</p>`;
   }
 
-  // Add slide number badge + brand
+  // Slide number badge
   const numBadge = document.createElement('div');
   numBadge.className = 'slide-num-badge';
   numBadge.textContent = String(currentSlide + 1).padStart(2,'0') + ' / ' + String(DATA.slides.length).padStart(2,'0');
   el.appendChild(numBadge);
 
+  // Brand
   const brand = document.createElement('div');
   brand.className = 'slide-brand';
   brand.textContent = 'QUANTUM BREEZE';
   el.appendChild(brand);
 
-  // apply editable state
+  // Editable state
   el.querySelectorAll('[contenteditable]').forEach(e => {
     e.setAttribute('contenteditable', editing ? 'true' : 'false');
   });
 
-  // progress
+  // Progress
   document.getElementById('progressFill').style.width =
     ((currentSlide + 1) / DATA.slides.length * 100) + '%';
 
-  // nav
+  // Nav
   document.getElementById('curNum').textContent = currentSlide + 1;
   document.getElementById('totalNum').textContent = DATA.slides.length;
   document.getElementById('navFirst').disabled = currentSlide === 0;
@@ -1253,12 +1127,12 @@ function renderSlide() {
   document.getElementById('navNext').disabled = currentSlide === DATA.slides.length - 1;
   document.getElementById('navLast').disabled = currentSlide === DATA.slides.length - 1;
 
-  // sidebar active
+  // Sidebar active
   document.querySelectorAll('.sb-item').forEach((it, i) => {
     it.classList.toggle('active', i === currentSlide);
   });
 
-  // fade-in animation
+  // Fade-in animation (keyframes now defined in CSS)
   el.style.animation = 'none';
   void el.offsetHeight;
   el.style.animation = 'slideFadeIn .5s ease';
@@ -1282,19 +1156,20 @@ function buildSidebar() {
 /* ================================================================
    NAVIGATION
    ================================================================ */
-function goToSlide(i) {
-  if (editing) {
-    // save current slide's edits before switching
-    const slide = DATA.slides[currentSlide];
-    const el = document.getElementById('slideContent');
-    if (el) {
-      const clone = el.cloneNode(true);
-      // remove the injected badge + brand
-      clone.querySelectorAll('.slide-num-badge, .slide-brand').forEach(n => n.remove());
-      SLIDE_HTML[slide.id] = clone.innerHTML;
-      saveToStorage();
-    }
+function captureCurrentSlideEdits() {
+  if (!editing) return;
+  const slide = DATA.slides[currentSlide];
+  const el = document.getElementById('slideContent');
+  if (el && slide) {
+    const clone = el.cloneNode(true);
+    clone.querySelectorAll('.slide-num-badge, .slide-brand').forEach(n => n.remove());
+    SLIDE_HTML[slide.id] = clone.innerHTML;
   }
+}
+
+function goToSlide(i) {
+  captureCurrentSlideEdits();
+  saveToStorage();
   currentSlide = Math.max(0, Math.min(DATA.slides.length - 1, i));
   renderSlide();
   buildSidebar();
@@ -1322,7 +1197,6 @@ document.addEventListener('keydown', (e) => {
    SIDEBAR
    ================================================================ */
 const sidebar = document.getElementById('sidebar');
-function openSidebar() { sidebar.classList.add('open'); }
 function closeSidebar() { sidebar.classList.remove('open'); }
 document.getElementById('btnSidebar').onclick = () => sidebar.classList.toggle('open');
 document.getElementById('sbClose').onclick = closeSidebar;
@@ -1339,20 +1213,12 @@ function enterEditMode() {
   toast('وضع التحرير مُفعّل — انقر أي نص لتعديله', 'success');
 }
 function exitEditMode() {
+  captureCurrentSlideEdits();
   editing = false;
   document.body.classList.remove('editing');
   document.getElementById('btnEdit').classList.remove('primary');
   document.getElementById('btnEdit').textContent = '✎ تحرير';
-
-  // save current
-  const slide = DATA.slides[currentSlide];
-  const el = document.getElementById('slideContent');
-  if (el) {
-    const clone = el.cloneNode(true);
-    clone.querySelectorAll('.slide-num-badge, .slide-brand').forEach(n => n.remove());
-    SLIDE_HTML[slide.id] = clone.innerHTML;
-    saveToStorage();
-  }
+  saveToStorage();
   renderSlide();
   toast('تم حفظ التعديلات', 'success');
 }
@@ -1360,16 +1226,11 @@ document.getElementById('btnEdit').onclick = () => {
   if (editing) exitEditMode(); else enterEditMode();
 };
 
-// Auto-save on input in editable
 document.addEventListener('input', (e) => {
   if (editing && e.target.matches('[contenteditable="true"]')) {
     clearTimeout(window._autoSaveH);
     window._autoSaveH = setTimeout(() => {
-      const slide = DATA.slides[currentSlide];
-      const el = document.getElementById('slideContent');
-      const clone = el.cloneNode(true);
-      clone.querySelectorAll('.slide-num-badge, .slide-brand').forEach(n => n.remove());
-      SLIDE_HTML[slide.id] = clone.innerHTML;
+      captureCurrentSlideEdits();
       saveToStorage();
     }, 700);
   }
@@ -1382,8 +1243,12 @@ document.getElementById('btnReset').onclick = () => {
   if (!confirm('هل تريد استعادة النسخة الأصلية؟ سيتم فقدان جميع التعديلات.')) return;
   SLIDE_HTML = {};
   localStorage.removeItem(STORAGE_KEY);
-  DATA = JSON.parse(JSON.stringify(DEFAULT_DATA));
+  DATA = cloneData();   // ✅ preserves render functions
   currentSlide = 0;
+  editing = false;
+  document.body.classList.remove('editing');
+  document.getElementById('btnEdit').classList.remove('primary');
+  document.getElementById('btnEdit').textContent = '✎ تحرير';
   renderSlide();
   buildSidebar();
   toast('تمت استعادة النسخة الأصلية', 'success');
@@ -1393,6 +1258,7 @@ document.getElementById('btnReset').onclick = () => {
    EXPORT / IMPORT JSON
    ================================================================ */
 document.getElementById('btnSaveJSON').onclick = () => {
+  captureCurrentSlideEdits();
   const payload = {
     meta: DATA.meta,
     edits: SLIDE_HTML,
@@ -1436,15 +1302,7 @@ document.getElementById('fileInput').onchange = (e) => {
    ================================================================ */
 document.getElementById('btnExport').onclick = async () => {
   toast('جاري تجهيز ملف PowerPoint...');
-
-  // ensure latest edits captured
-  if (editing) {
-    const slide = DATA.slides[currentSlide];
-    const el = document.getElementById('slideContent');
-    const clone = el.cloneNode(true);
-    clone.querySelectorAll('.slide-num-badge, .slide-brand').forEach(n => n.remove());
-    SLIDE_HTML[slide.id] = clone.innerHTML;
-  }
+  captureCurrentSlideEdits();
 
   try {
     const pptx = new PptxGenJS();
@@ -1456,29 +1314,19 @@ document.getElementById('btnExport').onclick = async () => {
     pptx.lang = 'ar-SA';
     pptx.rtlMode = true;
 
-    // Helper: background rect
     const addBg = (slide) => {
       slide.background = { color: '060A14' };
-      // subtle top accent
-      slide.addShape(pptx.ShapeType.rect, {
-        x:0, y:0, w:'100%', h:0.06, fill:{ color:'1C6FA8' }
-      });
-      slide.addShape(pptx.ShapeType.rect, {
-        x:0, y:5.56, w:'100%', h:0.07, fill:{ color:'1C6FA8' }
-      });
+      slide.addShape(pptx.ShapeType.rect, { x:0, y:0, w:'100%', h:0.06, fill:{ color:'1C6FA8' } });
+      slide.addShape(pptx.ShapeType.rect, { x:0, y:5.56, w:'100%', h:0.07, fill:{ color:'1C6FA8' } });
     };
 
-    // Helper: header
     const addHeader = (slide, title, sub) => {
       slide.addText(title, {
         x:0.4, y:0.28, w:9.2, h:0.7,
         fontSize:28, bold:true, color:'7FE9FF',
         align:'right', fontFace:'Tajawal'
       });
-      // divider
-      slide.addShape(pptx.ShapeType.rect, {
-        x:8.9, y:1.0, w:0.7, h:0.045, fill:{ color:'2AA8FF' }
-      });
+      slide.addShape(pptx.ShapeType.rect, { x:8.9, y:1.0, w:0.7, h:0.045, fill:{ color:'2AA8FF' } });
       if (sub) {
         slide.addText(sub, {
           x:0.4, y:0.98, w:9.2, h:0.32,
@@ -1488,7 +1336,6 @@ document.getElementById('btnExport').onclick = async () => {
       }
     };
 
-    // Helper: number badge
     const addBrand = (slide, num) => {
       slide.addText('QUANTUM BREEZE', {
         x:0.3, y:5.32, w:2.5, h:0.2,
@@ -1500,11 +1347,10 @@ document.getElementById('btnExport').onclick = async () => {
       });
     };
 
-    // ============ SLIDE 1: TITLE ============
+    /* SLIDE 1: TITLE */
     {
       const s = pptx.addSlide();
       s.background = { color: '050A14' };
-      // gradient-ish top bar
       s.addShape(pptx.ShapeType.rect, { x:0, y:0, w:'100%', h:0.12, fill:{ color:'3AA8FF' } });
       s.addShape(pptx.ShapeType.rect, { x:0, y:5.5, w:'100%', h:0.125, fill:{ color:'A06BFF' } });
 
@@ -1512,34 +1358,27 @@ document.getElementById('btnExport').onclick = async () => {
         x:0, y:0.45, w:'100%', h:0.3,
         fontSize:11, color:'7FE9FF', align:'center', fontFace:'Tajawal', bold:true, charSpacing:1
       });
-
       s.addText('QUANTUM BREEZE', {
         x:0, y:1.35, w:'100%', h:1.1,
         fontSize:66, bold:true, color:'5FF2FF', align:'center', fontFace:'Tajawal', charSpacing:2
       });
-
       s.addText('نظام تكييف مركزي بسبق عصره — بدون ضاغط، بدون غاز تبريد', {
         x:0, y:2.5, w:'100%', h:0.45,
         fontSize:18, color:'B0CBE0', align:'center', fontFace:'Tajawal'
       });
-
-      s.addShape(pptx.ShapeType.rect, {
-        x:3.5, y:3.1, w:3, h:0.03, fill:{ color:'2AA8FF' }
-      });
-
+      s.addShape(pptx.ShapeType.rect, { x:3.5, y:3.1, w:3, h:0.03, fill:{ color:'2AA8FF' } });
       s.addText('مسار الهندسة والمدن الذكية والإدراكية  ·  تحدي كفاءة الطاقة في المباني', {
         x:0, y:3.25, w:'100%', h:0.35,
         fontSize:11.5, color:'8AB6D4', align:'center', fontFace:'Tajawal'
       });
 
-      // Team cards
       s.addShape(pptx.ShapeType.roundRect, {
         x:5.6, y:3.95, w:4.1, h:1.15,
         fill:{ color:'0E2440' }, line:{ color:'4FD0FF', width:1 }, rectRadius:0.08
       });
       s.addText('مقدم الفكرة', {
         x:5.75, y:4.05, w:3.8, h:0.22,
-        fontSize:9, color:'6A9EC0', align:'right', fontFace:'Tajawal', charSpacing:0.5
+        fontSize:9, color:'6A9EC0', align:'right', fontFace:'Tajawal'
       });
       s.addText('م. أحمد علي بوكر نسيب العقيلي', {
         x:5.75, y:4.28, w:3.8, h:0.32,
@@ -1560,7 +1399,7 @@ document.getElementById('btnExport').onclick = async () => {
       });
       s.addText('مقدم الفكرة', {
         x:1.45, y:4.05, w:3.8, h:0.22,
-        fontSize:9, color:'6A9EC0', align:'right', fontFace:'Tajawal', charSpacing:0.5
+        fontSize:9, color:'6A9EC0', align:'right', fontFace:'Tajawal'
       });
       s.addText('م. عبدالرحمن زين يحيى صهلولي المنيفي', {
         x:1.45, y:4.28, w:3.8, h:0.32,
@@ -1576,18 +1415,15 @@ document.getElementById('btnExport').onclick = async () => {
       });
     }
 
-    // ============ SLIDE 2: EXECUTIVE SUMMARY ============
+    /* SLIDE 2 */
     {
       const s = pptx.addSlide();
       addBg(s);
       addHeader(s, 'الملخص التنفيذي');
-
       s.addText('يستهلك التكييف الهوائي 70% من كهرباء المباني في المملكة، ويستخدم غازات تبريد HFCs بمعدل احترار يتجاوز 4000 ضعف ثاني أكسيد الكربون. يقدّم مشروع Quantum Breeze نظام تكييف مركزي مبتكر يدمج خمس تقنيات متقدمة في منظومة واحدة متكاملة — بدون ضاغط، وبدون غاز تبريد، وبكفاءة تفوق الأنظمة التقليدية بنسبة تتراوح بين 70% و 80%.', {
         x:0.5, y:1.35, w:9, h:1.05,
         fontSize:12, color:'C5DDEF', align:'right', fontFace:'Tajawal', lineSpacingMultiple:1.4
       });
-
-      // 4 metrics
       const metrics = [
         { v:'70-80%', l:'وفر في الكهرباء', c:'5CFFB0' },
         { v:'0', l:'ضاغط ميكانيكي', c:'5FF2FF' },
@@ -1600,17 +1436,9 @@ document.getElementById('btnExport').onclick = async () => {
           x:x-2.0, y:2.55, w:2.05, h:0.9,
           fill:{ color:'0E2440' }, line:{ color:m.c, width:0.75 }, rectRadius:0.06
         });
-        s.addText(m.v, {
-          x:x-2.0, y:2.62, w:2.05, h:0.42,
-          fontSize:22, bold:true, color:m.c, align:'center', fontFace:'Tajawal'
-        });
-        s.addText(m.l, {
-          x:x-2.0, y:3.08, w:2.05, h:0.28,
-          fontSize:9.5, color:'8AB6D4', align:'center', fontFace:'Tajawal'
-        });
+        s.addText(m.v, { x:x-2.0, y:2.62, w:2.05, h:0.42, fontSize:22, bold:true, color:m.c, align:'center', fontFace:'Tajawal' });
+        s.addText(m.l, { x:x-2.0, y:3.08, w:2.05, h:0.28, fontSize:9.5, color:'8AB6D4', align:'center', fontFace:'Tajawal' });
       });
-
-      // 3 cards
       const cards = [
         { t:'دمج غير مسبوق', d:'خمس تقنيات تعمل معاً في نظام واحد — لا يوجد نظير تجاري حالياً.' },
         { t:'توفير قابل للقياس', d:'فترة استرداد أقل من سنة واحدة على مستوى الوحدة الكاملة.' },
@@ -1622,25 +1450,17 @@ document.getElementById('btnExport').onclick = async () => {
           x:x-2.85, y:3.7, w:2.9, h:1.35,
           fill:{ color:'0A1C32' }, line:{ color:'2AA8FF', width:0.5 }, rectRadius:0.08
         });
-        s.addText('◈  ' + c.t, {
-          x:x-2.75, y:3.8, w:2.7, h:0.32,
-          fontSize:12, bold:true, color:'7FE9FF', align:'right', fontFace:'Tajawal'
-        });
-        s.addText(c.d, {
-          x:x-2.75, y:4.12, w:2.7, h:0.85,
-          fontSize:10, color:'B0CBE0', align:'right', fontFace:'Tajawal', lineSpacingMultiple:1.35
-        });
+        s.addText('◈  ' + c.t, { x:x-2.75, y:3.8, w:2.7, h:0.32, fontSize:12, bold:true, color:'7FE9FF', align:'right', fontFace:'Tajawal' });
+        s.addText(c.d, { x:x-2.75, y:4.12, w:2.7, h:0.85, fontSize:10, color:'B0CBE0', align:'right', fontFace:'Tajawal', lineSpacingMultiple:1.35 });
       });
-
       addBrand(s, 2);
     }
 
-    // ============ SLIDE 3: PROBLEM ============
+    /* SLIDE 3 */
     {
       const s = pptx.addSlide();
       addBg(s);
       addHeader(s, 'المشكلة: التكييف التقليدي غير مستدام');
-
       const metrics = [
         { v:'70%', l:'من كهرباء المبنى للتكييف', c:'FFB066' },
         { v:'×4000', l:'احترار HFCs مقارنة بـ CO₂', c:'C48BFF' },
@@ -1652,24 +1472,15 @@ document.getElementById('btnExport').onclick = async () => {
           x:x-2.85, y:1.4, w:2.9, h:0.95,
           fill:{ color:'0E2440' }, line:{ color:m.c, width:0.75 }, rectRadius:0.06
         });
-        s.addText(m.v, {
-          x:x-2.85, y:1.48, w:2.9, h:0.46,
-          fontSize:24, bold:true, color:m.c, align:'center', fontFace:'Tajawal'
-        });
-        s.addText(m.l, {
-          x:x-2.85, y:1.98, w:2.9, h:0.3,
-          fontSize:9, color:'8AB6D4', align:'center', fontFace:'Tajawal'
-        });
+        s.addText(m.v, { x:x-2.85, y:1.48, w:2.9, h:0.46, fontSize:24, bold:true, color:m.c, align:'center', fontFace:'Tajawal' });
+        s.addText(m.l, { x:x-2.85, y:1.98, w:2.9, h:0.3, fontSize:9, color:'8AB6D4', align:'center', fontFace:'Tajawal' });
       });
-
-      // two cards
       s.addShape(pptx.ShapeType.roundRect, {
         x:5.15, y:2.55, w:4.35, h:2.55,
         fill:{ color:'0A1C32' }, line:{ color:'FF8A5C', width:0.7 }, rectRadius:0.09
       });
       s.addText('✕  مشاكل الأنظمة التقليدية', {
-        x:5.3, y:2.65, w:4.1, h:0.35,
-        fontSize:14, bold:true, color:'FF8A5C', align:'right', fontFace:'Tajawal'
+        x:5.3, y:2.65, w:4.1, h:0.35, fontSize:14, bold:true, color:'FF8A5C', align:'right', fontFace:'Tajawal'
       });
       s.addText([
         { text:'• استهلاك كهرباء مرتفع (25-40 kWh/يوم)\n', options:{ fontSize:11, color:'C5DDEF', fontFace:'Tajawal' } },
@@ -1677,18 +1488,14 @@ document.getElementById('btnExport').onclick = async () => {
         { text:'• ضوضاء عالية (60-75 dB)\n', options:{ fontSize:11, color:'C5DDEF', fontFace:'Tajawal' } },
         { text:'• عمر افتراضي قصير (10-15 سنة)\n', options:{ fontSize:11, color:'C5DDEF', fontFace:'Tajawal' } },
         { text:'• تكاليف صيانة متكررة ومرتفعة', options:{ fontSize:11, color:'C5DDEF', fontFace:'Tajawal' } }
-      ], {
-        x:5.3, y:3.05, w:4.1, h:1.95,
-        align:'right', lineSpacingMultiple:1.5
-      });
+      ], { x:5.3, y:3.05, w:4.1, h:1.95, align:'right', lineSpacingMultiple:1.5 });
 
       s.addShape(pptx.ShapeType.roundRect, {
         x:0.5, y:2.55, w:4.35, h:2.55,
         fill:{ color:'0A1C32' }, line:{ color:'5CFFB0', width:0.7 }, rectRadius:0.09
       });
       s.addText('✓  الفرصة المتاحة', {
-        x:0.65, y:2.65, w:4.1, h:0.35,
-        fontSize:14, bold:true, color:'5CFFB0', align:'right', fontFace:'Tajawal'
+        x:0.65, y:2.65, w:4.1, h:0.35, fontSize:14, bold:true, color:'5CFFB0', align:'right', fontFace:'Tajawal'
       });
       s.addText([
         { text:'• سوق التبريد السلبي: 30 → 150 مليار $ بحلول 2050\n', options:{ fontSize:11, color:'C5DDEF', fontFace:'Tajawal' } },
@@ -1696,20 +1503,15 @@ document.getElementById('btnExport').onclick = async () => {
         { text:'• التبريد الإشعاعي: نمو سنوي 26.76%\n', options:{ fontSize:11, color:'C5DDEF', fontFace:'Tajawal' } },
         { text:'• السوق السعودي: +50% بحلول 2030\n', options:{ fontSize:11, color:'C5DDEF', fontFace:'Tajawal' } },
         { text:'• دعم حكومي لمشاريع كفاءة الطاقة', options:{ fontSize:11, color:'C5DDEF', fontFace:'Tajawal' } }
-      ], {
-        x:0.65, y:3.05, w:4.1, h:1.95,
-        align:'right', lineSpacingMultiple:1.5
-      });
-
+      ], { x:0.65, y:3.05, w:4.1, h:1.95, align:'right', lineSpacingMultiple:1.5 });
       addBrand(s, 3);
     }
 
-    // ============ SLIDE 4: SOLUTION (5 tech) ============
+    /* SLIDE 4 */
     {
       const s = pptx.addSlide();
       addBg(s);
       addHeader(s, 'الحل: خمس تقنيات في نظام واحد', 'تكامل غير مسبوق بين خمس تقنيات تعمل مع الطبيعة لا ضدها');
-
       const techs = [
         { e:'❄', t:'تبريد إشعاعي', d:'بثّ الحرارة للفضاء عبر 8-13 µm', c:'C48BFF' },
         { e:'☀', t:'تجفيف شمسي', d:'عجلة سيليكا جل + تجديد شمسي', c:'5FF2FF' },
@@ -1723,38 +1525,25 @@ document.getElementById('btnExport').onclick = async () => {
           x:x-1.7, y:1.75, w:1.75, h:2.7,
           fill:{ color:'0E2440' }, line:{ color:t.c, width:0.7 }, rectRadius:0.09
         });
-        s.addText(t.e, {
-          x:x-1.7, y:1.85, w:1.75, h:0.55,
-          fontSize:32, color:t.c, align:'center', fontFace:'Tajawal'
-        });
-        s.addText(t.t, {
-          x:x-1.7, y:2.42, w:1.75, h:0.4,
-          fontSize:11.5, bold:true, color:t.c, align:'center', fontFace:'Tajawal'
-        });
-        s.addText(t.d, {
-          x:x-1.7, y:2.85, w:1.75, h:1.5,
-          fontSize:9, color:'B0CBE0', align:'center', fontFace:'Tajawal', lineSpacingMultiple:1.35
-        });
+        s.addText(t.e, { x:x-1.7, y:1.85, w:1.75, h:0.55, fontSize:32, color:t.c, align:'center', fontFace:'Tajawal' });
+        s.addText(t.t, { x:x-1.7, y:2.42, w:1.75, h:0.4, fontSize:11.5, bold:true, color:t.c, align:'center', fontFace:'Tajawal' });
+        s.addText(t.d, { x:x-1.7, y:2.85, w:1.75, h:1.5, fontSize:9, color:'B0CBE0', align:'center', fontFace:'Tajawal', lineSpacingMultiple:1.35 });
       });
-
       s.addShape(pptx.ShapeType.roundRect, {
         x:0.5, y:4.62, w:9, h:0.7,
         fill:{ color:'1A3D66' }, line:{ color:'7FB8FF', width:0.7 }, rectRadius:0.08
       });
       s.addText('◈  لا يوجد نظام تجاري في العالم يجمع هذه التقنيات الخمس في منظومة واحدة متكاملة — Quantum Breeze هو الأول من نوعه.', {
-        x:0.5, y:4.72, w:9, h:0.5,
-        fontSize:11.5, bold:true, color:'C5E2F5', align:'center', fontFace:'Tajawal'
+        x:0.5, y:4.72, w:9, h:0.5, fontSize:11.5, bold:true, color:'C5E2F5', align:'center', fontFace:'Tajawal'
       });
-
       addBrand(s, 4);
     }
 
-    // ============ SLIDE 5: HOW IT WORKS ============
+    /* SLIDE 5 */
     {
       const s = pptx.addSlide();
       addBg(s);
       addHeader(s, 'آلية العمل — الدورة المتكاملة');
-
       const steps = [
         ['1','استقبال','هواء ساخن رطب يعود عند 32°C من المبنى عبر مجرى الرجوع.','FF8A5C'],
         ['2','تجفيف شمسي','عجلة السيليكا جل تمتص الرطوبة، ولوح شمسي يجدّد العجلة.','7FE9FF'],
@@ -1763,18 +1552,15 @@ document.getElementById('btnExport').onclick = async () => {
         ['5','تبريد إشعاعي','ألواح تُشع الحرارة للفضاء (8-13 µm) بدون استهلاك كهرباء.','C48BFF'],
         ['6','توزيع ذكي','وحدة AI تُحسّن التوزيع وتدفع الهواء البارد للمبنى.','FFD75C']
       ];
-
       steps.forEach((st, i) => {
         const col = i % 2;
         const row = Math.floor(i / 2);
         const x = col === 0 ? 5.15 : 0.5;
         const y = 1.35 + row * 0.72;
-
         s.addShape(pptx.ShapeType.roundRect, {
           x: x, y: y, w: 4.35, h: 0.65,
           fill:{ color:'0A1C32' }, line:{ color:st[3], width:0.6 }, rectRadius:0.06
         });
-        // number badge on right
         s.addShape(pptx.ShapeType.roundRect, {
           x: x + 4.35 - 0.55, y: y + 0.1, w: 0.45, h: 0.45,
           fill:{ color: st[3] }, rectRadius:0.06
@@ -1792,17 +1578,14 @@ document.getElementById('btnExport').onclick = async () => {
           fontSize:9, color:'B0CBE0', align:'right', fontFace:'Tajawal'
         });
       });
-
       addBrand(s, 5);
     }
 
-    // ============ SLIDE 6: TECHNICAL SPECS ============
+    /* SLIDE 6 */
     {
       const s = pptx.addSlide();
       addBg(s);
       addHeader(s, 'المواصفات الفنية', 'قياسات مبنية على النموذج الأولي والمراجع العلمية');
-
-      // table 1
       const t1Rows = [
         [{ text:'المواصفة', options:{ bold:true, color:'7FE9FF', fontSize:11, fill:{ color:'142E52' }, align:'right', fontFace:'Tajawal' } },
          { text:'القيمة', options:{ bold:true, color:'7FE9FF', fontSize:11, fill:{ color:'142E52' }, align:'right', fontFace:'Tajawal' } }],
@@ -1816,7 +1599,6 @@ document.getElementById('btnExport').onclick = async () => {
         { text:c, options:{ fontSize:10.5, color:'C5DDEF', align:'right', fontFace:'Tajawal', fill:{ color: ri%2? '0E2440':'0A1C32' } } } : c) : r),
         { x:5.15, y:1.75, w:4.35, colW:[2.15, 2.2], border:{ type:'solid', color:'1C3A5C', pt:0.5 } });
 
-      // table 2
       const t2Rows = [
         [{ text:'المواصفة', options:{ bold:true, color:'7FE9FF', fontSize:11, fill:{ color:'142E52' }, align:'right', fontFace:'Tajawal' } },
          { text:'القيمة', options:{ bold:true, color:'7FE9FF', fontSize:11, fill:{ color:'142E52' }, align:'right', fontFace:'Tajawal' } }],
@@ -1830,7 +1612,6 @@ document.getElementById('btnExport').onclick = async () => {
         { text:c, options:{ fontSize:10.5, color:'C5DDEF', align:'right', fontFace:'Tajawal', fill:{ color: ri%2? '0E2440':'0A1C32' } } } : c) : r),
         { x:0.5, y:1.75, w:4.35, colW:[2.15, 2.2], border:{ type:'solid', color:'1C3A5C', pt:0.5 } });
 
-      // 4 metrics
       const metrics = [
         { v:'0.8-1.5 T', l:'شدة المجال', c:'5FF2FF' },
         { v:'12 °C', l:'ΔT مغناطيسي', c:'5CFFB0' },
@@ -1843,25 +1624,17 @@ document.getElementById('btnExport').onclick = async () => {
           x:x-2.05, y:4.35, w:2.1, h:0.95,
           fill:{ color:'0E2440' }, line:{ color:m.c, width:0.7 }, rectRadius:0.07
         });
-        s.addText(m.v, {
-          x:x-2.05, y:4.42, w:2.1, h:0.45,
-          fontSize:18, bold:true, color:m.c, align:'center', fontFace:'Tajawal'
-        });
-        s.addText(m.l, {
-          x:x-2.05, y:4.9, w:2.1, h:0.32,
-          fontSize:9, color:'8AB6D4', align:'center', fontFace:'Tajawal'
-        });
+        s.addText(m.v, { x:x-2.05, y:4.42, w:2.1, h:0.45, fontSize:18, bold:true, color:m.c, align:'center', fontFace:'Tajawal' });
+        s.addText(m.l, { x:x-2.05, y:4.9, w:2.1, h:0.32, fontSize:9, color:'8AB6D4', align:'center', fontFace:'Tajawal' });
       });
-
       addBrand(s, 6);
     }
 
-    // ============ SLIDE 7: COMPARISON ============
+    /* SLIDE 7 */
     {
       const s = pptx.addSlide();
       addBg(s);
       addHeader(s, 'المقارنة مع الأنظمة التقليدية');
-
       const rows = [
         [{ text:'المعيار', options:{ bold:true, color:'7FE9FF', fontSize:11, fill:{ color:'142E52' }, align:'right', fontFace:'Tajawal' } },
          { text:'التكييف التقليدي', options:{ bold:true, color:'7FE9FF', fontSize:11, fill:{ color:'142E52' }, align:'center', fontFace:'Tajawal' } },
@@ -1876,7 +1649,6 @@ document.getElementById('btnExport').onclick = async () => {
       ];
       const tableData = rows.map((r, ri) => Array.isArray(r) ? r.map((c, ci) => {
         if (typeof c !== 'string') return c;
-        const isGood = ci === 2 || ci === 3;
         return {
           text: c,
           options: {
@@ -1889,22 +1661,19 @@ document.getElementById('btnExport').onclick = async () => {
           }
         };
       }) : r);
-
       s.addTable(tableData, {
         x:0.5, y:1.6, w:9, colW:[2.5, 2.2, 2.3, 2.0],
         border:{ type:'solid', color:'1C3A5C', pt:0.5 },
         rowH: 0.48
       });
-
       addBrand(s, 7);
     }
 
-    // ============ SLIDE 8: MARKET ============
+    /* SLIDE 8 */
     {
       const s = pptx.addSlide();
       addBg(s);
       addHeader(s, 'السوق المستهدف وحجم النمو', 'أرقام مبنية على تقارير صناعية منشورة');
-
       const rows = [
         [{ text:'السوق', options:{ bold:true, color:'7FE9FF', fontSize:11, fill:{ color:'142E52' }, align:'right', fontFace:'Tajawal' } },
          { text:'الحجم الحالي', options:{ bold:true, color:'7FE9FF', fontSize:11, fill:{ color:'142E52' }, align:'center', fontFace:'Tajawal' } },
@@ -1932,8 +1701,6 @@ document.getElementById('btnExport').onclick = async () => {
         border:{ type:'solid', color:'1C3A5C', pt:0.5 },
         rowH: 0.5
       });
-
-      // three cards below
       const cards = [
         { t:'العملاء المستهدفون', d:'وزارة الإسكان\nشركات التطوير العقاري\nمراكز البيانات\nالمستشفيات', c:'7FE9FF' },
         { t:'الميزة التنافسية', d:'لا يوجد منافس مباشر\nبراءات اختراع قابلة للتسجيل\nتكلفة تشغيل شبه معدومة\nتوافق مع رؤية 2030', c:'5CFFB0' },
@@ -1945,26 +1712,17 @@ document.getElementById('btnExport').onclick = async () => {
           x:x-2.85, y:3.6, w:2.9, h:1.7,
           fill:{ color:'0A1C32' }, line:{ color:c.c, width:0.6 }, rectRadius:0.08
         });
-        s.addText('◈  ' + c.t, {
-          x:x-2.75, y:3.7, w:2.7, h:0.3,
-          fontSize:11, bold:true, color:c.c, align:'right', fontFace:'Tajawal'
-        });
-        s.addText(c.d, {
-          x:x-2.75, y:4.02, w:2.7, h:1.2,
-          fontSize:9.5, color:'B0CBE0', align:'right', fontFace:'Tajawal', lineSpacingMultiple:1.35
-        });
+        s.addText('◈  ' + c.t, { x:x-2.75, y:3.7, w:2.7, h:0.3, fontSize:11, bold:true, color:c.c, align:'right', fontFace:'Tajawal' });
+        s.addText(c.d, { x:x-2.75, y:4.02, w:2.7, h:1.2, fontSize:9.5, color:'B0CBE0', align:'right', fontFace:'Tajawal', lineSpacingMultiple:1.35 });
       });
-
       addBrand(s, 8);
     }
 
-    // ============ SLIDE 9: ECONOMICS ============
+    /* SLIDE 9 */
     {
       const s = pptx.addSlide();
       addBg(s);
       addHeader(s, 'الجدوى الاقتصادية', 'فترة استرداد قصيرة، وقيمة طويلة الأمد');
-
-      // cost table
       const rows = [
         [{ text:'المكوّن', options:{ bold:true, color:'7FE9FF', fontSize:11, fill:{ color:'142E52' }, align:'right', fontFace:'Tajawal' } },
          { text:'التكلفة (ريال)', options:{ bold:true, color:'7FE9FF', fontSize:11, fill:{ color:'142E52' }, align:'center', fontFace:'Tajawal' } }],
@@ -1994,49 +1752,37 @@ document.getElementById('btnExport').onclick = async () => {
         border:{ type:'solid', color:'1C3A5C', pt:0.5 },
         rowH: 0.45
       });
-
-      // big payback card
       s.addShape(pptx.ShapeType.roundRect, {
         x:0.5, y:1.6, w:4.35, h:1.35,
         fill:{ color:'0E2440' }, line:{ color:'5CFFB0', width:0.9 }, rectRadius:0.09
       });
       s.addText('سنة واحدة', {
-        x:0.5, y:1.75, w:4.35, h:0.65,
-        fontSize:36, bold:true, color:'5CFFB0', align:'center', fontFace:'Tajawal'
+        x:0.5, y:1.75, w:4.35, h:0.65, fontSize:36, bold:true, color:'5CFFB0', align:'center', fontFace:'Tajawal'
       });
       s.addText('فترة استرداد الاستثمار', {
-        x:0.5, y:2.45, w:4.35, h:0.35,
-        fontSize:11, color:'8AB6D4', align:'center', fontFace:'Tajawal'
+        x:0.5, y:2.45, w:4.35, h:0.35, fontSize:11, color:'8AB6D4', align:'center', fontFace:'Tajawal'
       });
-
-      // business model card
       s.addShape(pptx.ShapeType.roundRect, {
         x:0.5, y:3.15, w:9, h:2.1,
         fill:{ color:'0A1C32' }, line:{ color:'2AA8FF', width:0.6 }, rectRadius:0.08
       });
       s.addText('◈  نموذج الأعمال', {
-        x:0.7, y:3.25, w:8.6, h:0.35,
-        fontSize:13, bold:true, color:'7FE9FF', align:'right', fontFace:'Tajawal'
+        x:0.7, y:3.25, w:8.6, h:0.35, fontSize:13, bold:true, color:'7FE9FF', align:'right', fontFace:'Tajawal'
       });
       s.addText([
         { text:'• بيع الوحدة: 15,000 – 25,000 ريال\n', options:{ fontSize:11, color:'C5DDEF', fontFace:'Tajawal' } },
         { text:'• تأجير شهري: 500 – 800 ريال\n', options:{ fontSize:11, color:'C5DDEF', fontFace:'Tajawal' } },
         { text:'• عقد صيانة سنوي: 1,000 – 2,000 ريال\n', options:{ fontSize:11, color:'C5DDEF', fontFace:'Tajawal' } },
         { text:'• العمر التشغيلي: 25 – 30 سنة', options:{ fontSize:11, color:'C5DDEF', fontFace:'Tajawal' } }
-      ], {
-        x:0.7, y:3.65, w:8.6, h:1.5,
-        align:'right', lineSpacingMultiple:1.5
-      });
-
+      ], { x:0.7, y:3.65, w:8.6, h:1.5, align:'right', lineSpacingMultiple:1.5 });
       addBrand(s, 9);
     }
 
-    // ============ SLIDE 10: PROTOTYPE ============
+    /* SLIDE 10 */
     {
       const s = pptx.addSlide();
       addBg(s);
       addHeader(s, 'النموذج الأولي — خطة الهاكاثون');
-
       const days = [
         { n:'1', t:'اليوم الأول', d:'بناء لوح تبريد إشعاعي مصغّر + تركيب حساسات حرارة.', c:'5FF2FF' },
         { n:'2', t:'اليوم الثاني', d:'بناء مجفف شمسي بسيط + خزان PCM + برمجة Arduino.', c:'C48BFF' },
@@ -2065,15 +1811,12 @@ document.getElementById('btnExport').onclick = async () => {
           fontSize:10, color:'B0CBE0', align:'right', fontFace:'Tajawal', lineSpacingMultiple:1.4
         });
       });
-
-      // components card
       s.addShape(pptx.ShapeType.roundRect, {
         x:0.5, y:3.5, w:9, h:1.75,
         fill:{ color:'0A1C32' }, line:{ color:'2AA8FF', width:0.6 }, rectRadius:0.08
       });
       s.addText('◈  المكونات الرئيسية', {
-        x:0.7, y:3.6, w:8.6, h:0.3,
-        fontSize:12.5, bold:true, color:'7FE9FF', align:'right', fontFace:'Tajawal'
+        x:0.7, y:3.6, w:8.6, h:0.3, fontSize:12.5, bold:true, color:'7FE9FF', align:'right', fontFace:'Tajawal'
       });
       s.addText([
         { text:'• لوح تبريد إشعاعي — طبقة بوليمرية نافذة في 8-13 µm\n', options:{ fontSize:10.5, color:'C5DDEF', fontFace:'Tajawal' } },
@@ -2081,26 +1824,18 @@ document.getElementById('btnExport').onclick = async () => {
         { text:'• خزان PCM — شمع برافيني RT-12 بسعة 20 لتر\n', options:{ fontSize:10.5, color:'C5DDEF', fontFace:'Tajawal' } },
         { text:'• حساسات حرارة ورطوبة + Arduino/Raspberry Pi\n', options:{ fontSize:10.5, color:'C5DDEF', fontFace:'Tajawal' } },
         { text:'• الميزانية الكلية: أقل من 1,500 ريال', options:{ fontSize:10.5, color:'5CFFB0', bold:true, fontFace:'Tajawal' } }
-      ], {
-        x:0.7, y:3.95, w:8.6, h:1.2,
-        align:'right', lineSpacingMultiple:1.4
-      });
-
+      ], { x:0.7, y:3.95, w:8.6, h:1.2, align:'right', lineSpacingMultiple:1.4 });
       addBrand(s, 10);
     }
 
-    // ============ SLIDE 11: RISKS + ROADMAP ============
+    /* SLIDE 11 */
     {
       const s = pptx.addSlide();
       addBg(s);
       addHeader(s, 'المخاطر وخارطة الطريق');
-
-      // risks table
       s.addText('◈  إدارة المخاطر', {
-        x:5.15, y:1.5, w:4.35, h:0.3,
-        fontSize:13, bold:true, color:'7FE9FF', align:'right', fontFace:'Tajawal'
+        x:5.15, y:1.5, w:4.35, h:0.3, fontSize:13, bold:true, color:'7FE9FF', align:'right', fontFace:'Tajawal'
       });
-
       const riskRows = [
         [{ text:'الخطر', options:{ bold:true, color:'7FE9FF', fontSize:10, fill:{ color:'142E52' }, align:'right', fontFace:'Tajawal' } },
          { text:'التخفيف', options:{ bold:true, color:'7FE9FF', fontSize:10, fill:{ color:'142E52' }, align:'right', fontFace:'Tajawal' } }],
@@ -2121,13 +1856,9 @@ document.getElementById('btnExport').onclick = async () => {
         x:5.15, y:1.85, w:4.35, colW:[2.3, 2.05],
         border:{ type:'solid', color:'1C3A5C', pt:0.5 }
       });
-
-      // roadmap
       s.addText('◈  خارطة الطريق', {
-        x:0.5, y:1.5, w:4.35, h:0.3,
-        fontSize:13, bold:true, color:'7FE9FF', align:'right', fontFace:'Tajawal'
+        x:0.5, y:1.5, w:4.35, h:0.3, fontSize:13, bold:true, color:'7FE9FF', align:'right', fontFace:'Tajawal'
       });
-
       const roadmap = [
         ['2026','نموذج مخبري مصغّر — خلال الهاكاثون','5CFFB0'],
         ['2026-2027','تجربة ميدانية على مبنى حكومي','7FE9FF'],
@@ -2140,9 +1871,7 @@ document.getElementById('btnExport').onclick = async () => {
           x:0.5, y:y, w:4.35, h:0.55,
           fill:{ color:'0A1C32' }, line:{ color:r[2], width:0.6 }, rectRadius:0.06
         });
-        s.addShape(pptx.ShapeType.rect, {
-          x:4.4, y:y, w:0.05, h:0.55, fill:{ color:r[2] }
-        });
+        s.addShape(pptx.ShapeType.rect, { x:4.4, y:y, w:0.05, h:0.55, fill:{ color:r[2] } });
         s.addText(r[0], {
           x:3.4, y:y+0.06, w:0.95, h:0.28,
           fontSize:10, bold:true, color:r[2], align:'right', fontFace:'Tajawal'
@@ -2152,11 +1881,10 @@ document.getElementById('btnExport').onclick = async () => {
           fontSize:9.5, color:'C5DDEF', align:'right', fontFace:'Tajawal'
         });
       });
-
       addBrand(s, 11);
     }
 
-    // ============ SLIDE 12: TEAM ============
+    /* SLIDE 12 */
     {
       const s = pptx.addSlide();
       addBg(s);
@@ -2167,43 +1895,26 @@ document.getElementById('btnExport').onclick = async () => {
         x:5.15, y:1.6, w:4.35, h:2.9,
         fill:{ color:'0E2440' }, line:{ color:'4FD0FF', width:0.75 }, rectRadius:0.09
       });
-      s.addShape(pptx.ShapeType.roundRect, {
-        x: 5.15, y:1.6, w:4.35, h:0.06, fill:{ color:'2AA8FF' }, rectRadius:0.03
-      });
-      // avatar
-      s.addShape(pptx.ShapeType.roundRect, {
-        x: 8.55, y:1.8, w:0.85, h:0.85,
-        fill:{ color:'1A5A8A' }, rectRadius:0.1
-      });
-      s.addText('أح', {
-        x:8.55, y:1.95, w:0.85, h:0.6,
-        fontSize:24, bold:true, color:'FFFFFF', align:'center', fontFace:'Tajawal'
-      });
+      s.addShape(pptx.ShapeType.roundRect, { x: 5.15, y:1.6, w:4.35, h:0.06, fill:{ color:'2AA8FF' }, rectRadius:0.03 });
+      s.addShape(pptx.ShapeType.roundRect, { x: 8.55, y:1.8, w:0.85, h:0.85, fill:{ color:'1A5A8A' }, rectRadius:0.1 });
+      s.addText('أح', { x:8.55, y:1.95, w:0.85, h:0.6, fontSize:24, bold:true, color:'FFFFFF', align:'center', fontFace:'Tajawal' });
       s.addText('م. أحمد علي بوكر نسيب العقيلي', {
-        x:5.3, y:1.8, w:3.1, h:0.42,
-        fontSize:14, bold:true, color:'FFFFFF', align:'right', fontFace:'Tajawal'
+        x:5.3, y:1.8, w:3.1, h:0.42, fontSize:14, bold:true, color:'FFFFFF', align:'right', fontFace:'Tajawal'
       });
-      s.addShape(pptx.ShapeType.roundRect, {
-        x:7.1, y:2.25, w:1.3, h:0.32,
-        fill:{ color:'1E4A70' }, rectRadius:0.16
-      });
+      s.addShape(pptx.ShapeType.roundRect, { x:7.1, y:2.25, w:1.3, h:0.32, fill:{ color:'1E4A70' }, rectRadius:0.16 });
       s.addText('مهندس ميكانيكي · HVAC', {
-        x:7.1, y:2.27, w:1.3, h:0.28,
-        fontSize:8, bold:true, color:'7FE9FF', align:'center', fontFace:'Tajawal'
+        x:7.1, y:2.27, w:1.3, h:0.28, fontSize:8, bold:true, color:'7FE9FF', align:'center', fontFace:'Tajawal'
       });
-
       s.addText([
         { text:'🏢  ', options:{ fontSize:11, fontFace:'Tajawal' } },
         { text:'مقر العمل: ', options:{ fontSize:10.5, color:'7FE9FF', fontFace:'Tajawal' } },
         { text:'تجمع الصحي بجازان', options:{ fontSize:10.5, color:'C5DDEF', fontFace:'Tajawal' } }
       ], { x:5.3, y:2.75, w:4.05, h:0.32, align:'right' });
-
       s.addText([
         { text:'📱  ', options:{ fontSize:11, fontFace:'Tajawal' } },
         { text:'الجوال: ', options:{ fontSize:10.5, color:'7FE9FF', fontFace:'Tajawal' } },
         { text:'0507426388', options:{ fontSize:10.5, color:'C5DDEF', fontFace:'Tajawal' } }
       ], { x:5.3, y:3.12, w:4.05, h:0.32, align:'right' });
-
       s.addText([
         { text:'✉  ', options:{ fontSize:11, fontFace:'Tajawal' } },
         { text:'الإيميل: ', options:{ fontSize:10.5, color:'7FE9FF', fontFace:'Tajawal' } },
@@ -2215,62 +1926,42 @@ document.getElementById('btnExport').onclick = async () => {
         x:0.5, y:1.6, w:4.35, h:2.9,
         fill:{ color:'0E2440' }, line:{ color:'C48BFF', width:0.75 }, rectRadius:0.09
       });
-      s.addShape(pptx.ShapeType.roundRect, {
-        x: 0.5, y:1.6, w:4.35, h:0.06, fill:{ color:'C48BFF' }, rectRadius:0.03
-      });
-      s.addShape(pptx.ShapeType.roundRect, {
-        x: 3.9, y:1.8, w:0.85, h:0.85,
-        fill:{ color:'6A2FA0' }, rectRadius:0.1
-      });
-      s.addText('عز', {
-        x:3.9, y:1.95, w:0.85, h:0.6,
-        fontSize:24, bold:true, color:'FFFFFF', align:'center', fontFace:'Tajawal'
-      });
+      s.addShape(pptx.ShapeType.roundRect, { x: 0.5, y:1.6, w:4.35, h:0.06, fill:{ color:'C48BFF' }, rectRadius:0.03 });
+      s.addShape(pptx.ShapeType.roundRect, { x: 3.9, y:1.8, w:0.85, h:0.85, fill:{ color:'6A2FA0' }, rectRadius:0.1 });
+      s.addText('عز', { x:3.9, y:1.95, w:0.85, h:0.6, fontSize:24, bold:true, color:'FFFFFF', align:'center', fontFace:'Tajawal' });
       s.addText('م. عبدالرحمن زين يحيى صهلولي المنيفي', {
-        x:0.65, y:1.8, w:3.1, h:0.42,
-        fontSize:12, bold:true, color:'FFFFFF', align:'right', fontFace:'Tajawal'
+        x:0.65, y:1.8, w:3.1, h:0.42, fontSize:12, bold:true, color:'FFFFFF', align:'right', fontFace:'Tajawal'
       });
-      s.addShape(pptx.ShapeType.roundRect, {
-        x:2.85, y:2.25, w:1.0, h:0.32,
-        fill:{ color:'3A1A6A' }, rectRadius:0.16
-      });
+      s.addShape(pptx.ShapeType.roundRect, { x:2.85, y:2.25, w:1.0, h:0.32, fill:{ color:'3A1A6A' }, rectRadius:0.16 });
       s.addText('مهندس مدني', {
-        x:2.85, y:2.27, w:1.0, h:0.28,
-        fontSize:8.5, bold:true, color:'C48BFF', align:'center', fontFace:'Tajawal'
+        x:2.85, y:2.27, w:1.0, h:0.28, fontSize:8.5, bold:true, color:'C48BFF', align:'center', fontFace:'Tajawal'
       });
-
       s.addText([
         { text:'🏢  ', options:{ fontSize:11, fontFace:'Tajawal' } },
         { text:'مقر العمل: ', options:{ fontSize:10.5, color:'C48BFF', fontFace:'Tajawal' } },
         { text:'إدارة مشاريع أرامكو', options:{ fontSize:10.5, color:'C5DDEF', fontFace:'Tajawal' } }
       ], { x:0.65, y:2.75, w:4.05, h:0.32, align:'right' });
-
       s.addText([
         { text:'📱  ', options:{ fontSize:11, fontFace:'Tajawal' } },
         { text:'الجوال: ', options:{ fontSize:10.5, color:'C48BFF', fontFace:'Tajawal' } },
         { text:'+966 50 275 5666', options:{ fontSize:10.5, color:'C5DDEF', fontFace:'Tajawal' } }
       ], { x:0.65, y:3.12, w:4.05, h:0.32, align:'right' });
-
       s.addText([
         { text:'✉  ', options:{ fontSize:11, fontFace:'Tajawal' } },
         { text:'الإيميل: ', options:{ fontSize:10.5, color:'C48BFF', fontFace:'Tajawal' } },
         { text:'azys313@gmail.com', options:{ fontSize:10.5, color:'C5DDEF', fontFace:'Tajawal' } }
       ], { x:0.65, y:3.48, w:4.05, h:0.32, align:'right' });
 
-      // bottom tagline
       s.addShape(pptx.ShapeType.roundRect, {
         x:0.5, y:4.65, w:9, h:0.68,
         fill:{ color:'1A3D66' }, line:{ color:'7FB8FF', width:0.6 }, rectRadius:0.08
       });
       s.addText('◈  Quantum Breeze — نحو تكييف يعمل مع الطبيعة لا ضدها، ومدن سعودية ذكية ومستدامة تدعم رؤية 2030.', {
-        x:0.5, y:4.75, w:9, h:0.5,
-        fontSize:11.5, bold:true, color:'C5E2F5', align:'center', fontFace:'Tajawal'
+        x:0.5, y:4.75, w:9, h:0.5, fontSize:11.5, bold:true, color:'C5E2F5', align:'center', fontFace:'Tajawal'
       });
-
       addBrand(s, 12);
     }
 
-    // ========== SAVE ==========
     await pptx.writeFile({ fileName: 'Quantum_Breeze_IECE2026.pptx' });
     toast('تم تصدير ملف PowerPoint بنجاح', 'success');
   } catch(err) {
@@ -2299,32 +1990,11 @@ function init() {
   loadFromStorage();
   buildSidebar();
   renderSlide();
-  // restore current slide if saved
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (raw) {
-      const parsed = JSON.parse(raw);
-      if (typeof parsed.currentSlide === 'number' && parsed.currentSlide < DATA.slides.length) {
-        currentSlide = parsed.currentSlide;
-        renderSlide();
-        buildSidebar();
-      }
-    }
-  } catch(e){}
 }
 init();
 
-// Save current slide on unload
 window.addEventListener('beforeunload', () => {
-  if (editing) {
-    const slide = DATA.slides[currentSlide];
-    const el = document.getElementById('slideContent');
-    if (el) {
-      const clone = el.cloneNode(true);
-      clone.querySelectorAll('.slide-num-badge, .slide-brand').forEach(n => n.remove());
-      SLIDE_HTML[slide.id] = clone.innerHTML;
-    }
-  }
+  captureCurrentSlideEdits();
   saveToStorage();
 });
 </script>
