@@ -1,0 +1,2332 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Quantum Breeze — عرض المشروع | الهيئة السعودية للمهندسين</title>
+
+<!-- PptxGenJS for PowerPoint export -->
+<script src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js"></script>
+<!-- Arabic font for canvas rendering -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body {
+    width:100%; height:100%; overflow:hidden;
+    font-family:'Tajawal', 'Cairo', Tahoma, sans-serif;
+    background:#0a0e1a; color:#e8f4ff;
+  }
+
+  /* ================= LAYOUT ================= */
+  #app { display:flex; flex-direction:column; height:100vh; }
+
+  #topbar {
+    display:flex; align-items:center; justify-content:space-between;
+    padding:10px 20px; background:linear-gradient(90deg, #050a14, #0a1628, #050a14);
+    border-bottom:1px solid rgba(80,200,255,0.18);
+    box-shadow:0 2px 20px rgba(0,100,200,0.15);
+    z-index:100; flex-shrink:0;
+  }
+  #topbar .brand {
+    display:flex; align-items:center; gap:12px;
+  }
+  #topbar .brand .logo {
+    width:34px; height:34px; border-radius:8px;
+    background:linear-gradient(135deg,#5ff2ff,#3aa8ff,#a06bff);
+    display:flex; align-items:center; justify-content:center;
+    font-weight:900; font-size:16px; color:#031020;
+    box-shadow:0 0 20px rgba(90,200,255,0.5);
+  }
+  #topbar .brand .txt h1 {
+    font-size:15px; font-weight:800; letter-spacing:.5px;
+    background:linear-gradient(90deg,#5ff2ff,#3aa8ff,#a06bff);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  #topbar .brand .txt p { font-size:10px; color:#6fa8c8; letter-spacing:.4px; margin-top:1px; }
+
+  #topbar .toolbar { display:flex; gap:8px; align-items:center; }
+
+  .tb-btn {
+    display:flex; align-items:center; gap:6px;
+    padding:8px 14px; font-size:12px; font-weight:600; cursor:pointer;
+    background:linear-gradient(160deg, rgba(20,50,80,0.85), rgba(10,25,45,0.85));
+    border:1px solid rgba(80,200,255,0.28); border-radius:9px; color:#bfe6ff;
+    transition:all .18s; font-family:inherit; white-space:nowrap;
+  }
+  .tb-btn:hover {
+    background:linear-gradient(160deg, rgba(30,80,130,0.95), rgba(15,40,70,0.95));
+    border-color:rgba(100,220,255,0.6); color:#fff; transform:translateY(-1px);
+  }
+  .tb-btn.primary {
+    background:linear-gradient(160deg,#1c6fa8,#0d4570);
+    border-color:#4fd0ff; color:#fff;
+    box-shadow:0 0 18px rgba(80,200,255,0.35);
+  }
+  .tb-btn.primary:hover { background:linear-gradient(160deg,#2a8fd0,#0f5a94); }
+  .tb-btn.danger {
+    border-color:rgba(255,120,80,0.4); color:#ff9a70;
+  }
+  .tb-btn.danger:hover { background:linear-gradient(160deg,#8a2a1a,#5a1a10); border-color:#ff7a4c; color:#fff; }
+
+  .status-dot {
+    display:flex; align-items:center; gap:6px; font-size:11px; color:#5cffb0;
+    padding:0 8px;
+  }
+  .status-dot .d {
+    width:7px; height:7px; border-radius:50%; background:#5cffb0;
+    box-shadow:0 0 8px #5cffb0; animation:pulse 1.8s infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.35;} }
+
+  /* ================= SLIDE STAGE ================= */
+  #stage {
+    flex:1; display:flex; align-items:center; justify-content:center;
+    padding:24px; background:
+      radial-gradient(ellipse at 20% 0%, rgba(50,120,200,0.14), transparent 60%),
+      radial-gradient(ellipse at 80% 100%, rgba(120,60,180,0.1), transparent 55%),
+      #060a14;
+    position:relative; overflow:hidden;
+  }
+  #stage::before {
+    content:''; position:absolute; inset:0;
+    background-image:
+      linear-gradient(rgba(80,200,255,0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(80,200,255,0.035) 1px, transparent 1px);
+    background-size:44px 44px; pointer-events:none;
+  }
+
+  #slideWrap {
+    position:relative;
+    width:min(1280px, 95vw);
+    aspect-ratio: 16/9;
+    background:linear-gradient(140deg,#071220,#0a1c32 55%,#071220);
+    border-radius:16px;
+    box-shadow:
+      0 30px 90px rgba(0,20,60,0.75),
+      0 0 0 1px rgba(80,200,255,0.22),
+      inset 0 0 90px rgba(0,80,160,0.12);
+    overflow:hidden;
+  }
+
+  /* slide content */
+  #slideContent {
+    position:absolute; inset:0; padding:52px 64px;
+    display:flex; flex-direction:column;
+    color:#e8f4ff;
+  }
+  #slideContent .slide-num-badge {
+    position:absolute; bottom:20px; left:32px;
+    font-size:11px; color:#5a86a8; letter-spacing:1.5px;
+    font-weight:700;
+  }
+  #slideContent .slide-brand {
+    position:absolute; bottom:20px; right:32px;
+    font-size:10.5px; color:#4a7ea0; letter-spacing:.6px;
+    display:flex; align-items:center; gap:8px;
+  }
+  #slideContent .slide-brand::before {
+    content:''; width:20px; height:1px; background:linear-gradient(90deg,transparent,#3aa8ff);
+  }
+
+  .sl-title {
+    font-size:36px; font-weight:900; line-height:1.25;
+    background:linear-gradient(90deg,#5ff2ff,#3aa8ff,#a06bff);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+    margin-bottom:10px;
+    letter-spacing:-0.3px;
+  }
+  .sl-subtitle {
+    font-size:15px; color:#8ab6d4; line-height:1.6; margin-bottom:22px;
+    font-weight:500;
+  }
+  .sl-divider {
+    width:80px; height:3px; border-radius:2px;
+    background:linear-gradient(90deg,#2aa8ff,#a06bff);
+    margin-bottom:22px;
+  }
+
+  .sl-body { flex:1; display:flex; flex-direction:column; gap:14px; }
+
+  /* content styles */
+  .card {
+    background:linear-gradient(150deg, rgba(14,36,60,0.6), rgba(8,20,38,0.5));
+    border:1px solid rgba(80,200,255,0.18);
+    border-radius:12px; padding:16px 20px;
+    transition:all .25s;
+  }
+  .card:hover {
+    border-color:rgba(100,220,255,0.4);
+    box-shadow:0 6px 24px rgba(0,80,160,0.2);
+  }
+  .card h3 {
+    font-size:15px; font-weight:800; color:#7fe9ff; margin-bottom:7px;
+    display:flex; align-items:center; gap:8px;
+  }
+  .card h3 .num {
+    display:inline-flex; align-items:center; justify-content:center;
+    width:22px; height:22px; border-radius:6px;
+    background:linear-gradient(135deg,#2aa8ff,#1a5a8a);
+    color:#fff; font-size:11px; font-weight:900;
+    box-shadow:0 0 12px rgba(80,200,255,0.5);
+  }
+  .card p { font-size:13px; line-height:1.7; color:#b0cbe0; }
+
+  /* grids */
+  .grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  .grid-3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; }
+  .grid-4 { display:grid; grid-template-columns:repeat(4,1fr); gap:11px; }
+  .grid-5 { display:grid; grid-template-columns:repeat(5,1fr); gap:10px; }
+
+  /* metric cards */
+  .metric {
+    background:linear-gradient(150deg, rgba(14,36,60,0.7), rgba(8,20,38,0.55));
+    border:1px solid rgba(80,200,255,0.22);
+    border-radius:11px; padding:14px 12px; text-align:center;
+    position:relative; overflow:hidden;
+    transition:all .25s;
+  }
+  .metric::after {
+    content:''; position:absolute; top:0; right:0; left:0; height:3px;
+    background:linear-gradient(90deg,#2aa8ff,#a06bff);
+  }
+  .metric:hover { transform:translateY(-2px); box-shadow:0 8px 26px rgba(0,90,180,0.28); }
+  .metric .v {
+    font-size:26px; font-weight:900; line-height:1.1;
+    background:linear-gradient(90deg,#5ff2ff,#3aa8ff);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .metric .l { font-size:11px; color:#8ab6d4; margin-top:5px; font-weight:600; letter-spacing:.3px; }
+  .metric.green::after { background:linear-gradient(90deg,#2ad8a0,#5cffb0); }
+  .metric.green .v { background:linear-gradient(90deg,#5cffb0,#2ad8a0); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .metric.purple::after { background:linear-gradient(90deg,#a06bff,#c48bff); }
+  .metric.purple .v { background:linear-gradient(90deg,#c48bff,#a06bff); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .metric.orange::after { background:linear-gradient(90deg,#ff7a3c,#ffb066); }
+  .metric.orange .v { background:linear-gradient(90deg,#ffb066,#ff7a3c); -webkit-background-clip:text; background-clip:text; color:transparent; }
+
+  /* list */
+  .sl-list { list-style:none; display:flex; flex-direction:column; gap:9px; }
+  .sl-list li {
+    display:flex; align-items:flex-start; gap:11px;
+    font-size:13.5px; line-height:1.6; color:#c5ddef;
+    padding:8px 12px; border-radius:8px;
+    background:rgba(30,70,110,0.2);
+    border-right:3px solid #2aa8ff;
+  }
+  .sl-list li .ic {
+    flex-shrink:0; width:20px; height:20px; border-radius:5px;
+    background:linear-gradient(135deg,#2aa8ff,#1a5a8a);
+    display:flex; align-items:center; justify-content:center;
+    font-size:11px; font-weight:900; color:#fff;
+  }
+  .sl-list.green li { border-right-color:#2ad8a0; }
+  .sl-list.green li .ic { background:linear-gradient(135deg,#2ad8a0,#1a8a60); }
+  .sl-list.purple li { border-right-color:#a06bff; }
+  .sl-list.purple li .ic { background:linear-gradient(135deg,#a06bff,#6a3a9f); }
+  .sl-list.orange li { border-right-color:#ff8a5c; }
+  .sl-list.orange li .ic { background:linear-gradient(135deg,#ff8a5c,#c05a2a); }
+
+  /* table */
+  .sl-table { width:100%; border-collapse:separate; border-spacing:0 5px; font-size:12.5px; }
+  .sl-table th {
+    text-align:right; padding:9px 14px; font-weight:800; color:#7fe9ff;
+    background:rgba(20,60,100,0.4); font-size:12px;
+    letter-spacing:.3px;
+  }
+  .sl-table th:first-child { border-radius:0 8px 8px 0; }
+  .sl-table th:last-child { border-radius:8px 0 0 8px; }
+  .sl-table td {
+    padding:9px 14px; background:rgba(12,30,52,0.45);
+    color:#c5ddef; font-weight:500;
+  }
+  .sl-table tr td:first-child { border-radius:0 8px 8px 0; border-right:3px solid #2aa8ff; }
+  .sl-table tr td:last-child { border-radius:8px 0 0 8px; }
+  .sl-table .good { color:#5cffb0; font-weight:700; }
+  .sl-table .bad { color:#ff8a5c; font-weight:700; }
+
+  /* team cards */
+  .team-grid { display:grid; grid-template-columns:1fr 1fr; gap:18px; flex:1; }
+  .team-card {
+    background:linear-gradient(150deg, rgba(14,36,60,0.7), rgba(8,20,38,0.5));
+    border:1px solid rgba(80,200,255,0.25);
+    border-radius:14px; padding:20px;
+    display:flex; flex-direction:column; gap:12px;
+    position:relative; overflow:hidden;
+  }
+  .team-card::before {
+    content:''; position:absolute; top:0; right:0; left:0; height:4px;
+    background:linear-gradient(90deg,#2aa8ff,#a06bff);
+  }
+  .team-card .avatar {
+    width:64px; height:64px; border-radius:16px;
+    background:linear-gradient(135deg,#1a5a8a,#a06bff);
+    display:flex; align-items:center; justify-content:center;
+    font-size:26px; font-weight:900; color:#fff;
+    box-shadow:0 0 24px rgba(80,200,255,0.4);
+  }
+  .team-card .name { font-size:19px; font-weight:800; color:#fff; line-height:1.3; }
+  .team-card .role {
+    display:inline-block; font-size:11px; font-weight:700;
+    padding:3px 10px; border-radius:20px;
+    background:rgba(80,200,255,0.15); color:#7fe9ff;
+    border:1px solid rgba(80,200,255,0.35);
+    margin-top:2px;
+  }
+  .team-card .info-list { display:flex; flex-direction:column; gap:8px; margin-top:6px; }
+  .team-card .info-item {
+    display:flex; align-items:center; gap:9px;
+    font-size:12.5px; color:#b0cbe0; direction:ltr;
+    justify-content:flex-end;
+  }
+  .team-card .info-item.ar { direction:rtl; justify-content:flex-start; }
+  .team-card .info-item .ic2 {
+    width:24px; height:24px; border-radius:6px;
+    background:rgba(80,200,255,0.12);
+    display:flex; align-items:center; justify-content:center;
+    font-size:12px; flex-shrink:0;
+  }
+
+  /* big number statement slide */
+  .hero-statement {
+    display:flex; align-items:center; justify-content:center;
+    flex-direction:column; text-align:center; flex:1; gap:14px;
+  }
+  .hero-statement .big {
+    font-size:88px; font-weight:900; line-height:1;
+    background:linear-gradient(90deg,#5ff2ff,#3aa8ff,#a06bff);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+    text-shadow:0 0 60px rgba(90,200,255,0.35);
+  }
+  .hero-statement .cap { font-size:20px; color:#8ab6d4; font-weight:600; }
+  .hero-statement .sub { font-size:14px; color:#6a9ec0; max-width:700px; line-height:1.7; }
+
+  /* ================= NAV ================= */
+  #navbar {
+    display:flex; align-items:center; justify-content:center; gap:12px;
+    padding:14px; background:linear-gradient(90deg,#050a14,#0a1628,#050a14);
+    border-top:1px solid rgba(80,200,255,0.18);
+    flex-shrink:0; position:relative;
+  }
+
+  .nav-btn {
+    width:40px; height:40px; border-radius:10px;
+    display:flex; align-items:center; justify-content:center;
+    background:linear-gradient(160deg, rgba(20,50,80,0.85), rgba(10,25,45,0.85));
+    border:1px solid rgba(80,200,255,0.28); color:#bfe6ff;
+    cursor:pointer; transition:all .18s; font-size:16px;
+  }
+  .nav-btn:hover { background:linear-gradient(160deg, rgba(30,80,130,0.95), rgba(15,40,70,0.95)); color:#fff; border-color:rgba(100,220,255,0.6); }
+  .nav-btn:disabled { opacity:0.3; cursor:not-allowed; }
+
+  #slideIndicator {
+    display:flex; align-items:center; gap:6px;
+    font-size:12px; color:#8ab6d4; font-weight:600;
+    min-width:100px; justify-content:center;
+  }
+  #slideIndicator .cur { color:#7fe9ff; font-weight:800; font-size:14px; }
+
+  /* ================= SIDEBAR (thumbnails) ================= */
+  #sidebar {
+    position:fixed; top:0; right:0; bottom:0; width:230px;
+    background:linear-gradient(180deg,#04080f,#0a1424);
+    border-left:1px solid rgba(80,200,255,0.2);
+    z-index:200; transform:translateX(100%);
+    transition:transform .35s cubic-bezier(.4,0,.2,1);
+    display:flex; flex-direction:column;
+    box-shadow:-10px 0 40px rgba(0,0,0,0.5);
+  }
+  #sidebar.open { transform:translateX(0); }
+  #sidebar .sb-head {
+    padding:14px 16px; border-bottom:1px solid rgba(80,200,255,0.15);
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  #sidebar .sb-head h3 { font-size:12px; color:#7fe9ff; letter-spacing:1px; text-transform:uppercase; }
+  #sidebar .sb-close {
+    width:26px; height:26px; border-radius:7px; cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+    background:rgba(255,255,255,0.05); color:#8ab6d4; font-size:14px;
+  }
+  #sidebar .sb-close:hover { background:rgba(255,120,80,0.2); color:#ff9a70; }
+
+  #sbList { flex:1; overflow-y:auto; padding:10px; }
+  #sbList::-webkit-scrollbar { width:5px; }
+  #sbList::-webkit-scrollbar-thumb { background:rgba(80,200,255,0.3); border-radius:3px; }
+
+  .sb-item {
+    display:flex; align-items:center; gap:10px;
+    padding:9px 12px; border-radius:9px; cursor:pointer;
+    margin-bottom:5px; transition:all .18s;
+    border:1px solid transparent;
+  }
+  .sb-item:hover { background:rgba(80,200,255,0.08); }
+  .sb-item.active {
+    background:rgba(80,200,255,0.14);
+    border-color:rgba(80,200,255,0.4);
+    box-shadow:0 0 14px rgba(80,200,255,0.2);
+  }
+  .sb-item .num {
+    flex-shrink:0; width:24px; height:24px; border-radius:6px;
+    background:rgba(80,200,255,0.15); color:#7fe9ff;
+    display:flex; align-items:center; justify-content:center;
+    font-size:11px; font-weight:800;
+  }
+  .sb-item.active .num { background:linear-gradient(135deg,#2aa8ff,#1a5a8a); color:#fff; }
+  .sb-item .t { font-size:11.5px; color:#b0cbe0; font-weight:600; line-height:1.3; }
+  .sb-item.active .t { color:#fff; }
+
+  /* ================= EDIT MODE ================= */
+  [contenteditable="true"] {
+    outline:none; border-radius:5px;
+    transition:all .15s;
+  }
+  body.editing [contenteditable="true"]:hover {
+    background:rgba(80,200,255,0.06);
+    box-shadow:inset 0 0 0 1px rgba(80,200,255,0.25);
+  }
+  body.editing [contenteditable="true"]:focus {
+    background:rgba(80,200,255,0.09);
+    box-shadow:inset 0 0 0 2px rgba(80,200,255,0.55);
+  }
+  body:not(.editing) [contenteditable="true"] { cursor:default; }
+
+  #editModeBadge {
+    position:fixed; top:76px; right:20px;
+    padding:6px 14px; border-radius:20px;
+    background:linear-gradient(135deg,#ff8a3c,#c04a1a);
+    color:#fff; font-size:11px; font-weight:800;
+    box-shadow:0 4px 18px rgba(255,120,60,0.5);
+    z-index:150; display:none; align-items:center; gap:7px;
+    letter-spacing:.5px;
+  }
+  #editModeBadge::before {
+    content:''; width:7px; height:7px; border-radius:50%; background:#fff;
+    animation:pulse 1.2s infinite;
+  }
+  body.editing #editModeBadge { display:flex; }
+
+  /* ================= TOAST ================= */
+  #toast {
+    position:fixed; bottom:90px; left:50%; transform:translate(-50%,20px);
+    padding:12px 26px; font-size:13px; font-weight:600; color:#fff;
+    background:linear-gradient(135deg, rgba(20,60,100,0.96), rgba(10,35,65,0.96));
+    border:1px solid rgba(80,200,255,0.5);
+    border-radius:12px; opacity:0; transition:all .35s; pointer-events:none;
+    box-shadow:0 10px 40px rgba(0,80,180,0.4);
+    z-index:500; letter-spacing:.3px;
+  }
+  #toast.show { opacity:1; transform:translate(-50%,0); }
+  #toast.success { border-color:rgba(92,255,176,0.6); box-shadow:0 10px 40px rgba(40,200,140,0.35); }
+  #toast.error { border-color:rgba(255,120,80,0.6); box-shadow:0 10px 40px rgba(255,80,50,0.35); }
+
+  /* ================= PROGRESS BAR ================= */
+  #progressBar {
+    position:absolute; top:0; left:0; right:0; height:2px;
+    background:rgba(80,200,255,0.1);
+  }
+  #progressBar .fill {
+    height:100%; width:0%;
+    background:linear-gradient(90deg,#2aa8ff,#a06bff,#5ff2ff);
+    transition:width .4s ease;
+    box-shadow:0 0 10px rgba(80,200,255,0.6);
+  }
+
+  /* ================= FOOTER CONFIDENTIAL ================= */
+  .conf {
+    position:absolute; top:20px; left:24px;
+    font-size:9.5px; color:#3a5a75; letter-spacing:1.5px;
+    text-transform:uppercase; font-weight:700;
+  }
+
+  /* scrollbar global */
+  ::-webkit-scrollbar { width:8px; height:8px; }
+  ::-webkit-scrollbar-track { background:rgba(0,0,0,0.2); }
+  ::-webkit-scrollbar-thumb { background:rgba(80,200,255,0.25); border-radius:4px; }
+  ::-webkit-scrollbar-thumb:hover { background:rgba(80,200,255,0.45); }
+
+  @media (max-width: 1100px) {
+    #slideContent { padding:36px 42px; }
+    .sl-title { font-size:28px; }
+    .hero-statement .big { font-size:64px; }
+  }
+  @media (max-width: 800px) {
+    .grid-3, .grid-4, .grid-5 { grid-template-columns:1fr 1fr; }
+    .team-grid { grid-template-columns:1fr; }
+    #slideContent { padding:26px 30px; }
+    .sl-title { font-size:22px; }
+    .sl-subtitle { font-size:12px; }
+  }
+</style>
+</head>
+<body>
+
+<div id="app">
+
+  <!-- ============== TOP TOOLBAR ============== -->
+  <div id="topbar">
+    <div class="brand">
+      <div class="logo">Q</div>
+      <div class="txt">
+        <h1>QUANTUM BREEZE — عرض المشروع</h1>
+        <p>الهيئة السعودية للمهندسين · مسار HVAC المستدام · IECE 2026</p>
+      </div>
+    </div>
+
+    <div class="toolbar">
+      <div class="status-dot" id="saveStatus">
+        <span class="d"></span><span id="saveStatusText">تم الحفظ</span>
+      </div>
+      <button class="tb-btn" id="btnSidebar" title="عرض الشرائح">☰ الشرائح</button>
+      <button class="tb-btn" id="btnEdit" title="تحرير المحتوى">✎ تحرير</button>
+      <button class="tb-btn" id="btnLoadJSON" title="استيراد مشروع">⬆ استيراد</button>
+      <button class="tb-btn" id="btnSaveJSON" title="حفظ نسخة">⬇ حفظ نسخة</button>
+      <button class="tb-btn danger" id="btnReset" title="استعادة الأصل">⟲ استعادة</button>
+      <button class="tb-btn primary" id="btnExport" title="تصدير PowerPoint">⬇ تصدير PowerPoint</button>
+    </div>
+    <input type="file" id="fileInput" accept=".json" style="display:none" />
+  </div>
+
+  <!-- ============== SLIDE STAGE ============== -->
+  <div id="stage">
+    <div id="slideWrap">
+      <div id="progressBar"><div class="fill" id="progressFill"></div></div>
+      <div id="slideContent"><!-- rendered by JS --></div>
+    </div>
+  </div>
+
+  <!-- ============== NAV BAR ============== -->
+  <div id="navbar">
+    <button class="nav-btn" id="navFirst" title="الأولى">⏮</button>
+    <button class="nav-btn" id="navPrev" title="السابقة">◀</button>
+    <div id="slideIndicator">
+      <span class="cur" id="curNum">1</span>
+      <span>/</span>
+      <span id="totalNum">12</span>
+    </div>
+    <button class="nav-btn" id="navNext" title="التالية">▶</button>
+    <button class="nav-btn" id="navLast" title="الأخيرة">⏭</button>
+  </div>
+</div>
+
+<!-- ============== SIDEBAR ============== -->
+<div id="sidebar">
+  <div class="sb-head">
+    <h3>قائمة الشرائح</h3>
+    <div class="sb-close" id="sbClose">✕</div>
+  </div>
+  <div id="sbList"></div>
+</div>
+
+<div id="editModeBadge">وضع التحرير مُفعّل — انقر أي نص للتعديل</div>
+<div id="toast"></div>
+
+<script>
+/* ================================================================
+   SLIDES DATA — fully editable
+   ================================================================ */
+const DEFAULT_DATA = {
+  meta: {
+    project: 'QUANTUM BREEZE',
+    subtitle: 'نظام تكييف مركزي بسبق عصره — بدون ضاغط، بدون غاز تبريد',
+    competition: 'مسابقة الهيئة السعودية للمهندسين',
+    track: 'مسار الهندسة والمدن الذكية والإدراكية',
+    challenge: 'تحدي كفاءة الطاقة في المباني',
+    year: 'IECE 2026',
+    version: 'الإصدار 2.4'
+  },
+
+  slides: [
+    /* ============================================================
+       SLIDE 1 — TITLE
+       ============================================================ */
+    {
+      id:'s1', type:'title', title:'الغلاف',
+      render: () => `
+        <div class="conf">تصنيف: سري — للمسابقة فقط</div>
+        <div style="display:flex; flex-direction:column; justify-content:center; height:100%; text-align:center; align-items:center;">
+          <div style="display:inline-flex; align-items:center; gap:10px; padding:8px 22px; border-radius:30px; background:rgba(80,200,255,0.1); border:1px solid rgba(80,200,255,0.4); margin-bottom:26px;">
+            <span style="width:8px; height:8px; border-radius:50%; background:#5cffb0; box-shadow:0 0 12px #5cffb0;"></span>
+            <span style="font-size:13px; color:#7fe9ff; font-weight:700; letter-spacing:.6px;" contenteditable="true">مسابقة الهيئة السعودية للمهندسين · IECE 2026</span>
+          </div>
+
+          <h1 style="font-size:74px; font-weight:900; line-height:1.05; margin-bottom:16px; letter-spacing:-1.5px;
+                     background:linear-gradient(90deg,#5ff2ff,#3aa8ff,#a06bff,#5ff2ff);
+                     background-size:200% 100%; -webkit-background-clip:text; background-clip:text; color:transparent;
+                     animation:shine 6s linear infinite;"
+              contenteditable="true">QUANTUM BREEZE</h1>
+
+          <p style="font-size:19px; color:#b0cbe0; line-height:1.6; max-width:820px; margin-bottom:8px; font-weight:500;"
+             contenteditable="true">نظام تكييف مركزي بسبق عصره — بدون ضاغط، بدون غاز تبريد</p>
+
+          <div style="display:flex; gap:26px; margin-top:14px; margin-bottom:36px; flex-wrap:wrap; justify-content:center;">
+            <div style="display:flex; align-items:center; gap:8px; font-size:13px; color:#8ab6d4;">
+              <span style="color:#7fe9ff; font-size:15px;">◈</span>
+              <span contenteditable="true">مسار الهندسة والمدن الذكية والإدراكية</span>
+            </div>
+            <div style="display:flex; align-items:center; gap:8px; font-size:13px; color:#8ab6d4;">
+              <span style="color:#7fe9ff; font-size:15px;">◈</span>
+              <span contenteditable="true">تحدي كفاءة الطاقة في المباني</span>
+            </div>
+          </div>
+
+          <div style="display:flex; gap:20px; justify-content:center; margin-top:8px; flex-wrap:wrap;">
+            <div style="padding:14px 26px; border-radius:12px; background:linear-gradient(150deg,rgba(14,36,60,0.7),rgba(8,20,38,0.5)); border:1px solid rgba(80,200,255,0.28);">
+              <div style="font-size:11px; color:#6a9ec0; letter-spacing:1px; margin-bottom:5px;">مقدم الفكرة</div>
+              <div style="font-size:14px; font-weight:800; color:#fff;" contenteditable="true">م. أحمد علي بوكر نسيب العقيلي</div>
+              <div style="font-size:11.5px; color:#7fe9ff; margin-top:3px;" contenteditable="true">مهندس ميكانيكي · HVAC</div>
+            </div>
+            <div style="padding:14px 26px; border-radius:12px; background:linear-gradient(150deg,rgba(14,36,60,0.7),rgba(8,20,38,0.5)); border:1px solid rgba(80,200,255,0.28);">
+              <div style="font-size:11px; color:#6a9ec0; letter-spacing:1px; margin-bottom:5px;">مقدم الفكرة</div>
+              <div style="font-size:14px; font-weight:800; color:#fff;" contenteditable="true">م. عبدالرحمن زين يحيى صهلولي المنيفي</div>
+              <div style="font-size:11.5px; color:#7fe9ff; margin-top:3px;" contenteditable="true">مهندس مدني</div>
+            </div>
+          </div>
+        </div>
+        <style>
+          @keyframes shine { to { background-position: -200% 0; } }
+        </style>
+      `
+    },
+
+    /* ============================================================
+       SLIDE 2 — EXECUTIVE SUMMARY
+       ============================================================ */
+    {
+      id:'s2', type:'standard', title:'الملخص التنفيذي',
+      render: () => `
+        <h2 class="sl-title" contenteditable="true">الملخص التنفيذي</h2>
+        <div class="sl-divider"></div>
+        <div class="sl-body">
+          <p style="font-size:15px; line-height:1.85; color:#c5ddef;" contenteditable="true">
+            يستهلك التكييف الهوائي 70% من كهرباء المباني في المملكة، ويستخدم غازات تبريد HFCs بمعدل احترار يتجاوز 4000 ضعف ثاني أكسيد الكربون. يقدّم مشروع <strong style="color:#7fe9ff;">Quantum Breeze</strong> نظام تكييف مركزي مبتكر يدمج خمس تقنيات متقدمة في منظومة واحدة متكاملة — بدون ضاغط، وبدون غاز تبريد، وبكفاءة تفوق الأنظمة التقليدية بنسبة تتراوح بين 70% و 80%.
+          </p>
+
+          <div class="grid-4" style="margin-top:14px;">
+            <div class="metric green">
+              <div class="v">70-80%</div>
+              <div class="l">وفر في الكهرباء</div>
+            </div>
+            <div class="metric">
+              <div class="v">0</div>
+              <div class="l">ضاغط ميكانيكي</div>
+            </div>
+            <div class="metric purple">
+              <div class="v">0 kg</div>
+              <div class="l">غاز تبريد</div>
+            </div>
+            <div class="metric orange">
+              <div class="v">25 سنة</div>
+              <div class="l">العمر التشغيلي</div>
+            </div>
+          </div>
+
+          <div class="grid-3" style="margin-top:8px;">
+            <div class="card">
+              <h3><span class="num">◈</span><span contenteditable="true">دمج غير مسبوق</span></h3>
+              <p contenteditable="true">خمس تقنيات تعمل معاً في نظام واحد — لا يوجد نظير تجاري حالياً.</p>
+            </div>
+            <div class="card">
+              <h3><span class="num">◈</span><span contenteditable="true">توفير قابل للقياس</span></h3>
+              <p contenteditable="true">فترة استرداد أقل من سنة واحدة على مستوى الوحدة الكاملة.</p>
+            </div>
+            <div class="card">
+              <h3><span class="num">◈</span><span contenteditable="true">دعم رؤية 2030</span></h3>
+              <p contenteditable="true">مدن ذكية، بنية تحتية مستدامة، وتقليل البصمة الكربونية.</p>
+            </div>
+          </div>
+        </div>
+      `
+    },
+
+    /* ============================================================
+       SLIDE 3 — PROBLEM
+       ============================================================ */
+    {
+      id:'s3', type:'standard', title:'المشكلة',
+      render: () => `
+        <h2 class="sl-title" contenteditable="true">المشكلة: التكييف التقليدي غير مستدام</h2>
+        <div class="sl-divider"></div>
+        <div class="sl-body">
+          <div class="grid-3" style="margin-bottom:8px;">
+            <div class="metric orange">
+              <div class="v">70%</div>
+              <div class="l">من كهرباء المبنى تذهب للتكييف</div>
+            </div>
+            <div class="metric purple">
+              <div class="v">×4000</div>
+              <div class="l">معدل احترار غازات HFCs مقارنة بـ CO₂</div>
+            </div>
+            <div class="metric">
+              <div class="v">395%</div>
+              <div class="l">نمو الطلب العالمي على التكييف بحلول 2050</div>
+            </div>
+          </div>
+
+          <div class="grid-2">
+            <div class="card">
+              <h3><span class="num">!</span><span contenteditable="true">مشاكل الأنظمة التقليدية</span></h3>
+              <ul class="sl-list orange" style="margin-top:8px;">
+                <li><span class="ic">×</span><span contenteditable="true">استهلاك كهرباء مرتفع (25-40 kWh/يوم للوحدة)</span></li>
+                <li><span class="ic">×</span><span contenteditable="true">غازات تبريد HFCs ضارة بالبيئة</span></li>
+                <li><span class="ic">×</span><span contenteditable="true">ضوضاء عالية (60-75 dB)</span></li>
+                <li><span class="ic">×</span><span contenteditable="true">عمر افتراضي قصير (10-15 سنة)</span></li>
+                <li><span class="ic">×</span><span contenteditable="true">تكاليف صيانة متكررة ومرتفعة</span></li>
+              </ul>
+            </div>
+
+            <div class="card">
+              <h3><span class="num">◈</span><span contenteditable="true">الفرصة المتاحة</span></h3>
+              <ul class="sl-list green" style="margin-top:8px;">
+                <li><span class="ic">✓</span><span contenteditable="true">سوق التبريد السلبي العالمي: 30 مليار → 150 مليار بحلول 2050</span></li>
+                <li><span class="ic">✓</span><span contenteditable="true">التبريد المغناطيسي: نمو سنوي 38.5%</span></li>
+                <li><span class="ic">✓</span><span contenteditable="true">التبريد الإشعاعي: نمو سنوي 26.76%</span></li>
+                <li><span class="ic">✓</span><span contenteditable="true">السوق السعودي: طلب +50% بحلول 2030</span></li>
+                <li><span class="ic">✓</span><span contenteditable="true">دعم حكومي لمشاريع كفاءة الطاقة والاستدامة</span></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      `
+    },
+
+    /* ============================================================
+       SLIDE 4 — SOLUTION OVERVIEW
+       ============================================================ */
+    {
+      id:'s4', type:'standard', title:'الحل — خمس تقنيات في نظام واحد',
+      render: () => `
+        <h2 class="sl-title" contenteditable="true">الحل: خمس تقنيات في نظام واحد</h2>
+        <div class="sl-subtitle" contenteditable="true">تكامل غير مسبوق بين خمس تقنيات تعمل مع الطبيعة لا ضدها</div>
+        <div class="sl-body">
+          <div class="grid-5">
+            <div class="card" style="text-align:center;">
+              <div style="font-size:30px; margin-bottom:8px;">❄</div>
+              <h3 style="justify-content:center; font-size:13px;"><span contenteditable="true">تبريد إشعاعي فضائي</span></h3>
+              <p style="font-size:11.5px; text-align:center;" contenteditable="true">بثّ الحرارة إلى الفضاء عبر نافذة 8-13 µm</p>
+            </div>
+            <div class="card" style="text-align:center;">
+              <div style="font-size:30px; margin-bottom:8px;">☀</div>
+              <h3 style="justify-content:center; font-size:13px;"><span contenteditable="true">تجفيف شمسي</span></h3>
+              <p style="font-size:11.5px; text-align:center;" contenteditable="true">عجلة سيليكا جل + تجديد بحرارة الشمس</p>
+            </div>
+            <div class="card" style="text-align:center;">
+              <div style="font-size:30px; margin-bottom:8px;">⚛</div>
+              <h3 style="justify-content:center; font-size:13px;"><span contenteditable="true">تبريد مغناطيسي</span></h3>
+              <p style="font-size:11.5px; text-align:center;" contenteditable="true">تأثير مغناطيسي حراري بدون ضاغط أو غاز</p>
+            </div>
+            <div class="card" style="text-align:center;">
+              <div style="font-size:30px; margin-bottom:8px;">▣</div>
+              <h3 style="justify-content:center; font-size:13px;"><span contenteditable="true">تخزين PCM</span></h3>
+              <p style="font-size:11.5px; text-align:center;" contenteditable="true">شحن ليلي وتفريغ نهاري — تقليل الذروة</p>
+            </div>
+            <div class="card" style="text-align:center;">
+              <div style="font-size:30px; margin-bottom:8px;">◈</div>
+              <h3 style="justify-content:center; font-size:13px;"><span contenteditable="true">تحكم ذكاء اصطناعي</span></h3>
+              <p style="font-size:11.5px; text-align:center;" contenteditable="true">تنبؤ + تحسين متعدد الأهداف</p>
+            </div>
+          </div>
+
+          <div class="card" style="margin-top:8px; background:linear-gradient(150deg, rgba(40,100,160,0.35), rgba(60,30,120,0.3)); border-color:rgba(120,180,255,0.4);">
+            <p style="text-align:center; font-size:14px; color:#c5e2f5; font-weight:600;" contenteditable="true">
+              ◈ لا يوجد نظام تجاري في العالم يجمع هذه التقنيات الخمس في منظومة واحدة متكاملة — Quantum Breeze هو الأول من نوعه.
+            </p>
+          </div>
+        </div>
+      `
+    },
+
+    /* ============================================================
+       SLIDE 5 — HOW IT WORKS
+       ============================================================ */
+    {
+      id:'s5', type:'standard', title:'آلية العمل',
+      render: () => `
+        <h2 class="sl-title" contenteditable="true">آلية العمل — الدورة المتكاملة</h2>
+        <div class="sl-divider"></div>
+        <div class="sl-body">
+          <div style="display:flex; flex-direction:column; gap:9px;">
+            ${[
+              ['1','استقبال','الهواء الساخن الرطب يعود من المبنى عبر مجرى الرجوع عند 32°C.','#ff8a5c'],
+              ['2','تجفيف شمسي','عجلة السيليكا جل تمتص الرطوبة، ولوح شمسي يجدّد العجلة. انخفاض ~40% في الرطوبة.','#7fe9ff'],
+              ['3','تبريد مغناطيسي','القلب المعدني يخضع لدورة مغناطيسية. الماء ينقل الحرارة إلى خزان PCM. لا ضاغط، لا غاز.','#ff8a5c'],
+              ['4','تخزين حراري PCM','مادة متغيرة الطور تُشحن بالبرودة ليلاً وتُفرّغ نهاراً، ما يُزيح الذروة الكهربائية.','#5cffb0'],
+              ['5','تبريد إشعاعي','ألواح على السطح تُشع الحرارة مباشرة إلى الفضاء (8-13 µm) بدون أي استهلاك كهرباء.','#c48bff'],
+              ['6','توزيع ذكي','وحدة AI تُحسّن توزيع الهواء والماء بين المراحل وتدفع الهواء البارد للمبنى.','#ffd75c']
+            ].map(([n,t,d,c]) => `
+              <div style="display:flex; align-items:center; gap:14px; padding:11px 16px; border-radius:10px;
+                          background:linear-gradient(150deg, rgba(14,36,60,0.55), rgba(8,20,38,0.4));
+                          border-right:4px solid ${c}; border-top:1px solid rgba(80,200,255,0.1);">
+                <div style="flex-shrink:0; width:34px; height:34px; border-radius:9px;
+                            background:linear-gradient(135deg, ${c}, ${c}99);
+                            display:flex; align-items:center; justify-content:center;
+                            font-size:15px; font-weight:900; color:#031020;">${n}</div>
+                <div style="flex:1;">
+                  <div style="font-size:13.5px; font-weight:800; color:${c}; margin-bottom:2px;" contenteditable="true">${t}</div>
+                  <div style="font-size:12.5px; color:#b0cbe0; line-height:1.55;" contenteditable="true">${d}</div>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `
+    },
+
+    /* ============================================================
+       SLIDE 6 — TECHNICAL SPECS
+       ============================================================ */
+    {
+      id:'s6', type:'standard', title:'المواصفات الفنية',
+      render: () => `
+        <h2 class="sl-title" contenteditable="true">المواصفات الفنية</h2>
+        <div class="sl-subtitle" contenteditable="true">قياسات مبنية على النموذج الأولي والمراجع العلمية</div>
+        <div class="sl-body">
+          <div class="grid-2" style="gap:16px;">
+            <div>
+              <table class="sl-table">
+                <thead><tr><th>المواصفة</th><th>القيمة</th></tr></thead>
+                <tbody>
+                  <tr><td contenteditable="true">سعة التبريد</td><td class="good" contenteditable="true">3.5 kW</td></tr>
+                  <tr><td contenteditable="true">هواء الإمداد</td><td class="good" contenteditable="true">13-15 °C</td></tr>
+                  <tr><td contenteditable="true">هواء الرجوع</td><td contenteditable="true">30-34 °C</td></tr>
+                  <tr><td contenteditable="true">معدل التدفق</td><td contenteditable="true">600 m³/h</td></tr>
+                  <tr><td contenteditable="true">قدرة الضاغط</td><td class="good" contenteditable="true">0 kW</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div>
+              <table class="sl-table">
+                <thead><tr><th>المواصفة</th><th>القيمة</th></tr></thead>
+                <tbody>
+                  <tr><td contenteditable="true">COP الفعلي</td><td class="good" contenteditable="true">7.2 - 7.8</td></tr>
+                  <tr><td contenteditable="true">استهلاك كهرباء</td><td class="good" contenteditable="true">2-5 kWh/يوم</td></tr>
+                  <tr><td contenteditable="true">مستوى الصوت</td><td class="good" contenteditable="true">20-30 dB</td></tr>
+                  <tr><td contenteditable="true">غاز التبريد</td><td class="good" contenteditable="true">0 كجم</td></tr>
+                  <tr><td contenteditable="true">العمر التشغيلي</td><td class="good" contenteditable="true">25 سنة</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="grid-4" style="margin-top:12px;">
+            <div class="metric">
+              <div class="v">0.8-1.5 T</div>
+              <div class="l">شدة المجال المغناطيسي</div>
+            </div>
+            <div class="metric green">
+              <div class="v">12 °C</div>
+              <div class="l">ΔT دورة مغناطيسية</div>
+            </div>
+            <div class="metric purple">
+              <div class="v">8-13 µm</div>
+              <div class="l">نافذة الإشعاع الفضائي</div>
+            </div>
+            <div class="metric orange">
+              <div class="v">~80 W/m²</div>
+              <div class="l">الطاقة المُشعة</div>
+            </div>
+          </div>
+        </div>
+      `
+    },
+
+    /* ============================================================
+       SLIDE 7 — COMPARISON
+       ============================================================ */
+    {
+      id:'s7', type:'standard', title:'مقارنة مع الأنظمة التقليدية',
+      render: () => `
+        <h2 class="sl-title" contenteditable="true">المقارنة مع الأنظمة التقليدية</h2>
+        <div class="sl-divider"></div>
+        <div class="sl-body">
+          <table class="sl-table" style="font-size:13.5px;">
+            <thead>
+              <tr>
+                <th style="width:30%;">المعيار</th>
+                <th style="text-align:center;">التكييف التقليدي</th>
+                <th style="text-align:center;">Quantum Breeze</th>
+                <th style="text-align:center;">الفرق</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td contenteditable="true">استهلاك الكهرباء</td>
+                <td class="bad" style="text-align:center;" contenteditable="true">25-40 kWh/يوم</td>
+                <td class="good" style="text-align:center;" contenteditable="true">2-5 kWh/يوم</td>
+                <td class="good" style="text-align:center;" contenteditable="true">−80%</td>
+              </tr>
+              <tr>
+                <td contenteditable="true">غاز التبريد</td>
+                <td class="bad" style="text-align:center;" contenteditable="true">HFCs (GWP 4000)</td>
+                <td class="good" style="text-align:center;" contenteditable="true">لا يوجد</td>
+                <td class="good" style="text-align:center;" contenteditable="true">100%</td>
+              </tr>
+              <tr>
+                <td contenteditable="true">مستوى الصوت</td>
+                <td class="bad" style="text-align:center;" contenteditable="true">60-75 dB</td>
+                <td class="good" style="text-align:center;" contenteditable="true">20-30 dB</td>
+                <td class="good" style="text-align:center;" contenteditable="true">−60%</td>
+              </tr>
+              <tr>
+                <td contenteditable="true">العمر الافتراضي</td>
+                <td class="bad" style="text-align:center;" contenteditable="true">10-15 سنة</td>
+                <td class="good" style="text-align:center;" contenteditable="true">25 سنة</td>
+                <td class="good" style="text-align:center;" contenteditable="true">+80%</td>
+              </tr>
+              <tr>
+                <td contenteditable="true">البصمة الكربونية</td>
+                <td class="bad" style="text-align:center;" contenteditable="true">عالية جداً</td>
+                <td class="good" style="text-align:center;" contenteditable="true">منخفضة</td>
+                <td class="good" style="text-align:center;" contenteditable="true">−80%</td>
+              </tr>
+              <tr>
+                <td contenteditable="true">الصيانة السنوية</td>
+                <td class="bad" style="text-align:center;" contenteditable="true">مرتفعة ومتكررة</td>
+                <td class="good" style="text-align:center;" contenteditable="true">منخفضة</td>
+                <td class="good" style="text-align:center;" contenteditable="true">−70%</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      `
+    },
+
+    /* ============================================================
+       SLIDE 8 — MARKET
+       ============================================================ */
+    {
+      id:'s8', type:'standard', title:'السوق المستهدف',
+      render: () => `
+        <h2 class="sl-title" contenteditable="true">السوق المستهدف وحجم النمو</h2>
+        <div class="sl-subtitle" contenteditable="true">أرقام مبنية على تقارير صناعية منشورة</div>
+        <div class="sl-body">
+          <table class="sl-table" style="font-size:13px;">
+            <thead>
+              <tr>
+                <th>السوق</th>
+                <th style="text-align:center;">الحجم الحالي</th>
+                <th style="text-align:center;">النمو المتوقع</th>
+                <th style="text-align:center;">نسبة النمو السنوي</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td contenteditable="true">التبريد السلبي عالمياً</td>
+                <td class="good" style="text-align:center;" contenteditable="true">30 مليار $</td>
+                <td class="good" style="text-align:center;" contenteditable="true">150 مليار $ بحلول 2050</td>
+                <td class="good" style="text-align:center;" contenteditable="true">—</td>
+              </tr>
+              <tr>
+                <td contenteditable="true">التبريد المغناطيسي</td>
+                <td style="text-align:center;" contenteditable="true">0.30 مليار $ (2026)</td>
+                <td class="good" style="text-align:center;" contenteditable="true">1.53 مليار $ (2031)</td>
+                <td class="good" style="text-align:center;" contenteditable="true">38.5%</td>
+              </tr>
+              <tr>
+                <td contenteditable="true">التبريد الإشعاعي</td>
+                <td style="text-align:center;" contenteditable="true">3.18 مليون $ (2021)</td>
+                <td class="good" style="text-align:center;" contenteditable="true">371 مليون $ (2032)</td>
+                <td class="good" style="text-align:center;" contenteditable="true">26.76%</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="grid-3" style="margin-top:14px;">
+            <div class="card">
+              <h3><span class="num">◈</span><span contenteditable="true">العملاء المستهدفون</span></h3>
+              <ul class="sl-list" style="margin-top:6px; font-size:12px;">
+                <li><span class="ic">◈</span><span contenteditable="true">وزارة الإسكان</span></li>
+                <li><span class="ic">◈</span><span contenteditable="true">شركات التطوير العقاري</span></li>
+                <li><span class="ic">◈</span><span contenteditable="true">مراكز البيانات</span></li>
+                <li><span class="ic">◈</span><span contenteditable="true">المستشفيات والمجمعات الطبية</span></li>
+              </ul>
+            </div>
+            <div class="card">
+              <h3><span class="num">◈</span><span contenteditable="true">الميزة التنافسية</span></h3>
+              <ul class="sl-list green" style="margin-top:6px; font-size:12px;">
+                <li><span class="ic">✓</span><span contenteditable="true">لا يوجد منافس مباشر</span></li>
+                <li><span class="ic">✓</span><span contenteditable="true">براءات اختراع قابلة للتسجيل</span></li>
+                <li><span class="ic">✓</span><span contenteditable="true">تكلفة تشغيل شبه معدومة</span></li>
+                <li><span class="ic">✓</span><span contenteditable="true">توافق مع رؤية 2030</span></li>
+              </ul>
+            </div>
+            <div class="card">
+              <h3><span class="num">◈</span><span contenteditable="true">السوق السعودي</span></h3>
+              <p style="font-size:12px; line-height:1.7;" contenteditable="true">
+                70% من كهرباء المباني للتكييف، والطلب سيرتفع 50% بحلول 2030. فرصة كبيرة لحلول كفاءة الطاقة.
+              </p>
+            </div>
+          </div>
+        </div>
+      `
+    },
+
+    /* ============================================================
+       SLIDE 9 — ECONOMICS
+       ============================================================ */
+    {
+      id:'s9', type:'standard', title:'الجدوى الاقتصادية',
+      render: () => `
+        <h2 class="sl-title" contenteditable="true">الجدوى الاقتصادية</h2>
+        <div class="sl-subtitle" contenteditable="true">فترة استرداد قصيرة، وقيمة طويلة الأمد</div>
+        <div class="sl-body">
+          <div class="grid-2" style="gap:16px;">
+            <div>
+              <table class="sl-table">
+                <thead><tr><th>المكوّن</th><th>التكلفة (ريال)</th></tr></thead>
+                <tbody>
+                  <tr><td contenteditable="true">ألواح تبريد إشعاعي (5 م²)</td><td style="text-align:left;" contenteditable="true">500</td></tr>
+                  <tr><td contenteditable="true">محقق شمسي + مروحة</td><td style="text-align:left;" contenteditable="true">200</td></tr>
+                  <tr><td contenteditable="true">خزان PCM (20 لتر)</td><td style="text-align:left;" contenteditable="true">150</td></tr>
+                  <tr><td contenteditable="true">Arduino / Raspberry Pi + حساسات</td><td style="text-align:left;" contenteditable="true">300</td></tr>
+                  <tr><td contenteditable="true">هيكل + أنابيب + توصيلات</td><td style="text-align:left;" contenteditable="true">350</td></tr>
+                  <tr style="background:rgba(80,200,255,0.08);">
+                    <td style="font-weight:800; color:#7fe9ff;" contenteditable="true">المجموع (نموذج أولي)</td>
+                    <td class="good" style="text-align:left; font-weight:800;" contenteditable="true">1,500</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div style="display:flex; flex-direction:column; gap:10px;">
+              <div class="metric green" style="padding:18px;">
+                <div class="v" style="font-size:36px;">سنة واحدة</div>
+                <div class="l">فترة استرداد الاستثمار</div>
+              </div>
+              <div class="card">
+                <h3><span class="num">◈</span><span contenteditable="true">نموذج الأعمال</span></h3>
+                <ul class="sl-list" style="margin-top:6px; font-size:12px;">
+                  <li><span class="ic">◈</span><span contenteditable="true">بيع الوحدة: 15,000 – 25,000 ريال</span></li>
+                  <li><span class="ic">◈</span><span contenteditable="true">تأجير شهري: 500 – 800 ريال</span></li>
+                  <li><span class="ic">◈</span><span contenteditable="true">عقد صيانة سنوي: 1,000 – 2,000 ريال</span></li>
+                  <li><span class="ic">◈</span><span contenteditable="true">العمر التشغيلي: 25 – 30 سنة</span></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      `
+    },
+
+    /* ============================================================
+       SLIDE 10 — PROTOTYPE PLAN
+       ============================================================ */
+    {
+      id:'s10', type:'standard', title:'خطة النموذج الأولي',
+      render: () => `
+        <h2 class="sl-title" contenteditable="true">النموذج الأولي — ما سيُبنى خلال الهاكاثون</h2>
+        <div class="sl-divider"></div>
+        <div class="sl-body">
+          <div class="grid-3">
+            <div class="card">
+              <h3><span class="num">1</span><span contenteditable="true">اليوم الأول</span></h3>
+              <p contenteditable="true">بناء لوح تبريد إشعاعي مصغّر + تركيب حساسات حرارة.</p>
+            </div>
+            <div class="card">
+              <h3><span class="num">2</span><span contenteditable="true">اليوم الثاني</span></h3>
+              <p contenteditable="true">بناء مجفف شمسي بسيط + خزان PCM + برمجة Arduino.</p>
+            </div>
+            <div class="card">
+              <h3><span class="num">3</span><span contenteditable="true">اليوم الثالث</span></h3>
+              <p contenteditable="true">عرض حي: قياس فرق الحرارة قبل وبعد النظام.</p>
+            </div>
+          </div>
+
+          <div class="card" style="margin-top:8px;">
+            <h3><span class="num">◈</span><span contenteditable="true">المكونات الرئيسية</span></h3>
+            <ul class="sl-list" style="margin-top:8px;">
+              <li><span class="ic">◈</span><span contenteditable="true">لوح تبريد إشعاعي — طبقة بوليمرية نافذة في 8-13 µm</span></li>
+              <li><span class="ic">◈</span><span contenteditable="true">مجفف شمسي — عجلة سيليكا جل + لوح تسخين شمسي</span></li>
+              <li><span class="ic">◈</span><span contenteditable="true">خزان PCM — شمع برافيني RT-12 بسعة 20 لتر</span></li>
+              <li><span class="ic">◈</span><span contenteditable="true">حساسات حرارة ورطوبة + Arduino/Raspberry Pi</span></li>
+              <li><span class="ic">◈</span><span contenteditable="true">الميزانية الكلية: أقل من 1,500 ريال</span></li>
+            </ul>
+          </div>
+        </div>
+      `
+    },
+
+    /* ============================================================
+       SLIDE 11 — RISKS & ROADMAP
+       ============================================================ */
+    {
+      id:'s11', type:'standard', title:'المخاطر وخارطة الطريق',
+      render: () => `
+        <h2 class="sl-title" contenteditable="true">المخاطر وخارطة الطريق</h2>
+        <div class="sl-divider"></div>
+        <div class="sl-body">
+          <div class="grid-2" style="gap:16px;">
+            <div>
+              <h3 style="font-size:14px; color:#7fe9ff; margin-bottom:8px; font-weight:800;" contenteditable="true">◈ إدارة المخاطر</h3>
+              <table class="sl-table" style="font-size:11.5px;">
+                <thead><tr><th>الخطر</th><th>التخفيف</th></tr></thead>
+                <tbody>
+                  <tr><td contenteditable="true">تأثير الحرارة على الألواح الإشعاعية</td><td contenteditable="true">تعويض حراري في الخوارزمية</td></tr>
+                  <tr><td contenteditable="true">صحيح البيانات من الحساسات</td><td contenteditable="true">تحليل طيفي متقدم</td></tr>
+                  <tr><td contenteditable="true">ميزانية محدودة (< 1,500 ريال)</td><td contenteditable="true">استخدام Arduino/Raspberry Pi</td></tr>
+                  <tr><td contenteditable="true">اعتماد على الشمس</td><td contenteditable="true">تخزين PCM يشحن ليلاً</td></tr>
+                  <tr><td contenteditable="true">معايرة على خط الأساس</td><td contenteditable="true">معايرة ميدانية مسبقة</td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div>
+              <h3 style="font-size:14px; color:#7fe9ff; margin-bottom:8px; font-weight:800;" contenteditable="true">◈ خارطة الطريق</h3>
+              <div style="display:flex; flex-direction:column; gap:8px;">
+                ${[
+                  ['2026','نموذج مخبري مصغّر — خلال الهاكاثون','#5cffb0'],
+                  ['2026-2027','تجربة ميدانية على مبنى حكومي','#7fe9ff'],
+                  ['2029','معايرة العتبات وتوسيع التطبيقات','#c48bff'],
+                  ['منصة سحابية لعدة مدن','ربط وتشغيل شبكي','#ffd75c']
+                ].map(([y,t,c]) => `
+                  <div style="display:flex; align-items:center; gap:12px; padding:10px 14px;
+                              background:linear-gradient(150deg, rgba(14,36,60,0.5), rgba(8,20,38,0.35));
+                              border-radius:9px; border-right:3px solid ${c};">
+                    <div style="font-size:12px; font-weight:900; color:${c}; min-width:70px;" contenteditable="true">${y}</div>
+                    <div style="font-size:12px; color:#c5ddef;" contenteditable="true">${t}</div>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          </div>
+        </div>
+      `
+    },
+
+    /* ============================================================
+       SLIDE 12 — TEAM & CONTACT
+       ============================================================ */
+    {
+      id:'s12', type:'standard', title:'الفريق والتواصل',
+      render: () => `
+        <h2 class="sl-title" contenteditable="true">الفريق والتواصل</h2>
+        <div class="sl-subtitle" contenteditable="true">فريق متعدد التخصصات بخبرة عملية في HVAC والهندسة المدنية</div>
+
+        <div class="team-grid" style="margin-top:8px;">
+          <div class="team-card">
+            <div style="display:flex; align-items:center; gap:16px;">
+              <div class="avatar">أح</div>
+              <div>
+                <div class="name" contenteditable="true">م. أحمد علي بوكر نسيب العقيلي</div>
+                <div class="role" contenteditable="true">مهندس ميكانيكي · HVAC</div>
+              </div>
+            </div>
+            <div class="info-list">
+              <div class="info-item ar">
+                <span class="ic2">🏢</span>
+                <span><strong style="color:#7fe9ff;">مقر العمل:</strong> <span contenteditable="true">تجمع الصحي بجازان</span></span>
+              </div>
+              <div class="info-item">
+                <span class="ic2">📱</span>
+                <span><strong style="color:#7fe9ff;">الجوال:</strong> <span contenteditable="true" dir="ltr">0507426388</span></span>
+              </div>
+              <div class="info-item">
+                <span class="ic2">✉</span>
+                <span><strong style="color:#7fe9ff;">الإيميل:</strong> <span contenteditable="true" dir="ltr">Eng.ahmad.2011bokar@gmail.com</span></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="team-card">
+            <div style="display:flex; align-items:center; gap:16px;">
+              <div class="avatar" style="background:linear-gradient(135deg,#a06bff,#2aa8ff);">عز</div>
+              <div>
+                <div class="name" contenteditable="true">م. عبدالرحمن زين يحيى صهلولي المنيفي</div>
+                <div class="role" contenteditable="true">مهندس مدني</div>
+              </div>
+            </div>
+            <div class="info-list">
+              <div class="info-item ar">
+                <span class="ic2">🏢</span>
+                <span><strong style="color:#7fe9ff;">مقر العمل:</strong> <span contenteditable="true">إدارة مشاريع أرامكو</span></span>
+              </div>
+              <div class="info-item">
+                <span class="ic2">📱</span>
+                <span><strong style="color:#7fe9ff;">الجوال:</strong> <span contenteditable="true" dir="ltr">+966 50 275 5666</span></span>
+              </div>
+              <div class="info-item">
+                <span class="ic2">✉</span>
+                <span><strong style="color:#7fe9ff;">الإيميل:</strong> <span contenteditable="true" dir="ltr">azys313@gmail.com</span></span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:12px; text-align:center; background:linear-gradient(150deg,rgba(40,100,160,0.35),rgba(60,30,120,0.3)); border-color:rgba(120,180,255,0.4);">
+          <p style="font-size:14px; color:#c5e2f5; line-height:1.7;" contenteditable="true">
+            <strong style="color:#7fe9ff;">◈ Quantum Breeze</strong> — نحو تكييف يعمل مع الطبيعة لا ضدها، ومدن سعودية ذكية ومستدامة تدعم رؤية 2030.
+          </p>
+        </div>
+      `
+    }
+  ]
+};
+
+/* ================================================================
+   STATE + PERSISTENCE
+   ================================================================ */
+const STORAGE_KEY = 'quantum_breeze_presentation_v2';
+let DATA = JSON.parse(JSON.stringify(DEFAULT_DATA));
+let currentSlide = 0;
+let editing = false;
+
+function loadFromStorage() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      // Re-render function refs from DEFAULT_DATA, override editable HTML
+      if (parsed.edits) {
+        DATA.edits = parsed.edits;
+      }
+    }
+  } catch(e) { console.warn('load failed', e); }
+}
+
+/* Because render() returns HTML, we store *edits* separately: 
+   key = "slideId:pathIndex", value = innerHTML of element.
+   Simpler approach: store the full rendered HTML of each slide after edits. */
+let SLIDE_HTML = {};
+
+function saveToStorage() {
+  try {
+    const payload = {
+      edits: SLIDE_HTML,
+      currentSlide,
+      savedAt: Date.now()
+    };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+    flashSaved();
+  } catch(e) { console.warn('save failed', e); }
+}
+
+function flashSaved() {
+  const el = document.getElementById('saveStatusText');
+  const wrap = document.getElementById('saveStatus');
+  el.textContent = 'تم الحفظ';
+  wrap.style.color = '#5cffb0';
+  clearTimeout(flashSaved._h);
+  flashSaved._h = setTimeout(() => {
+    el.textContent = 'تم الحفظ';
+  }, 800);
+}
+
+/* ================================================================
+   RENDER
+   ================================================================ */
+function renderSlide() {
+  const slide = DATA.slides[currentSlide];
+  const el = document.getElementById('slideContent');
+
+  // capture saved HTML if exists, else render fresh
+  if (SLIDE_HTML[slide.id]) {
+    el.innerHTML = SLIDE_HTML[slide.id];
+  } else {
+    el.innerHTML = slide.render();
+  }
+
+  // Add slide number badge + brand
+  const numBadge = document.createElement('div');
+  numBadge.className = 'slide-num-badge';
+  numBadge.textContent = String(currentSlide + 1).padStart(2,'0') + ' / ' + String(DATA.slides.length).padStart(2,'0');
+  el.appendChild(numBadge);
+
+  const brand = document.createElement('div');
+  brand.className = 'slide-brand';
+  brand.textContent = 'QUANTUM BREEZE';
+  el.appendChild(brand);
+
+  // apply editable state
+  el.querySelectorAll('[contenteditable]').forEach(e => {
+    e.setAttribute('contenteditable', editing ? 'true' : 'false');
+  });
+
+  // progress
+  document.getElementById('progressFill').style.width =
+    ((currentSlide + 1) / DATA.slides.length * 100) + '%';
+
+  // nav
+  document.getElementById('curNum').textContent = currentSlide + 1;
+  document.getElementById('totalNum').textContent = DATA.slides.length;
+  document.getElementById('navFirst').disabled = currentSlide === 0;
+  document.getElementById('navPrev').disabled = currentSlide === 0;
+  document.getElementById('navNext').disabled = currentSlide === DATA.slides.length - 1;
+  document.getElementById('navLast').disabled = currentSlide === DATA.slides.length - 1;
+
+  // sidebar active
+  document.querySelectorAll('.sb-item').forEach((it, i) => {
+    it.classList.toggle('active', i === currentSlide);
+  });
+
+  // fade-in animation
+  el.style.animation = 'none';
+  void el.offsetHeight;
+  el.style.animation = 'slideFadeIn .5s ease';
+}
+
+function buildSidebar() {
+  const list = document.getElementById('sbList');
+  list.innerHTML = '';
+  DATA.slides.forEach((s, i) => {
+    const it = document.createElement('div');
+    it.className = 'sb-item' + (i === currentSlide ? ' active' : '');
+    it.innerHTML = `
+      <div class="num">${String(i+1).padStart(2,'0')}</div>
+      <div class="t">${s.title}</div>
+    `;
+    it.onclick = () => { goToSlide(i); closeSidebar(); };
+    list.appendChild(it);
+  });
+}
+
+/* ================================================================
+   NAVIGATION
+   ================================================================ */
+function goToSlide(i) {
+  if (editing) {
+    // save current slide's edits before switching
+    const slide = DATA.slides[currentSlide];
+    const el = document.getElementById('slideContent');
+    if (el) {
+      const clone = el.cloneNode(true);
+      // remove the injected badge + brand
+      clone.querySelectorAll('.slide-num-badge, .slide-brand').forEach(n => n.remove());
+      SLIDE_HTML[slide.id] = clone.innerHTML;
+      saveToStorage();
+    }
+  }
+  currentSlide = Math.max(0, Math.min(DATA.slides.length - 1, i));
+  renderSlide();
+  buildSidebar();
+}
+
+function nextSlide() { goToSlide(currentSlide + 1); }
+function prevSlide() { goToSlide(currentSlide - 1); }
+
+document.getElementById('navFirst').onclick = () => goToSlide(0);
+document.getElementById('navPrev').onclick = prevSlide;
+document.getElementById('navNext').onclick = nextSlide;
+document.getElementById('navLast').onclick = () => goToSlide(DATA.slides.length - 1);
+
+document.addEventListener('keydown', (e) => {
+  if (editing && e.target.matches('[contenteditable="true"]')) return;
+  if (e.key === 'ArrowLeft') { e.preventDefault(); nextSlide(); }
+  if (e.key === 'ArrowRight') { e.preventDefault(); prevSlide(); }
+  if (e.key === 'Home') goToSlide(0);
+  if (e.key === 'End') goToSlide(DATA.slides.length - 1);
+  if (e.key === 'F5') { e.preventDefault(); enterEditMode(); }
+  if (e.key === 'Escape' && editing) exitEditMode();
+});
+
+/* ================================================================
+   SIDEBAR
+   ================================================================ */
+const sidebar = document.getElementById('sidebar');
+function openSidebar() { sidebar.classList.add('open'); }
+function closeSidebar() { sidebar.classList.remove('open'); }
+document.getElementById('btnSidebar').onclick = () => sidebar.classList.toggle('open');
+document.getElementById('sbClose').onclick = closeSidebar;
+
+/* ================================================================
+   EDIT MODE
+   ================================================================ */
+function enterEditMode() {
+  editing = true;
+  document.body.classList.add('editing');
+  document.getElementById('btnEdit').classList.add('primary');
+  document.getElementById('btnEdit').textContent = '✓ حفظ التحرير';
+  renderSlide();
+  toast('وضع التحرير مُفعّل — انقر أي نص لتعديله', 'success');
+}
+function exitEditMode() {
+  editing = false;
+  document.body.classList.remove('editing');
+  document.getElementById('btnEdit').classList.remove('primary');
+  document.getElementById('btnEdit').textContent = '✎ تحرير';
+
+  // save current
+  const slide = DATA.slides[currentSlide];
+  const el = document.getElementById('slideContent');
+  if (el) {
+    const clone = el.cloneNode(true);
+    clone.querySelectorAll('.slide-num-badge, .slide-brand').forEach(n => n.remove());
+    SLIDE_HTML[slide.id] = clone.innerHTML;
+    saveToStorage();
+  }
+  renderSlide();
+  toast('تم حفظ التعديلات', 'success');
+}
+document.getElementById('btnEdit').onclick = () => {
+  if (editing) exitEditMode(); else enterEditMode();
+};
+
+// Auto-save on input in editable
+document.addEventListener('input', (e) => {
+  if (editing && e.target.matches('[contenteditable="true"]')) {
+    clearTimeout(window._autoSaveH);
+    window._autoSaveH = setTimeout(() => {
+      const slide = DATA.slides[currentSlide];
+      const el = document.getElementById('slideContent');
+      const clone = el.cloneNode(true);
+      clone.querySelectorAll('.slide-num-badge, .slide-brand').forEach(n => n.remove());
+      SLIDE_HTML[slide.id] = clone.innerHTML;
+      saveToStorage();
+    }, 700);
+  }
+});
+
+/* ================================================================
+   RESET
+   ================================================================ */
+document.getElementById('btnReset').onclick = () => {
+  if (!confirm('هل تريد استعادة النسخة الأصلية؟ سيتم فقدان جميع التعديلات.')) return;
+  SLIDE_HTML = {};
+  localStorage.removeItem(STORAGE_KEY);
+  DATA = JSON.parse(JSON.stringify(DEFAULT_DATA));
+  currentSlide = 0;
+  renderSlide();
+  buildSidebar();
+  toast('تمت استعادة النسخة الأصلية', 'success');
+};
+
+/* ================================================================
+   EXPORT / IMPORT JSON
+   ================================================================ */
+document.getElementById('btnSaveJSON').onclick = () => {
+  const payload = {
+    meta: DATA.meta,
+    edits: SLIDE_HTML,
+    savedAt: new Date().toISOString()
+  };
+  const blob = new Blob([JSON.stringify(payload, null, 2)], { type:'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `Quantum_Breeze_${Date.now()}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+  toast('تم حفظ النسخة', 'success');
+};
+
+document.getElementById('btnLoadJSON').onclick = () => {
+  document.getElementById('fileInput').click();
+};
+document.getElementById('fileInput').onchange = (e) => {
+  const f = e.target.files[0];
+  if (!f) return;
+  const reader = new FileReader();
+  reader.onload = (ev) => {
+    try {
+      const parsed = JSON.parse(ev.target.result);
+      if (parsed.edits) {
+        SLIDE_HTML = parsed.edits;
+        saveToStorage();
+        renderSlide();
+        toast('تم تحميل المشروع بنجاح', 'success');
+      }
+    } catch(err) {
+      toast('ملف غير صالح', 'error');
+    }
+  };
+  reader.readAsText(f);
+};
+
+/* ================================================================
+   EXPORT POWERPOINT
+   ================================================================ */
+document.getElementById('btnExport').onclick = async () => {
+  toast('جاري تجهيز ملف PowerPoint...');
+
+  // ensure latest edits captured
+  if (editing) {
+    const slide = DATA.slides[currentSlide];
+    const el = document.getElementById('slideContent');
+    const clone = el.cloneNode(true);
+    clone.querySelectorAll('.slide-num-badge, .slide-brand').forEach(n => n.remove());
+    SLIDE_HTML[slide.id] = clone.innerHTML;
+  }
+
+  try {
+    const pptx = new PptxGenJS();
+    pptx.layout = 'LAYOUT_16x9';
+    pptx.title = 'Quantum Breeze — عرض المشروع';
+    pptx.subject = 'نظام تكييف مركزي بدون ضاغط وبدون غاز تبريد';
+    pptx.author = 'م. أحمد علي بوكر نسيب العقيلي · م. عبدالرحمن زين يحيى صهلولي المنيفي';
+    pptx.company = 'الهيئة السعودية للمهندسين';
+    pptx.lang = 'ar-SA';
+    pptx.rtlMode = true;
+
+    // Helper: background rect
+    const addBg = (slide) => {
+      slide.background = { color: '060A14' };
+      // subtle top accent
+      slide.addShape(pptx.ShapeType.rect, {
+        x:0, y:0, w:'100%', h:0.06, fill:{ color:'1C6FA8' }
+      });
+      slide.addShape(pptx.ShapeType.rect, {
+        x:0, y:5.56, w:'100%', h:0.07, fill:{ color:'1C6FA8' }
+      });
+    };
+
+    // Helper: header
+    const addHeader = (slide, title, sub) => {
+      slide.addText(title, {
+        x:0.4, y:0.28, w:9.2, h:0.7,
+        fontSize:28, bold:true, color:'7FE9FF',
+        align:'right', fontFace:'Tajawal'
+      });
+      // divider
+      slide.addShape(pptx.ShapeType.rect, {
+        x:8.9, y:1.0, w:0.7, h:0.045, fill:{ color:'2AA8FF' }
+      });
+      if (sub) {
+        slide.addText(sub, {
+          x:0.4, y:0.98, w:9.2, h:0.32,
+          fontSize:12, color:'8AB6D4',
+          align:'right', fontFace:'Tajawal'
+        });
+      }
+    };
+
+    // Helper: number badge
+    const addBrand = (slide, num) => {
+      slide.addText('QUANTUM BREEZE', {
+        x:0.3, y:5.32, w:2.5, h:0.2,
+        fontSize:8, color:'4A7EA0', align:'left', fontFace:'Tajawal', charSpacing:1
+      });
+      slide.addText(`${String(num).padStart(2,'0')} / ${String(DATA.slides.length).padStart(2,'0')}`, {
+        x:8.2, y:5.32, w:1.4, h:0.2,
+        fontSize:8, color:'5A86A8', align:'right', fontFace:'Tajawal', bold:true
+      });
+    };
+
+    // ============ SLIDE 1: TITLE ============
+    {
+      const s = pptx.addSlide();
+      s.background = { color: '050A14' };
+      // gradient-ish top bar
+      s.addShape(pptx.ShapeType.rect, { x:0, y:0, w:'100%', h:0.12, fill:{ color:'3AA8FF' } });
+      s.addShape(pptx.ShapeType.rect, { x:0, y:5.5, w:'100%', h:0.125, fill:{ color:'A06BFF' } });
+
+      s.addText('مسابقة الهيئة السعودية للمهندسين · IECE 2026', {
+        x:0, y:0.45, w:'100%', h:0.3,
+        fontSize:11, color:'7FE9FF', align:'center', fontFace:'Tajawal', bold:true, charSpacing:1
+      });
+
+      s.addText('QUANTUM BREEZE', {
+        x:0, y:1.35, w:'100%', h:1.1,
+        fontSize:66, bold:true, color:'5FF2FF', align:'center', fontFace:'Tajawal', charSpacing:2
+      });
+
+      s.addText('نظام تكييف مركزي بسبق عصره — بدون ضاغط، بدون غاز تبريد', {
+        x:0, y:2.5, w:'100%', h:0.45,
+        fontSize:18, color:'B0CBE0', align:'center', fontFace:'Tajawal'
+      });
+
+      s.addShape(pptx.ShapeType.rect, {
+        x:3.5, y:3.1, w:3, h:0.03, fill:{ color:'2AA8FF' }
+      });
+
+      s.addText('مسار الهندسة والمدن الذكية والإدراكية  ·  تحدي كفاءة الطاقة في المباني', {
+        x:0, y:3.25, w:'100%', h:0.35,
+        fontSize:11.5, color:'8AB6D4', align:'center', fontFace:'Tajawal'
+      });
+
+      // Team cards
+      s.addShape(pptx.ShapeType.roundRect, {
+        x:5.6, y:3.95, w:4.1, h:1.15,
+        fill:{ color:'0E2440' }, line:{ color:'4FD0FF', width:1 }, rectRadius:0.08
+      });
+      s.addText('مقدم الفكرة', {
+        x:5.75, y:4.05, w:3.8, h:0.22,
+        fontSize:9, color:'6A9EC0', align:'right', fontFace:'Tajawal', charSpacing:0.5
+      });
+      s.addText('م. أحمد علي بوكر نسيب العقيلي', {
+        x:5.75, y:4.28, w:3.8, h:0.32,
+        fontSize:13, bold:true, color:'FFFFFF', align:'right', fontFace:'Tajawal'
+      });
+      s.addText('مهندس ميكانيكي · HVAC', {
+        x:5.75, y:4.62, w:3.8, h:0.22,
+        fontSize:10, color:'7FE9FF', align:'right', fontFace:'Tajawal'
+      });
+      s.addText('تجمع الصحي بجازان  ·  0507426388', {
+        x:5.75, y:4.86, w:3.8, h:0.22,
+        fontSize:9, color:'8AB6D4', align:'right', fontFace:'Tajawal'
+      });
+
+      s.addShape(pptx.ShapeType.roundRect, {
+        x:1.3, y:3.95, w:4.1, h:1.15,
+        fill:{ color:'0E2440' }, line:{ color:'C48BFF', width:1 }, rectRadius:0.08
+      });
+      s.addText('مقدم الفكرة', {
+        x:1.45, y:4.05, w:3.8, h:0.22,
+        fontSize:9, color:'6A9EC0', align:'right', fontFace:'Tajawal', charSpacing:0.5
+      });
+      s.addText('م. عبدالرحمن زين يحيى صهلولي المنيفي', {
+        x:1.45, y:4.28, w:3.8, h:0.32,
+        fontSize:12, bold:true, color:'FFFFFF', align:'right', fontFace:'Tajawal'
+      });
+      s.addText('مهندس مدني', {
+        x:1.45, y:4.62, w:3.8, h:0.22,
+        fontSize:10, color:'C48BFF', align:'right', fontFace:'Tajawal'
+      });
+      s.addText('إدارة مشاريع أرامكو  ·  +966 50 275 5666', {
+        x:1.45, y:4.86, w:3.8, h:0.22,
+        fontSize:9, color:'8AB6D4', align:'right', fontFace:'Tajawal'
+      });
+    }
+
+    // ============ SLIDE 2: EXECUTIVE SUMMARY ============
+    {
+      const s = pptx.addSlide();
+      addBg(s);
+      addHeader(s, 'الملخص التنفيذي');
+
+      s.addText('يستهلك التكييف الهوائي 70% من كهرباء المباني في المملكة، ويستخدم غازات تبريد HFCs بمعدل احترار يتجاوز 4000 ضعف ثاني أكسيد الكربون. يقدّم مشروع Quantum Breeze نظام تكييف مركزي مبتكر يدمج خمس تقنيات متقدمة في منظومة واحدة متكاملة — بدون ضاغط، وبدون غاز تبريد، وبكفاءة تفوق الأنظمة التقليدية بنسبة تتراوح بين 70% و 80%.', {
+        x:0.5, y:1.35, w:9, h:1.05,
+        fontSize:12, color:'C5DDEF', align:'right', fontFace:'Tajawal', lineSpacingMultiple:1.4
+      });
+
+      // 4 metrics
+      const metrics = [
+        { v:'70-80%', l:'وفر في الكهرباء', c:'5CFFB0' },
+        { v:'0', l:'ضاغط ميكانيكي', c:'5FF2FF' },
+        { v:'0 kg', l:'غاز تبريد', c:'C48BFF' },
+        { v:'25 سنة', l:'العمر التشغيلي', c:'FFB066' }
+      ];
+      metrics.forEach((m, i) => {
+        const x = 8.9 - i * 2.25;
+        s.addShape(pptx.ShapeType.roundRect, {
+          x:x-2.0, y:2.55, w:2.05, h:0.9,
+          fill:{ color:'0E2440' }, line:{ color:m.c, width:0.75 }, rectRadius:0.06
+        });
+        s.addText(m.v, {
+          x:x-2.0, y:2.62, w:2.05, h:0.42,
+          fontSize:22, bold:true, color:m.c, align:'center', fontFace:'Tajawal'
+        });
+        s.addText(m.l, {
+          x:x-2.0, y:3.08, w:2.05, h:0.28,
+          fontSize:9.5, color:'8AB6D4', align:'center', fontFace:'Tajawal'
+        });
+      });
+
+      // 3 cards
+      const cards = [
+        { t:'دمج غير مسبوق', d:'خمس تقنيات تعمل معاً في نظام واحد — لا يوجد نظير تجاري حالياً.' },
+        { t:'توفير قابل للقياس', d:'فترة استرداد أقل من سنة واحدة على مستوى الوحدة الكاملة.' },
+        { t:'دعم رؤية 2030', d:'مدن ذكية، بنية تحتية مستدامة، وتقليل البصمة الكربونية.' }
+      ];
+      cards.forEach((c, i) => {
+        const x = 8.9 - i * 3.05;
+        s.addShape(pptx.ShapeType.roundRect, {
+          x:x-2.85, y:3.7, w:2.9, h:1.35,
+          fill:{ color:'0A1C32' }, line:{ color:'2AA8FF', width:0.5 }, rectRadius:0.08
+        });
+        s.addText('◈  ' + c.t, {
+          x:x-2.75, y:3.8, w:2.7, h:0.32,
+          fontSize:12, bold:true, color:'7FE9FF', align:'right', fontFace:'Tajawal'
+        });
+        s.addText(c.d, {
+          x:x-2.75, y:4.12, w:2.7, h:0.85,
+          fontSize:10, color:'B0CBE0', align:'right', fontFace:'Tajawal', lineSpacingMultiple:1.35
+        });
+      });
+
+      addBrand(s, 2);
+    }
+
+    // ============ SLIDE 3: PROBLEM ============
+    {
+      const s = pptx.addSlide();
+      addBg(s);
+      addHeader(s, 'المشكلة: التكييف التقليدي غير مستدام');
+
+      const metrics = [
+        { v:'70%', l:'من كهرباء المبنى للتكييف', c:'FFB066' },
+        { v:'×4000', l:'احترار HFCs مقارنة بـ CO₂', c:'C48BFF' },
+        { v:'395%', l:'نمو الطلب العالمي بحلول 2050', c:'5FF2FF' }
+      ];
+      metrics.forEach((m, i) => {
+        const x = 8.9 - i * 3.05;
+        s.addShape(pptx.ShapeType.roundRect, {
+          x:x-2.85, y:1.4, w:2.9, h:0.95,
+          fill:{ color:'0E2440' }, line:{ color:m.c, width:0.75 }, rectRadius:0.06
+        });
+        s.addText(m.v, {
+          x:x-2.85, y:1.48, w:2.9, h:0.46,
+          fontSize:24, bold:true, color:m.c, align:'center', fontFace:'Tajawal'
+        });
+        s.addText(m.l, {
+          x:x-2.85, y:1.98, w:2.9, h:0.3,
+          fontSize:9, color:'8AB6D4', align:'center', fontFace:'Tajawal'
+        });
+      });
+
+      // two cards
+      s.addShape(pptx.ShapeType.roundRect, {
+        x:5.15, y:2.55, w:4.35, h:2.55,
+        fill:{ color:'0A1C32' }, line:{ color:'FF8A5C', width:0.7 }, rectRadius:0.09
+      });
+      s.addText('✕  مشاكل الأنظمة التقليدية', {
+        x:5.3, y:2.65, w:4.1, h:0.35,
+        fontSize:14, bold:true, color:'FF8A5C', align:'right', fontFace:'Tajawal'
+      });
+      s.addText([
+        { text:'• استهلاك كهرباء مرتفع (25-40 kWh/يوم)\n', options:{ fontSize:11, color:'C5DDEF', fontFace:'Tajawal' } },
+        { text:'• غازات تبريد HFCs ضارة بالبيئة\n', options:{ fontSize:11, color:'C5DDEF', fontFace:'Tajawal' } },
+        { text:'• ضوضاء عالية (60-75 dB)\n', options:{ fontSize:11, color:'C5DDEF', fontFace:'Tajawal' } },
+        { text:'• عمر افتراضي قصير (10-15 سنة)\n', options:{ fontSize:11, color:'C5DDEF', fontFace:'Tajawal' } },
+        { text:'• تكاليف صيانة متكررة ومرتفعة', options:{ fontSize:11, color:'C5DDEF', fontFace:'Tajawal' } }
+      ], {
+        x:5.3, y:3.05, w:4.1, h:1.95,
+        align:'right', lineSpacingMultiple:1.5
+      });
+
+      s.addShape(pptx.ShapeType.roundRect, {
+        x:0.5, y:2.55, w:4.35, h:2.55,
+        fill:{ color:'0A1C32' }, line:{ color:'5CFFB0', width:0.7 }, rectRadius:0.09
+      });
+      s.addText('✓  الفرصة المتاحة', {
+        x:0.65, y:2.65, w:4.1, h:0.35,
+        fontSize:14, bold:true, color:'5CFFB0', align:'right', fontFace:'Tajawal'
+      });
+      s.addText([
+        { text:'• سوق التبريد السلبي: 30 → 150 مليار $ بحلول 2050\n', options:{ fontSize:11, color:'C5DDEF', fontFace:'Tajawal' } },
+        { text:'• التبريد المغناطيسي: نمو سنوي 38.5%\n', options:{ fontSize:11, color:'C5DDEF', fontFace:'Tajawal' } },
+        { text:'• التبريد الإشعاعي: نمو سنوي 26.76%\n', options:{ fontSize:11, color:'C5DDEF', fontFace:'Tajawal' } },
+        { text:'• السوق السعودي: +50% بحلول 2030\n', options:{ fontSize:11, color:'C5DDEF', fontFace:'Tajawal' } },
+        { text:'• دعم حكومي لمشاريع كفاءة الطاقة', options:{ fontSize:11, color:'C5DDEF', fontFace:'Tajawal' } }
+      ], {
+        x:0.65, y:3.05, w:4.1, h:1.95,
+        align:'right', lineSpacingMultiple:1.5
+      });
+
+      addBrand(s, 3);
+    }
+
+    // ============ SLIDE 4: SOLUTION (5 tech) ============
+    {
+      const s = pptx.addSlide();
+      addBg(s);
+      addHeader(s, 'الحل: خمس تقنيات في نظام واحد', 'تكامل غير مسبوق بين خمس تقنيات تعمل مع الطبيعة لا ضدها');
+
+      const techs = [
+        { e:'❄', t:'تبريد إشعاعي', d:'بثّ الحرارة للفضاء عبر 8-13 µm', c:'C48BFF' },
+        { e:'☀', t:'تجفيف شمسي', d:'عجلة سيليكا جل + تجديد شمسي', c:'5FF2FF' },
+        { e:'⚛', t:'تبريد مغناطيسي', d:'تأثير مغناطيسي حراري بدون غاز', c:'FF8A5C' },
+        { e:'▣', t:'تخزين PCM', d:'شحن ليلي وتفريغ نهاري', c:'5CFFB0' },
+        { e:'◈', t:'ذكاء اصطناعي', d:'تنبؤ + تحسين متعدد الأهداف', c:'FFD75C' }
+      ];
+      techs.forEach((t, i) => {
+        const x = 8.9 - i * 1.83;
+        s.addShape(pptx.ShapeType.roundRect, {
+          x:x-1.7, y:1.75, w:1.75, h:2.7,
+          fill:{ color:'0E2440' }, line:{ color:t.c, width:0.7 }, rectRadius:0.09
+        });
+        s.addText(t.e, {
+          x:x-1.7, y:1.85, w:1.75, h:0.55,
+          fontSize:32, color:t.c, align:'center', fontFace:'Tajawal'
+        });
+        s.addText(t.t, {
+          x:x-1.7, y:2.42, w:1.75, h:0.4,
+          fontSize:11.5, bold:true, color:t.c, align:'center', fontFace:'Tajawal'
+        });
+        s.addText(t.d, {
+          x:x-1.7, y:2.85, w:1.75, h:1.5,
+          fontSize:9, color:'B0CBE0', align:'center', fontFace:'Tajawal', lineSpacingMultiple:1.35
+        });
+      });
+
+      s.addShape(pptx.ShapeType.roundRect, {
+        x:0.5, y:4.62, w:9, h:0.7,
+        fill:{ color:'1A3D66' }, line:{ color:'7FB8FF', width:0.7 }, rectRadius:0.08
+      });
+      s.addText('◈  لا يوجد نظام تجاري في العالم يجمع هذه التقنيات الخمس في منظومة واحدة متكاملة — Quantum Breeze هو الأول من نوعه.', {
+        x:0.5, y:4.72, w:9, h:0.5,
+        fontSize:11.5, bold:true, color:'C5E2F5', align:'center', fontFace:'Tajawal'
+      });
+
+      addBrand(s, 4);
+    }
+
+    // ============ SLIDE 5: HOW IT WORKS ============
+    {
+      const s = pptx.addSlide();
+      addBg(s);
+      addHeader(s, 'آلية العمل — الدورة المتكاملة');
+
+      const steps = [
+        ['1','استقبال','هواء ساخن رطب يعود عند 32°C من المبنى عبر مجرى الرجوع.','FF8A5C'],
+        ['2','تجفيف شمسي','عجلة السيليكا جل تمتص الرطوبة، ولوح شمسي يجدّد العجلة.','7FE9FF'],
+        ['3','تبريد مغناطيسي','دورة مغناطيسية على القلب المعدني. الماء ينقل الحرارة لخزان PCM.','FF8A5C'],
+        ['4','تخزين PCM','شحن ليلي بالبرودة وتفريغ نهاري لإزاحة الذروة الكهربائية.','5CFFB0'],
+        ['5','تبريد إشعاعي','ألواح تُشع الحرارة للفضاء (8-13 µm) بدون استهلاك كهرباء.','C48BFF'],
+        ['6','توزيع ذكي','وحدة AI تُحسّن التوزيع وتدفع الهواء البارد للمبنى.','FFD75C']
+      ];
+
+      steps.forEach((st, i) => {
+        const col = i % 2;
+        const row = Math.floor(i / 2);
+        const x = col === 0 ? 5.15 : 0.5;
+        const y = 1.35 + row * 0.72;
+
+        s.addShape(pptx.ShapeType.roundRect, {
+          x: x, y: y, w: 4.35, h: 0.65,
+          fill:{ color:'0A1C32' }, line:{ color:st[3], width:0.6 }, rectRadius:0.06
+        });
+        // number badge on right
+        s.addShape(pptx.ShapeType.roundRect, {
+          x: x + 4.35 - 0.55, y: y + 0.1, w: 0.45, h: 0.45,
+          fill:{ color: st[3] }, rectRadius:0.06
+        });
+        s.addText(st[0], {
+          x: x + 4.35 - 0.55, y: y + 0.15, w: 0.45, h: 0.35,
+          fontSize:14, bold:true, color:'031020', align:'center', fontFace:'Tajawal'
+        });
+        s.addText(st[1], {
+          x: x + 0.15, y: y + 0.06, w: 3.6, h: 0.26,
+          fontSize:11.5, bold:true, color: st[3], align:'right', fontFace:'Tajawal'
+        });
+        s.addText(st[2], {
+          x: x + 0.15, y: y + 0.32, w: 3.6, h: 0.28,
+          fontSize:9, color:'B0CBE0', align:'right', fontFace:'Tajawal'
+        });
+      });
+
+      addBrand(s, 5);
+    }
+
+    // ============ SLIDE 6: TECHNICAL SPECS ============
+    {
+      const s = pptx.addSlide();
+      addBg(s);
+      addHeader(s, 'المواصفات الفنية', 'قياسات مبنية على النموذج الأولي والمراجع العلمية');
+
+      // table 1
+      const t1Rows = [
+        [{ text:'المواصفة', options:{ bold:true, color:'7FE9FF', fontSize:11, fill:{ color:'142E52' }, align:'right', fontFace:'Tajawal' } },
+         { text:'القيمة', options:{ bold:true, color:'7FE9FF', fontSize:11, fill:{ color:'142E52' }, align:'right', fontFace:'Tajawal' } }],
+        ['سعة التبريد', '3.5 kW'],
+        ['هواء الإمداد', '13-15 °C'],
+        ['هواء الرجوع', '30-34 °C'],
+        ['معدل التدفق', '600 m³/h'],
+        ['قدرة الضاغط', '0 kW']
+      ];
+      s.addTable(t1Rows.map((r,ri) => Array.isArray(r) ? r.map(c => typeof c === 'string' ?
+        { text:c, options:{ fontSize:10.5, color:'C5DDEF', align:'right', fontFace:'Tajawal', fill:{ color: ri%2? '0E2440':'0A1C32' } } } : c) : r),
+        { x:5.15, y:1.75, w:4.35, colW:[2.15, 2.2], border:{ type:'solid', color:'1C3A5C', pt:0.5 } });
+
+      // table 2
+      const t2Rows = [
+        [{ text:'المواصفة', options:{ bold:true, color:'7FE9FF', fontSize:11, fill:{ color:'142E52' }, align:'right', fontFace:'Tajawal' } },
+         { text:'القيمة', options:{ bold:true, color:'7FE9FF', fontSize:11, fill:{ color:'142E52' }, align:'right', fontFace:'Tajawal' } }],
+        ['COP الفعلي', '7.2 - 7.8'],
+        ['استهلاك كهرباء', '2-5 kWh/يوم'],
+        ['مستوى الصوت', '20-30 dB'],
+        ['غاز التبريد', '0 كجم'],
+        ['العمر التشغيلي', '25 سنة']
+      ];
+      s.addTable(t2Rows.map((r,ri) => Array.isArray(r) ? r.map(c => typeof c === 'string' ?
+        { text:c, options:{ fontSize:10.5, color:'C5DDEF', align:'right', fontFace:'Tajawal', fill:{ color: ri%2? '0E2440':'0A1C32' } } } : c) : r),
+        { x:0.5, y:1.75, w:4.35, colW:[2.15, 2.2], border:{ type:'solid', color:'1C3A5C', pt:0.5 } });
+
+      // 4 metrics
+      const metrics = [
+        { v:'0.8-1.5 T', l:'شدة المجال', c:'5FF2FF' },
+        { v:'12 °C', l:'ΔT مغناطيسي', c:'5CFFB0' },
+        { v:'8-13 µm', l:'نافذة الإشعاع', c:'C48BFF' },
+        { v:'~80 W/m²', l:'الطاقة المُشعة', c:'FFB066' }
+      ];
+      metrics.forEach((m, i) => {
+        const x = 8.9 - i * 2.25;
+        s.addShape(pptx.ShapeType.roundRect, {
+          x:x-2.05, y:4.35, w:2.1, h:0.95,
+          fill:{ color:'0E2440' }, line:{ color:m.c, width:0.7 }, rectRadius:0.07
+        });
+        s.addText(m.v, {
+          x:x-2.05, y:4.42, w:2.1, h:0.45,
+          fontSize:18, bold:true, color:m.c, align:'center', fontFace:'Tajawal'
+        });
+        s.addText(m.l, {
+          x:x-2.05, y:4.9, w:2.1, h:0.32,
+          fontSize:9, color:'8AB6D4', align:'center', fontFace:'Tajawal'
+        });
+      });
+
+      addBrand(s, 6);
+    }
+
+    // ============ SLIDE 7: COMPARISON ============
+    {
+      const s = pptx.addSlide();
+      addBg(s);
+      addHeader(s, 'المقارنة مع الأنظمة التقليدية');
+
+      const rows = [
+        [{ text:'المعيار', options:{ bold:true, color:'7FE9FF', fontSize:11, fill:{ color:'142E52' }, align:'right', fontFace:'Tajawal' } },
+         { text:'التكييف التقليدي', options:{ bold:true, color:'7FE9FF', fontSize:11, fill:{ color:'142E52' }, align:'center', fontFace:'Tajawal' } },
+         { text:'Quantum Breeze', options:{ bold:true, color:'7FE9FF', fontSize:11, fill:{ color:'142E52' }, align:'center', fontFace:'Tajawal' } },
+         { text:'الفرق', options:{ bold:true, color:'7FE9FF', fontSize:11, fill:{ color:'142E52' }, align:'center', fontFace:'Tajawal' } }],
+        ['استهلاك الكهرباء', '25-40 kWh/يوم', '2-5 kWh/يوم', '−80%'],
+        ['غاز التبريد', 'HFCs (GWP 4000)', 'لا يوجد', '100%'],
+        ['مستوى الصوت', '60-75 dB', '20-30 dB', '−60%'],
+        ['العمر الافتراضي', '10-15 سنة', '25 سنة', '+80%'],
+        ['البصمة الكربونية', 'عالية جداً', 'منخفضة', '−80%'],
+        ['الصيانة السنوية', 'مرتفعة', 'منخفضة', '−70%']
+      ];
+      const tableData = rows.map((r, ri) => Array.isArray(r) ? r.map((c, ci) => {
+        if (typeof c !== 'string') return c;
+        const isGood = ci === 2 || ci === 3;
+        return {
+          text: c,
+          options: {
+            fontSize:10.5,
+            color: ci === 0 ? 'C5DDEF' : (ci === 3 || ci === 2 ? '5CFFB0' : 'FFB066'),
+            align: ci === 0 ? 'right' : 'center',
+            fontFace:'Tajawal',
+            bold: ci === 2 || ci === 3,
+            fill:{ color: ri%2 ? '0E2440' : '0A1C32' }
+          }
+        };
+      }) : r);
+
+      s.addTable(tableData, {
+        x:0.5, y:1.6, w:9, colW:[2.5, 2.2, 2.3, 2.0],
+        border:{ type:'solid', color:'1C3A5C', pt:0.5 },
+        rowH: 0.48
+      });
+
+      addBrand(s, 7);
+    }
+
+    // ============ SLIDE 8: MARKET ============
+    {
+      const s = pptx.addSlide();
+      addBg(s);
+      addHeader(s, 'السوق المستهدف وحجم النمو', 'أرقام مبنية على تقارير صناعية منشورة');
+
+      const rows = [
+        [{ text:'السوق', options:{ bold:true, color:'7FE9FF', fontSize:11, fill:{ color:'142E52' }, align:'right', fontFace:'Tajawal' } },
+         { text:'الحجم الحالي', options:{ bold:true, color:'7FE9FF', fontSize:11, fill:{ color:'142E52' }, align:'center', fontFace:'Tajawal' } },
+         { text:'النمو المتوقع', options:{ bold:true, color:'7FE9FF', fontSize:11, fill:{ color:'142E52' }, align:'center', fontFace:'Tajawal' } },
+         { text:'النمو السنوي', options:{ bold:true, color:'7FE9FF', fontSize:11, fill:{ color:'142E52' }, align:'center', fontFace:'Tajawal' } }],
+        ['التبريد السلبي عالمياً', '30 مليار $', '150 مليار $ (2050)', '—'],
+        ['التبريد المغناطيسي', '0.30 مليار $ (2026)', '1.53 مليار $ (2031)', '38.5%'],
+        ['التبريد الإشعاعي', '3.18 مليون $ (2021)', '371 مليون $ (2032)', '26.76%']
+      ];
+      const tableData = rows.map((r, ri) => Array.isArray(r) ? r.map((c, ci) => {
+        if (typeof c !== 'string') return c;
+        return {
+          text: c,
+          options: {
+            fontSize:10.5,
+            color: ci === 0 ? 'C5DDEF' : (ci >= 2 ? '5CFFB0' : 'B0CBE0'),
+            align: ci === 0 ? 'right' : 'center',
+            fontFace:'Tajawal',
+            fill:{ color: ri%2 ? '0E2440' : '0A1C32' }
+          }
+        };
+      }) : r);
+      s.addTable(tableData, {
+        x:0.5, y:1.65, w:9, colW:[2.7, 2.1, 2.3, 1.9],
+        border:{ type:'solid', color:'1C3A5C', pt:0.5 },
+        rowH: 0.5
+      });
+
+      // three cards below
+      const cards = [
+        { t:'العملاء المستهدفون', d:'وزارة الإسكان\nشركات التطوير العقاري\nمراكز البيانات\nالمستشفيات', c:'7FE9FF' },
+        { t:'الميزة التنافسية', d:'لا يوجد منافس مباشر\nبراءات اختراع قابلة للتسجيل\nتكلفة تشغيل شبه معدومة\nتوافق مع رؤية 2030', c:'5CFFB0' },
+        { t:'السوق السعودي', d:'70% من كهرباء المباني للتكييف، والطلب سيرتفع 50% بحلول 2030. فرصة كبيرة لحلول كفاءة الطاقة.', c:'C48BFF' }
+      ];
+      cards.forEach((c, i) => {
+        const x = 8.9 - i * 3.05;
+        s.addShape(pptx.ShapeType.roundRect, {
+          x:x-2.85, y:3.6, w:2.9, h:1.7,
+          fill:{ color:'0A1C32' }, line:{ color:c.c, width:0.6 }, rectRadius:0.08
+        });
+        s.addText('◈  ' + c.t, {
+          x:x-2.75, y:3.7, w:2.7, h:0.3,
+          fontSize:11, bold:true, color:c.c, align:'right', fontFace:'Tajawal'
+        });
+        s.addText(c.d, {
+          x:x-2.75, y:4.02, w:2.7, h:1.2,
+          fontSize:9.5, color:'B0CBE0', align:'right', fontFace:'Tajawal', lineSpacingMultiple:1.35
+        });
+      });
+
+      addBrand(s, 8);
+    }
+
+    // ============ SLIDE 9: ECONOMICS ============
+    {
+      const s = pptx.addSlide();
+      addBg(s);
+      addHeader(s, 'الجدوى الاقتصادية', 'فترة استرداد قصيرة، وقيمة طويلة الأمد');
+
+      // cost table
+      const rows = [
+        [{ text:'المكوّن', options:{ bold:true, color:'7FE9FF', fontSize:11, fill:{ color:'142E52' }, align:'right', fontFace:'Tajawal' } },
+         { text:'التكلفة (ريال)', options:{ bold:true, color:'7FE9FF', fontSize:11, fill:{ color:'142E52' }, align:'center', fontFace:'Tajawal' } }],
+        ['ألواح تبريد إشعاعي (5 م²)', '500'],
+        ['محقق شمسي + مروحة', '200'],
+        ['خزان PCM (20 لتر)', '150'],
+        ['Arduino / Raspberry Pi + حساسات', '300'],
+        ['هيكل + أنابيب + توصيلات', '350'],
+        [{ text:'المجموع (نموذج أولي)', options:{ bold:true, color:'7FE9FF', fontSize:11, fill:{ color:'1A4A70' }, align:'right', fontFace:'Tajawal' } },
+         { text:'1,500', options:{ bold:true, color:'5CFFB0', fontSize:12, fill:{ color:'1A4A70' }, align:'center', fontFace:'Tajawal' } }]
+      ];
+      const tableData = rows.map((r, ri) => Array.isArray(r) ? r.map((c, ci) => {
+        if (typeof c !== 'string') return c;
+        return {
+          text: c,
+          options: {
+            fontSize:10.5,
+            color: ci === 1 ? '5CFFB0' : 'C5DDEF',
+            align: ci === 0 ? 'right' : 'center',
+            fontFace:'Tajawal',
+            fill:{ color: ri === rows.length-1 ? '1A4A70' : (ri%2 ? '0E2440' : '0A1C32') }
+          }
+        };
+      }) : r);
+      s.addTable(tableData, {
+        x:5.15, y:1.6, w:4.35, colW:[2.9, 1.45],
+        border:{ type:'solid', color:'1C3A5C', pt:0.5 },
+        rowH: 0.45
+      });
+
+      // big payback card
+      s.addShape(pptx.ShapeType.roundRect, {
+        x:0.5, y:1.6, w:4.35, h:1.35,
+        fill:{ color:'0E2440' }, line:{ color:'5CFFB0', width:0.9 }, rectRadius:0.09
+      });
+      s.addText('سنة واحدة', {
+        x:0.5, y:1.75, w:4.35, h:0.65,
+        fontSize:36, bold:true, color:'5CFFB0', align:'center', fontFace:'Tajawal'
+      });
+      s.addText('فترة استرداد الاستثمار', {
+        x:0.5, y:2.45, w:4.35, h:0.35,
+        fontSize:11, color:'8AB6D4', align:'center', fontFace:'Tajawal'
+      });
+
+      // business model card
+      s.addShape(pptx.ShapeType.roundRect, {
+        x:0.5, y:3.15, w:9, h:2.1,
+        fill:{ color:'0A1C32' }, line:{ color:'2AA8FF', width:0.6 }, rectRadius:0.08
+      });
+      s.addText('◈  نموذج الأعمال', {
+        x:0.7, y:3.25, w:8.6, h:0.35,
+        fontSize:13, bold:true, color:'7FE9FF', align:'right', fontFace:'Tajawal'
+      });
+      s.addText([
+        { text:'• بيع الوحدة: 15,000 – 25,000 ريال\n', options:{ fontSize:11, color:'C5DDEF', fontFace:'Tajawal' } },
+        { text:'• تأجير شهري: 500 – 800 ريال\n', options:{ fontSize:11, color:'C5DDEF', fontFace:'Tajawal' } },
+        { text:'• عقد صيانة سنوي: 1,000 – 2,000 ريال\n', options:{ fontSize:11, color:'C5DDEF', fontFace:'Tajawal' } },
+        { text:'• العمر التشغيلي: 25 – 30 سنة', options:{ fontSize:11, color:'C5DDEF', fontFace:'Tajawal' } }
+      ], {
+        x:0.7, y:3.65, w:8.6, h:1.5,
+        align:'right', lineSpacingMultiple:1.5
+      });
+
+      addBrand(s, 9);
+    }
+
+    // ============ SLIDE 10: PROTOTYPE ============
+    {
+      const s = pptx.addSlide();
+      addBg(s);
+      addHeader(s, 'النموذج الأولي — خطة الهاكاثون');
+
+      const days = [
+        { n:'1', t:'اليوم الأول', d:'بناء لوح تبريد إشعاعي مصغّر + تركيب حساسات حرارة.', c:'5FF2FF' },
+        { n:'2', t:'اليوم الثاني', d:'بناء مجفف شمسي بسيط + خزان PCM + برمجة Arduino.', c:'C48BFF' },
+        { n:'3', t:'اليوم الثالث', d:'عرض حي: قياس فرق الحرارة قبل وبعد النظام.', c:'5CFFB0' }
+      ];
+      days.forEach((d, i) => {
+        const x = 8.9 - i * 3.05;
+        s.addShape(pptx.ShapeType.roundRect, {
+          x:x-2.85, y:1.6, w:2.9, h:1.7,
+          fill:{ color:'0E2440' }, line:{ color:d.c, width:0.75 }, rectRadius:0.09
+        });
+        s.addShape(pptx.ShapeType.roundRect, {
+          x: x - 0.55, y:1.72, w:0.45, h:0.45,
+          fill:{ color:d.c }, rectRadius:0.06
+        });
+        s.addText(d.n, {
+          x: x - 0.55, y:1.76, w:0.45, h:0.4,
+          fontSize:16, bold:true, color:'031020', align:'center', fontFace:'Tajawal'
+        });
+        s.addText(d.t, {
+          x:x-2.75, y:1.72, w:2.1, h:0.35,
+          fontSize:13, bold:true, color:d.c, align:'right', fontFace:'Tajawal'
+        });
+        s.addText(d.d, {
+          x:x-2.75, y:2.15, w:2.7, h:1.05,
+          fontSize:10, color:'B0CBE0', align:'right', fontFace:'Tajawal', lineSpacingMultiple:1.4
+        });
+      });
+
+      // components card
+      s.addShape(pptx.ShapeType.roundRect, {
+        x:0.5, y:3.5, w:9, h:1.75,
+        fill:{ color:'0A1C32' }, line:{ color:'2AA8FF', width:0.6 }, rectRadius:0.08
+      });
+      s.addText('◈  المكونات الرئيسية', {
+        x:0.7, y:3.6, w:8.6, h:0.3,
+        fontSize:12.5, bold:true, color:'7FE9FF', align:'right', fontFace:'Tajawal'
+      });
+      s.addText([
+        { text:'• لوح تبريد إشعاعي — طبقة بوليمرية نافذة في 8-13 µm\n', options:{ fontSize:10.5, color:'C5DDEF', fontFace:'Tajawal' } },
+        { text:'• مجفف شمسي — عجلة سيليكا جل + لوح تسخين شمسي\n', options:{ fontSize:10.5, color:'C5DDEF', fontFace:'Tajawal' } },
+        { text:'• خزان PCM — شمع برافيني RT-12 بسعة 20 لتر\n', options:{ fontSize:10.5, color:'C5DDEF', fontFace:'Tajawal' } },
+        { text:'• حساسات حرارة ورطوبة + Arduino/Raspberry Pi\n', options:{ fontSize:10.5, color:'C5DDEF', fontFace:'Tajawal' } },
+        { text:'• الميزانية الكلية: أقل من 1,500 ريال', options:{ fontSize:10.5, color:'5CFFB0', bold:true, fontFace:'Tajawal' } }
+      ], {
+        x:0.7, y:3.95, w:8.6, h:1.2,
+        align:'right', lineSpacingMultiple:1.4
+      });
+
+      addBrand(s, 10);
+    }
+
+    // ============ SLIDE 11: RISKS + ROADMAP ============
+    {
+      const s = pptx.addSlide();
+      addBg(s);
+      addHeader(s, 'المخاطر وخارطة الطريق');
+
+      // risks table
+      s.addText('◈  إدارة المخاطر', {
+        x:5.15, y:1.5, w:4.35, h:0.3,
+        fontSize:13, bold:true, color:'7FE9FF', align:'right', fontFace:'Tajawal'
+      });
+
+      const riskRows = [
+        [{ text:'الخطر', options:{ bold:true, color:'7FE9FF', fontSize:10, fill:{ color:'142E52' }, align:'right', fontFace:'Tajawal' } },
+         { text:'التخفيف', options:{ bold:true, color:'7FE9FF', fontSize:10, fill:{ color:'142E52' }, align:'right', fontFace:'Tajawal' } }],
+        ['تأثير الحرارة على الألواح', 'تعويض حراري في الخوارزمية'],
+        ['صحيح البيانات من الحساسات', 'تحليل طيفي متقدم'],
+        ['ميزانية محدودة', 'استخدام Arduino / Pi'],
+        ['اعتماد على الشمس', 'تخزين PCM يشحن ليلاً'],
+        ['معايرة خط الأساس', 'معايرة ميدانية مسبقة']
+      ];
+      const riskData = riskRows.map((r, ri) => Array.isArray(r) ? r.map(c => typeof c === 'string' ? {
+        text: c,
+        options: {
+          fontSize:9.5, color:'C5DDEF', align:'right', fontFace:'Tajawal',
+          fill:{ color: ri%2 ? '0E2440' : '0A1C32' }
+        }
+      } : c) : r);
+      s.addTable(riskData, {
+        x:5.15, y:1.85, w:4.35, colW:[2.3, 2.05],
+        border:{ type:'solid', color:'1C3A5C', pt:0.5 }
+      });
+
+      // roadmap
+      s.addText('◈  خارطة الطريق', {
+        x:0.5, y:1.5, w:4.35, h:0.3,
+        fontSize:13, bold:true, color:'7FE9FF', align:'right', fontFace:'Tajawal'
+      });
+
+      const roadmap = [
+        ['2026','نموذج مخبري مصغّر — خلال الهاكاثون','5CFFB0'],
+        ['2026-2027','تجربة ميدانية على مبنى حكومي','7FE9FF'],
+        ['2029','معايرة العتبات وتوسيع التطبيقات','C48BFF'],
+        ['منصة سحابية','ربط وتشغيل شبكي لعدة مدن','FFD75C']
+      ];
+      roadmap.forEach((r, i) => {
+        const y = 1.85 + i * 0.62;
+        s.addShape(pptx.ShapeType.roundRect, {
+          x:0.5, y:y, w:4.35, h:0.55,
+          fill:{ color:'0A1C32' }, line:{ color:r[2], width:0.6 }, rectRadius:0.06
+        });
+        s.addShape(pptx.ShapeType.rect, {
+          x:4.4, y:y, w:0.05, h:0.55, fill:{ color:r[2] }
+        });
+        s.addText(r[0], {
+          x:3.4, y:y+0.06, w:0.95, h:0.28,
+          fontSize:10, bold:true, color:r[2], align:'right', fontFace:'Tajawal'
+        });
+        s.addText(r[1], {
+          x:0.65, y:y+0.28, w:3.6, h:0.25,
+          fontSize:9.5, color:'C5DDEF', align:'right', fontFace:'Tajawal'
+        });
+      });
+
+      addBrand(s, 11);
+    }
+
+    // ============ SLIDE 12: TEAM ============
+    {
+      const s = pptx.addSlide();
+      addBg(s);
+      addHeader(s, 'الفريق والتواصل', 'فريق متعدد التخصصات بخبرة عملية في HVAC والهندسة المدنية');
+
+      // member 1
+      s.addShape(pptx.ShapeType.roundRect, {
+        x:5.15, y:1.6, w:4.35, h:2.9,
+        fill:{ color:'0E2440' }, line:{ color:'4FD0FF', width:0.75 }, rectRadius:0.09
+      });
+      s.addShape(pptx.ShapeType.roundRect, {
+        x: 5.15, y:1.6, w:4.35, h:0.06, fill:{ color:'2AA8FF' }, rectRadius:0.03
+      });
+      // avatar
+      s.addShape(pptx.ShapeType.roundRect, {
+        x: 8.55, y:1.8, w:0.85, h:0.85,
+        fill:{ color:'1A5A8A' }, rectRadius:0.1
+      });
+      s.addText('أح', {
+        x:8.55, y:1.95, w:0.85, h:0.6,
+        fontSize:24, bold:true, color:'FFFFFF', align:'center', fontFace:'Tajawal'
+      });
+      s.addText('م. أحمد علي بوكر نسيب العقيلي', {
+        x:5.3, y:1.8, w:3.1, h:0.42,
+        fontSize:14, bold:true, color:'FFFFFF', align:'right', fontFace:'Tajawal'
+      });
+      s.addShape(pptx.ShapeType.roundRect, {
+        x:7.1, y:2.25, w:1.3, h:0.32,
+        fill:{ color:'1E4A70' }, rectRadius:0.16
+      });
+      s.addText('مهندس ميكانيكي · HVAC', {
+        x:7.1, y:2.27, w:1.3, h:0.28,
+        fontSize:8, bold:true, color:'7FE9FF', align:'center', fontFace:'Tajawal'
+      });
+
+      s.addText([
+        { text:'🏢  ', options:{ fontSize:11, fontFace:'Tajawal' } },
+        { text:'مقر العمل: ', options:{ fontSize:10.5, color:'7FE9FF', fontFace:'Tajawal' } },
+        { text:'تجمع الصحي بجازان', options:{ fontSize:10.5, color:'C5DDEF', fontFace:'Tajawal' } }
+      ], { x:5.3, y:2.75, w:4.05, h:0.32, align:'right' });
+
+      s.addText([
+        { text:'📱  ', options:{ fontSize:11, fontFace:'Tajawal' } },
+        { text:'الجوال: ', options:{ fontSize:10.5, color:'7FE9FF', fontFace:'Tajawal' } },
+        { text:'0507426388', options:{ fontSize:10.5, color:'C5DDEF', fontFace:'Tajawal' } }
+      ], { x:5.3, y:3.12, w:4.05, h:0.32, align:'right' });
+
+      s.addText([
+        { text:'✉  ', options:{ fontSize:11, fontFace:'Tajawal' } },
+        { text:'الإيميل: ', options:{ fontSize:10.5, color:'7FE9FF', fontFace:'Tajawal' } },
+        { text:'Eng.ahmad.2011bokar@gmail.com', options:{ fontSize:9.5, color:'C5DDEF', fontFace:'Tajawal' } }
+      ], { x:5.3, y:3.48, w:4.05, h:0.32, align:'right' });
+
+      // member 2
+      s.addShape(pptx.ShapeType.roundRect, {
+        x:0.5, y:1.6, w:4.35, h:2.9,
+        fill:{ color:'0E2440' }, line:{ color:'C48BFF', width:0.75 }, rectRadius:0.09
+      });
+      s.addShape(pptx.ShapeType.roundRect, {
+        x: 0.5, y:1.6, w:4.35, h:0.06, fill:{ color:'C48BFF' }, rectRadius:0.03
+      });
+      s.addShape(pptx.ShapeType.roundRect, {
+        x: 3.9, y:1.8, w:0.85, h:0.85,
+        fill:{ color:'6A2FA0' }, rectRadius:0.1
+      });
+      s.addText('عز', {
+        x:3.9, y:1.95, w:0.85, h:0.6,
+        fontSize:24, bold:true, color:'FFFFFF', align:'center', fontFace:'Tajawal'
+      });
+      s.addText('م. عبدالرحمن زين يحيى صهلولي المنيفي', {
+        x:0.65, y:1.8, w:3.1, h:0.42,
+        fontSize:12, bold:true, color:'FFFFFF', align:'right', fontFace:'Tajawal'
+      });
+      s.addShape(pptx.ShapeType.roundRect, {
+        x:2.85, y:2.25, w:1.0, h:0.32,
+        fill:{ color:'3A1A6A' }, rectRadius:0.16
+      });
+      s.addText('مهندس مدني', {
+        x:2.85, y:2.27, w:1.0, h:0.28,
+        fontSize:8.5, bold:true, color:'C48BFF', align:'center', fontFace:'Tajawal'
+      });
+
+      s.addText([
+        { text:'🏢  ', options:{ fontSize:11, fontFace:'Tajawal' } },
+        { text:'مقر العمل: ', options:{ fontSize:10.5, color:'C48BFF', fontFace:'Tajawal' } },
+        { text:'إدارة مشاريع أرامكو', options:{ fontSize:10.5, color:'C5DDEF', fontFace:'Tajawal' } }
+      ], { x:0.65, y:2.75, w:4.05, h:0.32, align:'right' });
+
+      s.addText([
+        { text:'📱  ', options:{ fontSize:11, fontFace:'Tajawal' } },
+        { text:'الجوال: ', options:{ fontSize:10.5, color:'C48BFF', fontFace:'Tajawal' } },
+        { text:'+966 50 275 5666', options:{ fontSize:10.5, color:'C5DDEF', fontFace:'Tajawal' } }
+      ], { x:0.65, y:3.12, w:4.05, h:0.32, align:'right' });
+
+      s.addText([
+        { text:'✉  ', options:{ fontSize:11, fontFace:'Tajawal' } },
+        { text:'الإيميل: ', options:{ fontSize:10.5, color:'C48BFF', fontFace:'Tajawal' } },
+        { text:'azys313@gmail.com', options:{ fontSize:10.5, color:'C5DDEF', fontFace:'Tajawal' } }
+      ], { x:0.65, y:3.48, w:4.05, h:0.32, align:'right' });
+
+      // bottom tagline
+      s.addShape(pptx.ShapeType.roundRect, {
+        x:0.5, y:4.65, w:9, h:0.68,
+        fill:{ color:'1A3D66' }, line:{ color:'7FB8FF', width:0.6 }, rectRadius:0.08
+      });
+      s.addText('◈  Quantum Breeze — نحو تكييف يعمل مع الطبيعة لا ضدها، ومدن سعودية ذكية ومستدامة تدعم رؤية 2030.', {
+        x:0.5, y:4.75, w:9, h:0.5,
+        fontSize:11.5, bold:true, color:'C5E2F5', align:'center', fontFace:'Tajawal'
+      });
+
+      addBrand(s, 12);
+    }
+
+    // ========== SAVE ==========
+    await pptx.writeFile({ fileName: 'Quantum_Breeze_IECE2026.pptx' });
+    toast('تم تصدير ملف PowerPoint بنجاح', 'success');
+  } catch(err) {
+    console.error(err);
+    toast('حدث خطأ أثناء التصدير: ' + err.message, 'error');
+  }
+};
+
+/* ================================================================
+   TOAST
+   ================================================================ */
+function toast(msg, type) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = '';
+  if (type) t.classList.add(type);
+  t.classList.add('show');
+  clearTimeout(toast._h);
+  toast._h = setTimeout(() => t.classList.remove('show'), 2600);
+}
+
+/* ================================================================
+   INIT
+   ================================================================ */
+function init() {
+  loadFromStorage();
+  buildSidebar();
+  renderSlide();
+  // restore current slide if saved
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (typeof parsed.currentSlide === 'number' && parsed.currentSlide < DATA.slides.length) {
+        currentSlide = parsed.currentSlide;
+        renderSlide();
+        buildSidebar();
+      }
+    }
+  } catch(e){}
+}
+init();
+
+// Save current slide on unload
+window.addEventListener('beforeunload', () => {
+  if (editing) {
+    const slide = DATA.slides[currentSlide];
+    const el = document.getElementById('slideContent');
+    if (el) {
+      const clone = el.cloneNode(true);
+      clone.querySelectorAll('.slide-num-badge, .slide-brand').forEach(n => n.remove());
+      SLIDE_HTML[slide.id] = clone.innerHTML;
+    }
+  }
+  saveToStorage();
+});
+</script>
+</body>
+</html>
