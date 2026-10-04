@@ -571,44 +571,84 @@ const DEFAULT_DATA = {
     },
 
     /* ====== SLIDE 3 — PROBLEM ====== */
-    {
-      id:'s3', type:'standard', title:'المشكلة',
-      render: () => `
-        <h2 class="sl-title" contenteditable="true">المشكلة: التكييف التقليدي غير مستدام</h2>
-        <div class="sl-divider"></div>
-        <div class="sl-body">
-          <div class="grid-3" style="margin-bottom:8px;">
-            <div class="metric orange"><div class="v">70%</div><div class="l">من كهرباء المبنى تذهب للتكييف</div></div>
-            <div class="metric purple"><div class="v">×4000</div><div class="l">معدل احترار غازات HFCs مقارنة بـ CO₂</div></div>
-            <div class="metric"><div class="v">395%</div><div class="l">نمو الطلب العالمي على التكييف بحلول 2050</div></div>
-          </div>
+    /* ====== SLIDE 3 — PROBLEM ====== */
+{
+  id:'s3', type:'standard', title:'المشكلة',
+  render: () => `
+    <h2 class="sl-title" contenteditable="true">المشكلة: التكييف التقليدي غير مستدام</h2>
+    <div class="sl-divider" style="margin-bottom:14px;"></div>
+    <div class="sl-body" style="gap:10px;">
 
-          <div class="grid-2">
-            <div class="card">
-              <h3><span class="num">!</span><span contenteditable="true">مشاكل الأنظمة التقليدية</span></h3>
-              <ul class="sl-list orange" style="margin-top:8px;">
-                <li><span class="ic">×</span><span contenteditable="true">استهلاك كهرباء مرتفع (25-40 kWh/يوم للوحدة)</span></li>
-                <li><span class="ic">×</span><span contenteditable="true">غازات تبريد HFCs ضارة بالبيئة</span></li>
-                <li><span class="ic">×</span><span contenteditable="true">ضوضاء عالية (60-75 dB)</span></li>
-                <li><span class="ic">×</span><span contenteditable="true">عمر افتراضي قصير (10-15 سنة)</span></li>
-                <li><span class="ic">×</span><span contenteditable="true">تكاليف صيانة متكررة ومرتفعة</span></li>
-              </ul>
-            </div>
+      <div class="grid-3">
+        <div class="metric orange">
+          <div class="v">70%</div>
+          <div class="l">من كهرباء المبنى تذهب للتكييف</div>
+        </div>
+        <div class="metric purple">
+          <div class="v">×4000</div>
+          <div class="l">قدرة احترار HFCs مقارنة بـ CO₂</div>
+        </div>
+        <div class="metric">
+          <div class="v">395%</div>
+          <div class="l">نمو الطلب العالمي على التكييف بحلول 2050</div>
+        </div>
+      </div>
 
-            <div class="card">
-              <h3><span class="num">◈</span><span contenteditable="true">الفرصة المتاحة</span></h3>
-              <ul class="sl-list green" style="margin-top:8px;">
-                <li><span class="ic">✓</span><span contenteditable="true">سوق التبريد السلبي العالمي: 30 مليار → 150 مليار بحلول 2050</span></li>
-                <li><span class="ic">✓</span><span contenteditable="true">التبريد المغناطيسي: نمو سنوي 38.5%</span></li>
-                <li><span class="ic">✓</span><span contenteditable="true">التبريد الإشعاعي: نمو سنوي 26.76%</span></li>
-                <li><span class="ic">✓</span><span contenteditable="true">السوق السعودي: طلب +50% بحلول 2030</span></li>
-                <li><span class="ic">✓</span><span contenteditable="true">دعم حكومي لمشاريع كفاءة الطاقة والاستدامة</span></li>
-              </ul>
-            </div>
+      <div class="card" style="
+          background:linear-gradient(150deg, rgba(120,60,180,0.18), rgba(60,20,120,0.12));
+          border-color:rgba(196,139,255,0.45);
+          padding:12px 18px;
+          display:flex; align-items:center; gap:14px;">
+        <div style="flex-shrink:0; width:42px; height:42px; border-radius:11px;
+                    background:linear-gradient(135deg,#a06bff,#6a3a9f);
+                    display:flex; align-items:center; justify-content:center;
+                    font-size:20px; font-weight:900; color:#fff;
+                    box-shadow:0 0 18px rgba(196,139,255,0.5);">؟</div>
+        <div style="flex:1;">
+          <div style="font-size:13px; font-weight:800; color:#c48bff; margin-bottom:3px;"
+               contenteditable="true">ما هي HFCs؟ ومعنى ×4000</div>
+          <div style="font-size:11.5px; color:#c5ddef; line-height:1.65;"
+               contenteditable="true">
+            <strong style="color:#c48bff;">HFCs</strong> = مركبات الكربون الهيدروفلورية — غازات تبريد صناعية تُستخدم في المكيفات التقليدية.
+            قدرتها على احترار الكوكب أقوى <strong style="color:#ffb066;">4000 مرة</strong> من ثاني أكسيد الكربون CO₂.
+            <span style="color:#8ab6d4;">(مثال: R-410A المستخدم في معظم المكيفات ← GWP ≈ 2088، أي 1 كجم منه ≈ أثر 2 طن CO₂).</span>
           </div>
         </div>
-      `
-    },
+      </div>
+
+      <div class="grid-2" style="flex:1;">
+        <div class="card" style="display:flex; flex-direction:column;">
+          <h3 style="color:#ff8a5c; margin-bottom:10px;">
+            <span class="num" style="background:linear-gradient(135deg,#ff8a5c,#c05a2a);">✕</span>
+            <span contenteditable="true">مشاكل الأنظمة التقليدية</span>
+          </h3>
+          <ul class="sl-list orange" style="flex:1;">
+            <li><span class="ic">×</span><span contenteditable="true"><strong style="color:#ffb066;">استهلاك مرتفع:</strong> 25-40 kWh/يوم للوحدة</span></li>
+            <li><span class="ic">×</span><span contenteditable="true"><strong style="color:#ffb066;">HFCs ضارة:</strong> غازات احترار قوية</span></li>
+            <li><span class="ic">×</span><span contenteditable="true"><strong style="color:#ffb066;">ضوضاء عالية:</strong> 60-75 dB</span></li>
+            <li><span class="ic">×</span><span contenteditable="true"><strong style="color:#ffb066;">عمر قصير:</strong> 10-15 سنة فقط</span></li>
+            <li><span class="ic">×</span><span contenteditable="true"><strong style="color:#ffb066;">صيانة متكررة:</strong> تكاليف مرتفعة</span></li>
+          </ul>
+        </div>
+
+        <div class="card" style="display:flex; flex-direction:column;">
+          <h3 style="color:#5cffb0; margin-bottom:10px;">
+            <span class="num" style="background:linear-gradient(135deg,#2ad8a0,#1a8a60);">✓</span>
+            <span contenteditable="true">الفرصة المتاحة</span>
+          </h3>
+          <ul class="sl-list green" style="flex:1;">
+            <li><span class="ic">✓</span><span contenteditable="true"><strong style="color:#5cffb0;">سوق التبريد السلبي:</strong> 30 → 150 مليار $ بحلول 2050</span></li>
+            <li><span class="ic">✓</span><span contenteditable="true"><strong style="color:#5cffb0;">التبريد المغناطيسي:</strong> نمو سنوي 38.5%</span></li>
+            <li><span class="ic">✓</span><span contenteditable="true"><strong style="color:#5cffb0;">التبريد الإشعاعي:</strong> نمو سنوي 26.76%</span></li>
+            <li><span class="ic">✓</span><span contenteditable="true"><strong style="color:#5cffb0;">السوق السعودي:</strong> +50% بحلول 2030</span></li>
+            <li><span class="ic">✓</span><span contenteditable="true"><strong style="color:#5cffb0;">دعم حكومي:</strong> مشاريع كفاءة الطاقة</span></li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  `
+},
 
     /* ====== SLIDE 4 — SOLUTION ====== */
     {
